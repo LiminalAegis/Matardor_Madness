@@ -22,9 +22,7 @@ public class PlayerCharacter : NetworkComponent
             }
             if (flag == "COLOR")
             {
-                ColorSelected = int.Parse(value);
-                //GetComponent<Renderer>().material = MColor[ColorSelected];
-                GetComponent<SpriteRenderer>().color = MColor[ColorSelected].color;
+                
 
             }
         }

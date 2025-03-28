@@ -514,7 +514,7 @@ MonoBehaviour:
   DisconnectScreen: {fileID: 0}
   ObjectCounter: 0
   SpawnPrefab:
-  - {fileID: 5787991117341198155, guid: c3439a350b8e450449d081831125fb5b, type: 3}
+  - {fileID: 8077435750811545149, guid: d9fd8a9689d582d44906c1770a805503, type: 3}
   - {fileID: 6485611547531374389, guid: f56a5573b6298be459f8f6c2e525cc82, type: 3}
   - {fileID: 6752051703695037901, guid: 84efaf21cf345a94d9d6650e8bd2dcfd, type: 3}
   - {fileID: 5213432764268164580, guid: 2f25108cee726c14c8377cc71df5fd5e, type: 3}
@@ -2737,6 +2737,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7474500958573748454, guid: 6f08989daa79edd40a82d1f5c2386241, type: 3}
+      propertyPath: SpawnPoints.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7474500958573748454, guid: 6f08989daa79edd40a82d1f5c2386241, type: 3}
+      propertyPath: SpawnPoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 119367247}
+    - target: {fileID: 7474500958573748454, guid: 6f08989daa79edd40a82d1f5c2386241, type: 3}
+      propertyPath: SpawnPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 1973330500}
+    - target: {fileID: 7474500958573748454, guid: 6f08989daa79edd40a82d1f5c2386241, type: 3}
+      propertyPath: SpawnPoints.Array.data[2]
+      value: 
+      objectReference: {fileID: 1537407561}
+    - target: {fileID: 7474500958573748454, guid: 6f08989daa79edd40a82d1f5c2386241, type: 3}
+      propertyPath: SpawnPoints.Array.data[3]
+      value: 
+      objectReference: {fileID: 1229404840}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

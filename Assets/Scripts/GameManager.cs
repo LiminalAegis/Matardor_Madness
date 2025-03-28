@@ -63,7 +63,7 @@ public class GameMaster : NetworkComponent
             {
 
                 GameObject character = MyCore.NetCreateObject(
-                    Mathf.Max(player.CharSelected, 0),
+                    Mathf.Max(0, 0),
                     player.Owner,
                     SpawnPoints[player.Owner].position,
                     Quaternion.identity
