@@ -70,11 +70,6 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> main
     "com.unity.inputsystem": {
       "version": "1.11.2",
       "depth": 0,
@@ -84,7 +79,6 @@
       },
       "url": "https://packages.unity.com"
     },
-<<<<<<< HEAD
     "com.unity.mathematics": {
       "version": "1.2.6",
       "depth": 1,
@@ -92,9 +86,6 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
->>>>>>> Stashed changes
-=======
->>>>>>> main
     "com.unity.performance.profile-analyzer": {
       "version": "1.2.2",
       "depth": 1,
