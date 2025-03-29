@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerCharacter : NetworkComponent
 {
     public Text PlayerName;
+    public Transform PlayerMat;
     public Material[] MColor;
     public int ColorSelected = -1;
     public string PName = "<Default>";
@@ -23,7 +24,10 @@ public class PlayerCharacter : NetworkComponent
             if (flag == "COLOR")
             {
                 ColorSelected = int.Parse(value);
-                //GetComponent<Renderer>().material = MColor[ColorSelected];
+
+                //the "Chest" component which stores the teamcolor/Mat we are changing should always be the 0th child 
+                PlayerMat = this.gameObject.transform.GetChild(0);
+                //PlayerMat.GetComponent<Renderer>().material = MColor[ColorSelected];
                 GetComponent<SpriteRenderer>().color = MColor[ColorSelected].color;
 
             }
