@@ -25,12 +25,30 @@ public class GameMaster : NetworkComponent
                 player.transform.GetChild(0).gameObject.SetActive(false);
 
             }
+
+            
         }
+        if (flag == "GAMESTART")
+        {
+            
+            
+                Debug.Log("started disconnect");
+                StartCoroutine(AutoDisconnect());
+                Debug.Log("after disconnect line");
+            
+        }
+
     }
 
     public override void NetworkedStart()
     {
-
+    }
+    public IEnumerator AutoDisconnect()
+    {
+        yield return new WaitForSeconds(5);
+        NetworkCore nc = GameObject.FindObjectOfType<NetworkCore>();
+        nc.UI_Quit();
+        
     }
 
     public override IEnumerator SlowUpdate()
@@ -63,7 +81,7 @@ public class GameMaster : NetworkComponent
             {
 
                 GameObject character = MyCore.NetCreateObject(
-                    Mathf.Max(player.CharSelected, 0),
+                    Mathf.Max(0, 0),
                     player.Owner,
                     SpawnPoints[player.Owner].position,
                     Quaternion.identity

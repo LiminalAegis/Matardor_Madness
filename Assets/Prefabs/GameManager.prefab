@@ -70,4 +70,8 @@ MonoBehaviour:
   IsDirty: 0
   GameStarted: 0
   GameOver: 0
-  SpawnPoints: []
+  SpawnPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
