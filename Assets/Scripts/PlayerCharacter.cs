@@ -22,10 +22,35 @@ public class PlayerCharacter : NetworkComponent
 
             if (flag == "NAME")
             {
+                /*
                 GameObject gameObject = GameObject.Find("PlayerName" + PlayerNum);
                 PlayerName = gameObject.GetComponent<TextMeshProUGUI>();
                 PName = value;
-                PlayerName.text = PName;
+                PlayerName.text = PName;*/ //no idea why it didnt work
+
+                PName = value;
+                switch (PlayerNum)
+                {
+                    case 1:
+                        MyCore.transform.GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0)
+                            .GetComponent<TextMeshProUGUI>().text = PName;
+                        break;
+
+                    case 2:
+                        MyCore.transform.GetChild(0).GetChild(2).GetChild(0).GetChild(1).GetChild(0)
+                            .GetComponent<TextMeshProUGUI>().text = PName;
+                        break;
+
+                    case 3:
+                        MyCore.transform.GetChild(0).GetChild(2).GetChild(1).GetChild(0).GetChild(0)
+                            .GetComponent<TextMeshProUGUI>().text = PName;
+                        break;
+
+                    case 4:
+                        MyCore.transform.GetChild(0).GetChild(2).GetChild(0).GetChild(1).GetChild(0)
+                            .GetComponent<TextMeshProUGUI>().text = PName;
+                        break;
+                }
             }
             if (flag == "COLOR")
             {
@@ -38,6 +63,10 @@ public class PlayerCharacter : NetworkComponent
                 GetComponent<SpriteRenderer>().color = MColor[ColorSelected].color;
 
 
+            }
+            if(flag == "NUM")
+            {
+                PlayerNum = int.Parse(value);
             }
         }
        

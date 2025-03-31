@@ -54,14 +54,26 @@ public class GameMaster : NetworkComponent
 
         
         MyCore.transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
-        
+
+        int rand = Random.Range(0, 100);
+        MyCore.transform.GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Score: " + rand;
+        rand = Random.Range(0, 100);
+        MyCore.transform.GetChild(0).GetChild(2).GetChild(0).GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Score: " + rand;
+        rand = Random.Range(0, 100);
+        MyCore.transform.GetChild(0).GetChild(2).GetChild(1).GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Score: " + rand;
+        rand = Random.Range(0, 100);
+        MyCore.transform.GetChild(0).GetChild(2).GetChild(1).GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Score: " + rand;
+
+        /*
         int tempPLayerLoop = 0;
         foreach (GameObject i in PlayerScores)
         {
-            tempPLayerLoop++;
+            
             int rand = Random.Range(0, 100);
             PlayerScores[tempPLayerLoop].GetComponent<TextMeshProUGUI>().text = "Score: " + rand;
-        }
+            tempPLayerLoop++;
+        }*/
+        //idk why i couldnt get this to work
     }
 
     public override IEnumerator SlowUpdate()
@@ -106,8 +118,9 @@ public class GameMaster : NetworkComponent
                 pc.ColorSelected = player.ColorSelected;
                 pc.PlayerNum = tempLoopNum;
 
-                pc.SendUpdate("SET_NAME", pc.PName);
-                pc.SendUpdate("SET_COLOR", pc.ColorSelected.ToString());
+                pc.SendUpdate("NUM", pc.PlayerNum.ToString());
+                pc.SendUpdate("NAME", pc.PName);
+                
 
 
             }
