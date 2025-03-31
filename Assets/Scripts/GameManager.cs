@@ -9,6 +9,9 @@ public class GameMaster : NetworkComponent
     public bool GameOver = false;
 
     public Transform[] SpawnPoints;
+    public GameObject[] PlayerNames;
+    public GameObject[] PlayerScores;
+    //public Dictionary ActivePlayers;
 
     public override void HandleMessage(string flag, string value)
     {
@@ -25,23 +28,15 @@ public class GameMaster : NetworkComponent
                 player.transform.GetChild(0).gameObject.SetActive(false);
 
             }
-
-            
-        }
-        if (flag == "GAMESTART")
-        {
-            
-            
-                Debug.Log("started disconnect");
-                StartCoroutine(AutoDisconnect());
-                Debug.Log("after disconnect line");
-            
+            StartCoroutine(AutoDisconnect());
+           
         }
 
     }
 
     public override void NetworkedStart()
     {
+        
     }
     public IEnumerator AutoDisconnect()
     {
