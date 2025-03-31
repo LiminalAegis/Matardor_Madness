@@ -22,6 +22,8 @@ public class PlayerCharacter : NetworkComponent
 
             if (flag == "NAME")
             {
+                GameObject gameObject = GameObject.Find("PlayerName" + PlayerNum);
+                PlayerName = gameObject.GetComponent<TextMeshProUGUI>();
                 PName = value;
                 PlayerName.text = PName;
             }
