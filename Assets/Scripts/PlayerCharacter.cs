@@ -3,21 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using NETWORK_ENGINE;
 using UnityEngine.UI;
+using TMPro;
+
 public class PlayerCharacter : NetworkComponent
 {
-    public Text PlayerName;
+    public TextMeshProUGUI PlayerName;
     public Transform PlayerMat;
     public Material[] MColor;
     public int ColorSelected = -1;
     public string PName = "<Default>";
+    public int PlayerNum;
 
 
     public override void HandleMessage(string flag, string value)
     {
         if (IsClient)
         {
+
             if (flag == "NAME")
             {
+                GameObject gameObject = GameObject.Find("PlayerName" + PlayerNum);
+                PlayerName = gameObject.GetComponent<TextMeshProUGUI>();
                 PName = value;
                 PlayerName.text = PName;
             }

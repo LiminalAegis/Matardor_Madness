@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NETWORK_ENGINE;
+using TMPro;
 
 public class GameMaster : NetworkComponent
 {
@@ -9,6 +10,9 @@ public class GameMaster : NetworkComponent
     public bool GameOver = false;
 
     public Transform[] SpawnPoints;
+    public GameObject[] PlayerNames;
+    public GameObject[] PlayerScores;
+    
 
     public override void HandleMessage(string flag, string value)
     {
@@ -25,30 +29,39 @@ public class GameMaster : NetworkComponent
                 player.transform.GetChild(0).gameObject.SetActive(false);
 
             }
-
-            
-        }
-        if (flag == "GAMESTART")
-        {
-            
-            
-                Debug.Log("started disconnect");
-                StartCoroutine(AutoDisconnect());
-                Debug.Log("after disconnect line");
-            
+            StartCoroutine(DisplayScoreboard());
+            StartCoroutine(AutoDisconnect());
+           
         }
 
     }
 
     public override void NetworkedStart()
     {
+        
     }
     public IEnumerator AutoDisconnect()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(10);
         NetworkCore nc = GameObject.FindObjectOfType<NetworkCore>();
         nc.UI_Quit();
         
+    }
+    public IEnumerator DisplayScoreboard()
+    {
+        yield return new WaitForSeconds(5);
+        NPM[] npm = Object.FindObjectsOfType<NPM>();
+
+        
+        MyCore.transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
+        
+        int tempPLayerLoop = 0;
+        foreach (GameObject i in PlayerScores)
+        {
+            tempPLayerLoop++;
+            int rand = Random.Range(0, 100);
+            PlayerScores[tempPLayerLoop].GetComponent<TextMeshProUGUI>().text = "Score: " + rand;
+        }
     }
 
     public override IEnumerator SlowUpdate()
@@ -76,9 +89,10 @@ public class GameMaster : NetworkComponent
             } while (!allReady);
 
 
-
+            int tempLoopNum = 0;
             foreach (NPM player in players)
             {
+                tempLoopNum++;
 
                 GameObject character = MyCore.NetCreateObject(
                     Mathf.Max(0, 0),
@@ -90,6 +104,7 @@ public class GameMaster : NetworkComponent
                 PlayerCharacter pc = character.GetComponent<PlayerCharacter>();
                 pc.PName = player.PName;
                 pc.ColorSelected = player.ColorSelected;
+                pc.PlayerNum = tempLoopNum;
 
                 pc.SendUpdate("SET_NAME", pc.PName);
                 pc.SendUpdate("SET_COLOR", pc.ColorSelected.ToString());
