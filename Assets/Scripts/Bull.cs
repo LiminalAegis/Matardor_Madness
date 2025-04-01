@@ -33,15 +33,12 @@ public class Bull : NetworkComponent
 
     public Vector3 Roam()
     {
+        Debug.Log("Picking roam location.");
         Vector3 pickDir = UnityEngine.Random.insideUnitSphere * distance; //get position in circle
-        
-        pickDir += this.transform.position; //add direction to our position
+        pickDir = new Vector3(pickDir.x, 0, pickDir.z) + this.transform.position;
 
-        NavMeshHit hit;
-
-        NavMesh.SamplePosition(pickDir, out hit, distance, -1);
-
-        return hit.position;
+        agent.SetDestination(pickDir);
+        return pickDir;
     }
 
     public void Rush()
@@ -58,12 +55,22 @@ public class Bull : NetworkComponent
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        Roam();
+        if (IsClient)
+        {
+            agent.enabled = false;
+        }
+        else
+        {
+            Roam();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-       
+        if (agent.remainingDistance <= 0.01 || agent.isPathStale    )
+        {
+            Roam();
+        }
     }
 }
