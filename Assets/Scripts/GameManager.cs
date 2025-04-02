@@ -12,27 +12,63 @@ public class GameMaster : NetworkComponent
     public Transform[] SpawnPoints;
     public GameObject[] PlayerNames;
     public GameObject[] PlayerScores;
-    
+
+    //gameloop variables
+    public int Team1Score = 0;
+    public int Team2Score = 0;
+    public int WinScore = 20;
+    public int WinTeam = 0; //1 = team1, 2 = team2, 3 = tie
+    public float RoundTimer = 180; //3 minutes
+    public float GameStartTime;
+
+
 
     public override void HandleMessage(string flag, string value)
     {
-        if (flag == "GAMESTART" && IsClient)
+        if (IsClient)
         {
-            GameStarted = true;
-
-            NPM[] npm = Object.FindObjectsOfType<NPM>();
-            foreach (NPM player in npm)
+            if (flag == "GAMESTART")
             {
-                //player.enabled = false;
-                //this can cause problems, so what's even better is to just disable the canvas [usually GetChild(0) or GetComponent<Renderer>()]
+                GameStarted = true;
 
-                player.transform.GetChild(0).gameObject.SetActive(false);
+                NPM[] npm = Object.FindObjectsOfType<NPM>();
+                foreach (NPM player in npm)
+                {
+                    //player.enabled = false;
+                    //this can cause problems, so what's even better is to just disable the canvas [usually GetChild(0) or GetComponent<Renderer>()]
+
+                    player.transform.GetChild(0).gameObject.SetActive(false);
+
+                }
+                
+                StartCoroutine(DisplayScoreboard());
+                StartCoroutine(AutoDisconnect());
+                 // for testing
 
             }
-            StartCoroutine(DisplayScoreboard());
-            StartCoroutine(AutoDisconnect());
-           
+            if (flag == "GAMEOVER")
+            {
+                //DisplayScoreboard(); //make sure to remove the coroutine, make it a normal function for real game
+
+            }
         }
+
+        if(IsServer)
+        {
+            //run flag for every point earned
+            if (flag == "SCORE")
+            {
+                if (value == "Team1")
+                {
+                    Team1Score++;
+                }
+                if (value == "Team2")
+                {
+                    Team2Score++;
+                }
+            }
+        }
+        
 
     }
 
@@ -107,7 +143,7 @@ public class GameMaster : NetworkComponent
                 tempLoopNum++;
 
                 GameObject character = MyCore.NetCreateObject(
-                    Mathf.Max(0, 0),
+                    0,
                     player.Owner,
                     SpawnPoints[player.Owner].position,
                     Quaternion.identity
@@ -125,12 +161,58 @@ public class GameMaster : NetworkComponent
 
             }
 
+            //set start time
+            GameStartTime = Time.time;
+
             SendUpdate("GAMESTART", "1");
             MyCore.NotifyGameStart();
 
             while (!GameOver)
             {
                 // Game logic here
+                
+
+
+                //win conditions
+
+                //win by WinScore
+                if(Team1Score == WinScore || Team2Score == WinScore)
+                {
+                    if(Team1Score == WinScore && Team2Score == WinScore)
+                    {
+                        WinTeam = 3;
+                    }
+                    else if(Team1Score == WinScore)
+                    {
+                        WinTeam = 1;
+                    }
+                    else if(Team2Score == WinScore)
+                    {
+                        WinTeam = 2;
+                    }
+                   
+                    GameOver = true;
+                }
+
+                //Win by Time
+
+                if(GameStartTime + RoundTimer >= Time.time)
+                {
+                    if (Team1Score > Team2Score)
+                    {
+                        WinTeam = 1;
+                    }
+                    else if (Team2Score > Team1Score)
+                    {
+                        WinTeam = 2;
+                    }
+                    else
+                    {
+                        WinTeam = 3;
+                    }
+                    GameOver = true;
+                }
+
                 yield return new WaitForSeconds(0.1f);
             }
 
