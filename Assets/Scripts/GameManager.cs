@@ -164,6 +164,9 @@ public class GameMaster : NetworkComponent
             //set start time
             GameStartTime = Time.time;
 
+            PowerUpSpawner PUSpawner = FindObjectOfType<PowerUpSpawner>();
+            PUSpawner.SendCommand("START", "1");
+
             SendUpdate("GAMESTART", "1");
             MyCore.NotifyGameStart();
 
@@ -196,7 +199,7 @@ public class GameMaster : NetworkComponent
 
                 //Win by Time
 
-                if(GameStartTime + RoundTimer >= Time.time)
+                if(GameStartTime + RoundTimer <= Time.time)
                 {
                     if (Team1Score > Team2Score)
                     {
