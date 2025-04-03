@@ -54,11 +54,11 @@ public class PowerUpSpawner : NetworkComponent
                         LastSpawnTime = Time.time;
 
                         //spawn a powerup
-                        int powerupIndex = Random.Range(0, PowerUps.Length);
+                        int powerupIndex = Random.Range(1, PowerUps.Length);
                         GameObject powerup = MyCore.NetCreateObject(
-                            1, //should be powerupIndex, 1 testing
+                            1, //should be (num) + powerupIndex, 1 testing
                             this.Owner, //server owned?
-                            SpawnPoints[0].position, //SpawnPoints[Random.Range(0, SpawnPoints.Length)].position
+                            SpawnPoints[0].position, //SpawnPoints[Random.Range(0, SpawnPoints.Length-1)].position
                             Quaternion.identity
                         );
                     }
