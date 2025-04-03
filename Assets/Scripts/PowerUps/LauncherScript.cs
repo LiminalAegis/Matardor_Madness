@@ -68,13 +68,16 @@ public class LauncherScript : NetworkComponent
     // Start is called before the first frame update
     void Start()
     {
-
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if(IsLocalPlayer)
+        {
+            //do the line effect here?
+        }
     }
 
     public void OnTriggerEnter(Collider other)
