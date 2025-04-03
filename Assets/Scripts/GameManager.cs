@@ -170,7 +170,7 @@ public class GameMaster : NetworkComponent
             CurrentRoundTime = Time.time;
 
             PowerUpSpawner PUSpawner = FindObjectOfType<PowerUpSpawner>();
-            PUSpawner.SendCommand("START", "1");
+            PUSpawner.Started = true;
 
             SendUpdate("GAMESTART", "1");
             MyCore.NotifyGameStart();

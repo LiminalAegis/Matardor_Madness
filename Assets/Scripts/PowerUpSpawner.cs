@@ -27,10 +27,7 @@ public class PowerUpSpawner : NetworkComponent
 
         if (IsServer)
         {
-            if(flag == "START")
-            {
-                Started = true;
-            }
+            
         }
 
     }
@@ -54,11 +51,11 @@ public class PowerUpSpawner : NetworkComponent
                         LastSpawnTime = Time.time;
 
                         //spawn a powerup
-                        int powerupIndex = Random.Range(1, PowerUps.Length);
+                        int powerupIndex = Random.Range(0, PowerUps.Length-1);
                         GameObject powerup = MyCore.NetCreateObject(
-                            1, //should be (num) + powerupIndex, 1 testing
+                            1+ powerupIndex, //starting num in prefab array + powerupindex
                             this.Owner, //server owned?
-                            SpawnPoints[0].position, //SpawnPoints[Random.Range(0, SpawnPoints.Length-1)].position
+                            SpawnPoints[Random.Range(0, SpawnPoints.Length - 1)].position,
                             Quaternion.identity
                         );
                     }
