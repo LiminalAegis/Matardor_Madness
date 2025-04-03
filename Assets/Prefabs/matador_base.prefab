@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 4082657193050699546}
   m_Layer: 0
   m_Name: matador_base
-  m_TagString: Untagged
+  m_TagString: PLAYER
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -248,6 +248,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: f143a76c53c65d54e9925fadb4e963ab, type: 2}
   ColorSelected: -1
   PName: <Default>
+  PlayerNum: 0
 --- !u!1 &6234409259369107398
 GameObject:
   m_ObjectHideFlags: 0
