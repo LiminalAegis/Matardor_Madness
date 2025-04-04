@@ -120,6 +120,12 @@ public class PlayerCharacter : NetworkComponent
     }
 
     //stun disables controls for a coroutine, triggers upon being hit. 
+    public IEnumerator stunPlayer()
+    {
+        //disable input
+        yield return new WaitForSeconds(3f);
+        //re-enable input
+    }
 
     public void OnTriggerEnter(Collider other)
     {
