@@ -116,15 +116,35 @@ public class PlayerCharacter : NetworkComponent
     // Update is called once per frame
     void Update()
     {
-        
+        //Base Camera movement
+        if (IsLocalPlayer)
+        {
+            float cameraSpeed = 5.0f;
+            Vector3 offsetVector = new Vector3(0, 5, -5);
+            Vector3 targetCameraPosition = this.gameObject.transform.position + offsetVector;
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetCameraPosition, cameraSpeed * Time.deltaTime);
+            //orient
+            Camera.main.transform.LookAt(this.gameObject.transform.position);
+        }
     }
 
     //stun disables controls for a coroutine, triggers upon being hit. 
     public IEnumerator stunPlayer()
     {
+        Debug.Log("stun");
+        MyInput.PassivateInput();
         //disable input
-        yield return new WaitForSeconds(3f);
-        //re-enable input
+        yield return new WaitForSeconds(2f);
+        Debug.Log("Move again");
+        MyInput.ActivateInput();
+    }
+
+    public IEnumerator playerDeath()
+    {
+        //wait until we have the actual map and camera set up for this
+        //fix camera in place (or switch to a different camera?)
+        //teleport player under the map
+        yield return new WaitForSeconds(5f);
     }
 
     public void OnTriggerEnter(Collider other)
@@ -133,7 +153,9 @@ public class PlayerCharacter : NetworkComponent
         {
             PlayerHp -= 1;
             SendCommand("HIT", PlayerHp.ToString());
+            StartCoroutine(stunPlayer());
             //call stun coroutine
         }
     }
+
 }

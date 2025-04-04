@@ -18,17 +18,6 @@ public class HealthPickupScript : NetworkComponent
         {
             if (flag == "PICKEDUP")
             {
-                PlayerCharacter[] players = FindObjectsOfType<PlayerCharacter>();
-                int playerNum = int.Parse(value);
-                foreach (PlayerCharacter player in players)
-                {
-                    if (player.PlayerNum == playerNum)
-                    {
-                        OwnerPlayer = player.gameObject;
-                        //also assign self to the player
-                    }
-                }
-
                 //do visual effects for pickup
                 //disable floating object effect
 
@@ -92,7 +81,15 @@ public class HealthPickupScript : NetworkComponent
 
                 PickedUp = true;
                 OwnerPlayer = other.gameObject;
-                SendUpdate("PICKEDUP", other.GetComponent<PlayerCharacter>().PlayerNum.ToString());
+
+                
+                if (OwnerPlayer.GetComponent<PlayerCharacter>().PlayerHp < 3)
+                {
+                    OwnerPlayer.GetComponent<PlayerCharacter>().PlayerHp += 1;
+                    OwnerPlayer.GetComponent<PlayerCharacter>().SendUpdate("HEAL", "1");
+                }
+                //MyCore.NetDestroyObject(this.GameObject.GetComponent<NetworkID>().NetId);
+
             }
         }
     }
