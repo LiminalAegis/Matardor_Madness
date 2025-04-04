@@ -4,6 +4,7 @@ using UnityEngine;
 using NETWORK_ENGINE;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class PlayerCharacter : NetworkComponent
 {
@@ -15,6 +16,10 @@ public class PlayerCharacter : NetworkComponent
     public string PTeam; //Team1 or Team2
     public int PlayerNum;
     public int PlayerHp = 3;
+
+    //movement/action commands
+    public PlayerInput MyInput;
+    public InputActionAsset MyMap;
 
     public override void HandleMessage(string flag, string value)
     {
@@ -69,10 +74,9 @@ public class PlayerCharacter : NetworkComponent
             {
                 PlayerNum = int.Parse(value);
             }
-            if(flag == "HIT")
+            if(flag == "HIT" && IsLocalPlayer)
             {
-                PlayerHp -= int.Parse(value);
-                Debug.Log(PlayerHp);
+                PlayerHp = int.Parse(value);
             }
         }
        
@@ -80,7 +84,8 @@ public class PlayerCharacter : NetworkComponent
 
     public override void NetworkedStart()
     {
-    
+        MyInput = GetComponent<PlayerInput>();
+        MyMap = MyInput.actions;
     }
 
     public override IEnumerator SlowUpdate()
@@ -120,8 +125,8 @@ public class PlayerCharacter : NetworkComponent
     {
         if (other.gameObject.tag == "ENEMY" && IsLocalPlayer)
         {
-            //1 for default, replace with a damage modifier if we have bull variations later on 
-            SendCommand("HIT", "1");
+            PlayerHp -= 1;
+            SendCommand("HIT", PlayerHp.ToString());
             //call stun coroutine
         }
     }
