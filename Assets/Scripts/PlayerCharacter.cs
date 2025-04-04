@@ -14,7 +14,7 @@ public class PlayerCharacter : NetworkComponent
     public string PName = "<Default>";
     public string PTeam; //Team1 or Team2
     public int PlayerNum;
-
+    public int PlayerHp = 3;
 
     public override void HandleMessage(string flag, string value)
     {
@@ -69,6 +69,11 @@ public class PlayerCharacter : NetworkComponent
             {
                 PlayerNum = int.Parse(value);
             }
+            if(flag == "HIT")
+            {
+                PlayerHp -= int.Parse(value);
+                Debug.Log(PlayerHp);
+            }
         }
        
     }
@@ -89,6 +94,7 @@ public class PlayerCharacter : NetworkComponent
                 {
                     SendUpdate("NAME", PName);
                     SendUpdate("COLOR", ColorSelected.ToString());
+                    SendUpdate("HIT", PlayerHp.ToString());
                     IsDirty = false;
                 }
             }
@@ -106,5 +112,17 @@ public class PlayerCharacter : NetworkComponent
     void Update()
     {
         
+    }
+
+    //stun disables controls for a coroutine, triggers upon being hit. 
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "ENEMY" && IsLocalPlayer)
+        {
+            //1 for default, replace with a damage modifier if we have bull variations later on 
+            SendCommand("HIT", "1");
+            //call stun coroutine
+        }
     }
 }
