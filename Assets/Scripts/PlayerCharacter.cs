@@ -12,6 +12,7 @@ public class PlayerCharacter : NetworkComponent
     public Material[] MColor;
     public int ColorSelected = -1;
     public string PName = "<Default>";
+    public string PTeam; //Team1 or Team2
     public int PlayerNum;
 
 
