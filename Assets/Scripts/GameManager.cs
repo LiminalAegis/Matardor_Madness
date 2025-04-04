@@ -19,6 +19,7 @@ public class GameMaster : NetworkComponent
     public int WinScore = 20;
     public int WinTeam = 0; //1 = team1, 2 = team2, 3 = tie
     public float RoundTimer = 180; //3 minutes
+    public float CurrentRoundTime;
     public float GameStartTime;
 
 
@@ -44,7 +45,10 @@ public class GameMaster : NetworkComponent
                 StartCoroutine(DisplayScoreboard());
                 StartCoroutine(AutoDisconnect());
                  // for testing
-
+            }
+            if (flag == "TIMER")
+            {
+                //set the timer UI
             }
             if (flag == "GAMEOVER")
             {
@@ -163,20 +167,29 @@ public class GameMaster : NetworkComponent
 
             //set start time
             GameStartTime = Time.time;
+            CurrentRoundTime = Time.time;
+
+            PowerUpSpawner PUSpawner = FindObjectOfType<PowerUpSpawner>();
+            PUSpawner.Started = true;
 
             SendUpdate("GAMESTART", "1");
             MyCore.NotifyGameStart();
 
             while (!GameOver)
             {
+
+                //handle time updates
+                CurrentRoundTime = Time.time;
+                SendUpdate("TIMER", CurrentRoundTime.ToString());
+
                 // Game logic here
-                
+
 
 
                 //win conditions
 
                 //win by WinScore
-                if(Team1Score == WinScore || Team2Score == WinScore)
+                if (Team1Score == WinScore || Team2Score == WinScore)
                 {
                     if(Team1Score == WinScore && Team2Score == WinScore)
                     {
@@ -196,7 +209,7 @@ public class GameMaster : NetworkComponent
 
                 //Win by Time
 
-                if(GameStartTime + RoundTimer >= Time.time)
+                if(GameStartTime + RoundTimer <= Time.time)
                 {
                     if (Team1Score > Team2Score)
                     {

@@ -11,6 +11,7 @@ public class PowerUpSpawner : NetworkComponent
     public Transform[] SpawnPoints;
     public float LastSpawnTime = 0;
     public float SpawnRate = 30;
+    public bool Started = false;
 
 
     public override void HandleMessage(string flag, string value)
@@ -21,6 +22,11 @@ public class PowerUpSpawner : NetworkComponent
             {
                 
             }
+            
+        }
+
+        if (IsServer)
+        {
             
         }
 
@@ -38,20 +44,23 @@ public class PowerUpSpawner : NetworkComponent
 
             if (IsServer)
             {
-                if (IsDirty)
+                if(Started)
                 {
-                    if(LastSpawnTime + SpawnRate >= Time.time)
+                    if (LastSpawnTime + SpawnRate <= Time.time)
                     {
                         LastSpawnTime = Time.time;
+
                         //spawn a powerup
-                        int powerupIndex = Random.Range(0, PowerUps.Length);
+                        int powerupIndex = Random.Range(0, PowerUps.Length-1);
                         GameObject powerup = MyCore.NetCreateObject(
-                            powerupIndex,
-                            this.Owner,
-                            SpawnPoints[Random.Range(0, SpawnPoints.Length)].position,
+                            1+ powerupIndex, //starting num in prefab array + powerupindex
+                            this.Owner, //server owned?
+                            SpawnPoints[Random.Range(0, SpawnPoints.Length - 1)].position,
                             Quaternion.identity
                         );
                     }
+                
+                    
                 
                 }
             }

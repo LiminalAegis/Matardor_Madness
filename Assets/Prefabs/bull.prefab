@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: bull
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3c8f3e989060aea408e0204cbdc5868d, type: 3}
+      propertyPath: m_TagString
+      value: ENEMY
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -110,6 +114,15 @@ MonoBehaviour:
   IsDirty: 0
   agent: {fileID: 0}
   distance: 20
+  speed: 10
+  acceleration: 10
+  rushSpeed: 20
+  rushAccel: 20
+  restSpeed: 5
+  restAccel: 5
+  restTimer: 5
+  lastTagged: {fileID: 0}
+  strength: 5
   walking: {fileID: 0}
   rush: {fileID: 0}
   stunned: {fileID: 0}
