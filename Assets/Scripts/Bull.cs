@@ -10,7 +10,7 @@ public class Bull : NetworkComponent
     public NavMeshAgent agent;
     public float distance, speed = 10, acceleration = 10;
     public float rushSpeed = 20, rushAccel = 20, restSpeed = 5, restAccel = 5;
-    public int restTimer = 5;
+    public int rushTimer = 2, restTimer = 5;
     public GameObject lastTagged;
 
     //bull vars
@@ -58,7 +58,6 @@ public class Bull : NetworkComponent
 
     public Vector3 Roam()
     {
-        Debug.Log("Roaming.");
         isRoaming = true;
         isRushing = false;
         if (walking != null)
@@ -81,17 +80,23 @@ public class Bull : NetworkComponent
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Contact with " + other.name);
-        if (!isResting || other.gameObject != lastTagged) //if bull isn't resting...
+        if (other.CompareTag("AGGRO")) //if the bull hits an aggro collider...
         {
-            if (other.gameObject.transform.parent.CompareTag("Player"))
+            GameObject aggroOwner = other.transform.parent.gameObject;
+            if (!isResting || aggroOwner != lastTagged)
             { //only rush at players, not bulls
-                lastTagged = other.gameObject.transform.parent.gameObject;
+                lastTagged = aggroOwner;
                 Rush(other.gameObject.transform.parent.gameObject);
             }
         }
+        if(other.CompareTag("Player"))
+        {
+            StopCoroutine("Rushing");
+            isResting = true;
+            if(isRushing) isRushing = false;
+            StartCoroutine(Rest());
+        }
     }
-
-
 
 
     public void Rush(GameObject player)
@@ -101,7 +106,22 @@ public class Bull : NetworkComponent
         agent.speed = rushSpeed;
         agent.acceleration = rushAccel;
         Debug.Log("Rushing at "+player.name);
-        
+        StartCoroutine(Rushing(player));
+    }
+
+    public IEnumerator Rushing(GameObject target)
+    {
+        bool tempRushing = true;
+        float tempTimer = 0;
+        while (tempRushing)
+        {
+            tempTimer += 0.1f;
+            if (tempTimer >= rushTimer) tempRushing = false;
+
+            agent.destination = target.transform.position;
+
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     public IEnumerator Rest()
@@ -119,6 +139,7 @@ public class Bull : NetworkComponent
             Roam();
             yield return new WaitForSeconds(0.5f);
         }
+        Debug.Log("Stopped rest.");
         isResting = false;
     }
 
