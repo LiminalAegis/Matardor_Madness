@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using NETWORK_ENGINE;
+using UnityEditor;
 
 public class Bull : NetworkComponent
 {
     //nav mesh vars
     public NavMeshAgent agent;
     public float distance, speed = 10, acceleration = 10;
-    public float rushSpeed = 20, rushAccel = 20, restSpeed = 5, restAccel = 5;
-    public int rushTimer = 2, restTimer = 5;
+    public float rushSpeed = 0, rushAccel = 20, restSpeed = 5, restAccel = 5;
+    public float rushTimer = 1, restTimer = 5;
     public GameObject lastTagged;
 
     //bull vars
@@ -25,7 +26,13 @@ public class Bull : NetworkComponent
 
     public override void HandleMessage(string flag, string value)
     {
-        
+        if (flag == "STUNNED")
+        {
+            if (IsServer)
+            {
+                StartCoroutine(Stunned());
+            }
+        }
     }
 
     public override void NetworkedStart()
@@ -64,7 +71,7 @@ public class Bull : NetworkComponent
         {
             //trigger walk sound as an update to clients
         }
-        if (!isResting)
+        if (!isResting && !isRushing)
         {
             agent.speed = speed;
             agent.acceleration = acceleration;
@@ -89,8 +96,14 @@ public class Bull : NetworkComponent
                 Rush(other.gameObject.transform.parent.gameObject);
             }
         }
-        if(other.CompareTag("Player"))
+        if(other.CompareTag("Player")) //if bull hits an actual player
         {
+            if (other.gameObject.GetComponent<PlayerCharacter>() != null)
+            {
+                //THIS CHECK ISNT RIGHT
+                //placeholder for bull mask stun check
+                StartCoroutine(Stunned());
+            }
             StopCoroutine("Rushing");
             isResting = true;
             if(isRushing) isRushing = false;
@@ -103,9 +116,19 @@ public class Bull : NetworkComponent
     {
         isRoaming = false;
         isResting = false;
+        isRushing = true;
+        float radius = player.transform.GetComponentInChildren<SphereCollider>().radius;
+        if (radius > 5)
+        {
+            rushTimer = 1f + (radius * 0.5f);
+        }
+        else
+        {
+            rushTimer = 1;
+        }
         agent.speed = rushSpeed;
         agent.acceleration = rushAccel;
-        Debug.Log("Rushing at "+player.name);
+        Debug.Log("Rushing at "+player.name+" for "+rushTimer+" seconds.");
         StartCoroutine(Rushing(player));
     }
 
@@ -122,11 +145,16 @@ public class Bull : NetworkComponent
 
             yield return new WaitForSeconds(0.1f);
         }
+        if (!tempRushing)
+        {
+            Debug.Log("Rush timed out, resting.");
+            isRushing = false;
+            StartCoroutine(Rest());
+        }
     }
 
     public IEnumerator Rest()
     {
-        Debug.Log("Start rest.");
         isResting = true;
         isRoaming = true;
         isRushing = false;
@@ -143,12 +171,25 @@ public class Bull : NetworkComponent
         isResting = false;
     }
 
+    public IEnumerator Stunned()
+    {
+        Debug.Log("Stunned");
+        isResting = false;
+        isRoaming = false;
+        isRushing = false;
+        agent.isStopped = true;
+        yield return new WaitForSeconds(2);
+        isRoaming = true;
+        agent.isStopped = false;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.speed = speed;
         agent.acceleration = acceleration;
+        rushSpeed = speed * 1.5f;
     }
 
     // Update is called once per frame
