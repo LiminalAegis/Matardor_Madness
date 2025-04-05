@@ -3166,6 +3166,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1117709141847512952, guid: 7fe777b9febfef54da27b732febffbc5, type: 3}
+      propertyPath: m_Constraints
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4710319891812981034, guid: 7fe777b9febfef54da27b732febffbc5, type: 3}
       propertyPath: m_Name
       value: matador_base

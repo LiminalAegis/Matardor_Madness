@@ -8,12 +8,10 @@ public class PlayerMovement : NetworkComponent
 {
     public Rigidbody rb;
     //need the animation here too
-
-    public PlayerInput myInput;
-    public InputActionAsset myMap;
-    float speed = 3, rotSpeed = 2;
-    public float direction, rotate;
-    public bool isMoving = false, isRotating = false, isStealing = false, isPowerUp = false;
+    
+    float speed = 5;
+    public float directionUD, directionLR;
+    public bool isMoving = false, isStealing = false, isPowerUp = false;
     public bool cooldown = false, itemCooldown = false;
 
     public AudioClip stealSFX, powerUpGetSFX;
@@ -28,18 +26,9 @@ public class PlayerMovement : NetworkComponent
             float leftRight = float.Parse(keysDown[0]);
             if (IsServer)
             {
-                if (leftRight != 0)
-                {
-                    isRotating = true;
-                    rotate = leftRight;
-                }
-                else
-                {
-                    isRotating = false;
-                    rotate = 0;
-                }
                 isMoving = true;
-                direction = upDown;
+                directionLR = leftRight;
+                directionUD = upDown;
             }
         }
         if (flag == "STOP")
@@ -47,7 +36,6 @@ public class PlayerMovement : NetworkComponent
             if (IsServer)
             {
                 isMoving = false;
-                isRotating = false;
             }
         }
         if (flag == "STEAL")
@@ -107,17 +95,9 @@ public class PlayerMovement : NetworkComponent
         {
             if (IsServer)
             {
-                if (isRotating)
-                {
-                    rb.angularVelocity = new Vector3(0, rotate, 0) * Mathf.PI * rotSpeed;
-                }
-                else
-                {
-                    rb.angularVelocity = Vector3.zero;
-                }
                 if (isMoving)
                 {
-                    rb.velocity = rb.transform.forward * direction * speed + new Vector3(0, rb.velocity.y, 0);
+                    rb.velocity = (rb.transform.forward * directionUD * speed) + (rb.transform.right * directionLR * speed) + new Vector3(0, rb.velocity.y, 0);
                 }
                 else
                 {
@@ -154,7 +134,7 @@ public class PlayerMovement : NetworkComponent
         }
     }
 
-    public void OnPUGet(InputAction.CallbackContext context)
+    public void OnPUUse(InputAction.CallbackContext context)
     {
         if (context.action.phase == InputActionPhase.Started)
         {
@@ -184,7 +164,8 @@ public class PlayerMovement : NetworkComponent
     // Start is called before the first frame update
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
+        GetComponent<NetworkRigidbody>().rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
