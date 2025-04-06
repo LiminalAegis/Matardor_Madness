@@ -10,6 +10,8 @@ public class FlareScript : NetworkComponent
     public bool PickedUp = false;
     public GameObject OwnerPlayer;
 
+    public bool isAiming = false;
+
 
 
     public override void HandleMessage(string flag, string value)

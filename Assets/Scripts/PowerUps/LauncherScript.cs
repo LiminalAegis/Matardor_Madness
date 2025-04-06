@@ -4,12 +4,22 @@ using UnityEngine;
 using NETWORK_ENGINE;
 using UnityEngine.UI;
 using TMPro;
+using ProjectileCurveVisualizerSystem;
 
 public class LauncherScript : NetworkComponent
 {
     public bool PickedUp = false;
     public GameObject OwnerPlayer;
 
+    public float launchSpeed = 20f;
+    public GameObject launchPoint;
+    public bool isAiming = false;
+
+    //visualizer variables
+    private Vector3 updatedProjectileStartPosition;
+    private RaycastHit hitInfo;
+    public ProjectileCurveVisualizer curve; // visualizer prefab 
+    // end visualizer variables
 
 
     public override void HandleMessage(string flag, string value)
@@ -26,25 +36,31 @@ public class LauncherScript : NetworkComponent
                     {
                         OwnerPlayer = player.gameObject;
                         //also assign self to the player
+                        player.PowerUp = this.gameObject;
                     }
                 }
 
+                launchPoint = OwnerPlayer.transform.GetChild(6).gameObject;//make sure to chnage the child num if it changes
+
                 //do visual effects for pickup
                 //disable floating object effect
-
             }
+
+            if(flag == "AIMPOWER")
+            {
+                isAiming = true;
+            }
+
             if (flag == "USEPOWER")
             {
-                
+                isAiming = false;
             }
-
         }
 
         if (IsServer)
         {
-
+            SendUpdate("AIMPOWER", "1");
         }
-
     }
 
     public override void NetworkedStart()
@@ -56,7 +72,6 @@ public class LauncherScript : NetworkComponent
     {
         while (IsConnected)
         {
-
             if (IsServer)
             {
 
@@ -65,27 +80,48 @@ public class LauncherScript : NetworkComponent
         }
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-       
+        if (curve == null)
+        {
+            curve = FindObjectOfType<ProjectileCurveVisualizer>();
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(IsLocalPlayer)
+        if (IsLocalPlayer)
         {
-            //do the line effect here?
+            if(isAiming)
+            {
+                //line visualizer
+                if (launchPoint != null && curve != null)
+                {
+                    Vector3 velocity = launchPoint.transform.forward * launchSpeed;
+
+                    curve.VisualizeProjectileCurve(
+                        launchPoint.transform.position,
+                        0f, //start point offset
+                        velocity,
+                        0.1f, // projectile radius
+                        0.1f, // end point offset
+                        true, // debug draw
+                        out updatedProjectileStartPosition,
+                        out hitInfo
+                    );
+                }
+                //end line visualizer
+            }
+
+
+
+
         }
     }
 
     public void OnTriggerEnter(Collider other)
     {
-        if (IsServer)
-        {
-
-            if (other.gameObject.CompareTag("PLAYER"))
+            if (other.gameObject.CompareTag("Player"))
             {
                 if (PickedUp)
                 {
@@ -96,6 +132,6 @@ public class LauncherScript : NetworkComponent
                 OwnerPlayer = other.gameObject;
                 SendUpdate("PICKEDUP", other.GetComponent<PlayerCharacter>().PlayerNum.ToString());
             }
-        }
+    
     }
 }
