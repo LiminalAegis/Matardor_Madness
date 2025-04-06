@@ -88,7 +88,8 @@ public class HealthPickupScript : NetworkComponent
                     OwnerPlayer.GetComponent<PlayerCharacter>().PlayerHp += 1;
                     OwnerPlayer.GetComponent<PlayerCharacter>().SendUpdate("HEAL", "1");
                 }
-                //MyCore.NetDestroyObject(this.GameObject.GetComponent<NetworkID>().NetId);
+
+                MyCore.NetDestroyObject(this.gameObject.GetComponent<NetworkID>().NetId);
 
             }
         }
