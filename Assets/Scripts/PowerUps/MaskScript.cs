@@ -29,11 +29,13 @@ public class MaskScript : NetworkComponent
                     }
                 }
 
+                //disable players damage from bulls until they run into one
+
                 //do visual effects for pickup
                 //disable floating object effect
 
             }
-            if(flag == "USEPOWER")
+            if (flag == "USEPOWER")
             {
                 //for this one maybe we just have a collider attach to player and if they run into
                 //a bull its used.  passive rather than active effect
@@ -93,6 +95,15 @@ public class MaskScript : NetworkComponent
                 PickedUp = true;
                 OwnerPlayer = other.gameObject;
                 SendUpdate("PICKEDUP", other.GetComponent<PlayerCharacter>().PlayerNum.ToString());
+            }
+
+            if(other.gameObject.CompareTag("BULL"))
+            {
+                if (!PickedUp)
+                {
+                    return;
+                }
+                //make the bull do its tired effect?
             }
         }
     }

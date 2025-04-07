@@ -145,6 +145,23 @@ public class PlayerMovement : NetworkComponent
                 MakeSound(1);
             }
         }
+        if (context.action.phase == InputActionPhase.Performed)
+        {
+            if (!itemCooldown && IsLocalPlayer)
+            {
+                //for aiming
+                PlayerCharacter player = GetComponent<PlayerCharacter>();
+                //check if the player has an aimable powerup
+                if (player.PowerUp.TryGetComponent<FlareScript>(out var flare))
+                {
+                    flare.isAiming = true;
+                }
+                else if (player.PowerUp.TryGetComponent<LauncherScript>(out var launcher))
+                {
+                    launcher.isAiming = true;
+                }
+            }
+        }
     }
 
 

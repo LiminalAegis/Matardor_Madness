@@ -43,7 +43,10 @@ public class FoodScript : NetworkComponent
 
         if (IsServer)
         {
-
+            if(flag == "DESTROY")
+            {
+                MyCore.NetDestroyObject(this.gameObject.GetComponent<NetworkID>().NetId);
+            }
         }
 
     }
@@ -51,6 +54,7 @@ public class FoodScript : NetworkComponent
     {
         yield return new WaitForSeconds(5);
         //OwnerPlayer.GetComponent<PlayerCharacter>().Speed /= 2;
+        SendCommand("DESTROY", "1");
     }
 
     public override void NetworkedStart()
