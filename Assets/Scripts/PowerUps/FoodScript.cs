@@ -9,6 +9,7 @@ public class FoodScript : NetworkComponent
 {
     public bool PickedUp = false;
     public GameObject OwnerPlayer;
+    public float SpeedMulti = 2;
 
 
 
@@ -26,9 +27,9 @@ public class FoodScript : NetworkComponent
                     {
                         OwnerPlayer = player.gameObject;
                         //also assign self to the player
+                        player.PowerUp = this.gameObject;
                     }
                 }
-
                 //do visual effects for pickup
                 //disable floating object effect
 
@@ -36,6 +37,8 @@ public class FoodScript : NetworkComponent
             if (flag == "USEPOWER")
             {
                 //OwnerPlayer.GetComponent<PlayerCharacter>().Speed *=2;
+                float tempSpeed = OwnerPlayer.GetComponent<PlayerMovement>().speed *= SpeedMulti;
+                OwnerPlayer.GetComponent<PlayerMovement>().SendCommand("SPEEDCHANGE", tempSpeed.ToString());
                 StartCoroutine(EndPowerUp());
             }
 
@@ -53,7 +56,8 @@ public class FoodScript : NetworkComponent
     public IEnumerator EndPowerUp()
     {
         yield return new WaitForSeconds(5);
-        //OwnerPlayer.GetComponent<PlayerCharacter>().Speed /= 2;
+        float tempSpeed = OwnerPlayer.GetComponent<PlayerMovement>().speed /= SpeedMulti;
+        OwnerPlayer.GetComponent<PlayerMovement>().SendCommand("SPEEDCHANGE", tempSpeed.ToString());
         SendCommand("DESTROY", "1");
     }
 
@@ -92,7 +96,7 @@ public class FoodScript : NetworkComponent
         if (IsServer)
         {
 
-            if (other.gameObject.CompareTag("PLAYER"))
+            if (other.gameObject.CompareTag("Player"))
             {
                 if (PickedUp)
                 {
