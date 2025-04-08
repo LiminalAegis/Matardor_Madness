@@ -75,10 +75,6 @@ public class PlayerMovement : NetworkComponent
                 itemCooldown = true;
                 //StartCoroutine(ItemCooldown());
                 SendUpdate("POWERUP_USE", itemCooldown.ToString());
-                if(value == "BOOP")
-                {
-                    SendUpdate("LAUNCHER", "false");
-                }
                 
                 //check for which powerup we have and call its use
                 GameObject powerUp = GetComponent<PlayerCharacter>().PowerUp;
@@ -97,6 +93,12 @@ public class PlayerMovement : NetworkComponent
                     else
                     {
                         //other powerup use
+                    }
+                    //boop means aim cancelled
+                    if (value == "BOOP")
+                    {
+                        powerUp.GetComponent<LauncherScript>().UsePower();
+
                     }
 
                 }
