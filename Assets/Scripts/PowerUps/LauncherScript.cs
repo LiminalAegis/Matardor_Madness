@@ -28,39 +28,20 @@ public class LauncherScript : NetworkComponent
         {
             if (flag == "PICKEDUP")
             {
-                PlayerCharacter[] players = FindObjectsOfType<PlayerCharacter>();
-                int playerNum = int.Parse(value);
-                foreach (PlayerCharacter player in players)
-                {
-                    if (player.PlayerNum == playerNum)
-                    {
-                        OwnerPlayer = player.gameObject;
-                        //also assign self to the player
-                        player.PowerUp = this.gameObject;
-                    }
-                }
-
-                launchPoint = OwnerPlayer.transform.GetChild(6).gameObject;//make sure to chnage the child num if it changes
 
                 //do visual effects for pickup
                 //disable floating object effect
-            }
-
-            if(flag == "AIMPOWER")
-            {
-                isAiming = true;
-            }
-
-            if (flag == "USEPOWER")
-            {
-                isAiming = false;
+                this.GetComponent<MeshRenderer>().enabled = false;
             }
         }
 
         if (IsServer)
         {
-            SendUpdate("AIMPOWER", "1");
         }
+    }
+    public void UsePower()
+    {
+        
     }
 
     public override void NetworkedStart()
@@ -92,26 +73,7 @@ public class LauncherScript : NetworkComponent
     {
         if (IsLocalPlayer)
         {
-            if(isAiming)
-            {
-                //line visualizer
-                if (launchPoint != null && curve != null)
-                {
-                    Vector3 velocity = launchPoint.transform.forward * launchSpeed;
-
-                    curve.VisualizeProjectileCurve(
-                        launchPoint.transform.position,
-                        0f, //start point offset
-                        velocity,
-                        0.1f, // projectile radius
-                        0.1f, // end point offset
-                        true, // debug draw
-                        out updatedProjectileStartPosition,
-                        out hitInfo
-                    );
-                }
-                //end line visualizer
-            }
+            
 
 
 
@@ -121,6 +83,8 @@ public class LauncherScript : NetworkComponent
 
     public void OnTriggerEnter(Collider other)
     {
+        if (IsServer)
+        {
             if (other.gameObject.CompareTag("Player"))
             {
                 if (PickedUp)
@@ -130,8 +94,14 @@ public class LauncherScript : NetworkComponent
 
                 PickedUp = true;
                 OwnerPlayer = other.gameObject;
+                other.gameObject.GetComponent<PlayerCharacter>().PowerUp = this.gameObject;
+                this.GetComponent<MeshRenderer>().enabled = false;
+
                 SendUpdate("PICKEDUP", other.GetComponent<PlayerCharacter>().PlayerNum.ToString());
+                other.gameObject.GetComponent<PlayerMovement>().SendUpdate("LAUNCHER", "true");
+                
             }
+        }
     
     }
 }

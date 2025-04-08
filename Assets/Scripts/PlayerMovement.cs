@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using NETWORK_ENGINE;
+using ProjectileCurveVisualizerSystem;
 
 public class PlayerMovement : NetworkComponent
 {
@@ -16,6 +17,18 @@ public class PlayerMovement : NetworkComponent
 
     public AudioClip stealSFX, powerUpGetSFX;
     public AudioSource SFX;
+
+    //Aim Visualizer Variables
+    public float launchSpeed = 20f;
+    public GameObject launchPoint;
+    public bool isAiming = false;
+    public bool LauncherEquipped = false; //if the player has a launcher equipped or not, for local player
+    //visualizer specific
+    private Vector3 updatedProjectileStartPosition;
+    private RaycastHit hitInfo;
+    public ProjectileCurveVisualizer curve;
+    
+
 
     public override void HandleMessage(string flag, string value)
     {
@@ -62,6 +75,10 @@ public class PlayerMovement : NetworkComponent
                 itemCooldown = true;
                 //StartCoroutine(ItemCooldown());
                 SendUpdate("POWERUP_USE", itemCooldown.ToString());
+                if(value == "BOOP")
+                {
+                    SendUpdate("LAUNCHER", "false");
+                }
                 
                 //check for which powerup we have and call its use
                 GameObject powerUp = GetComponent<PlayerCharacter>().PowerUp;
@@ -71,6 +88,11 @@ public class PlayerMovement : NetworkComponent
                     if (powerUp.GetComponent<FoodScript>() != null)
                     {
                         powerUp.GetComponent<FoodScript>().UsePower();
+                    }
+                    //flare powerup
+                    else if(powerUp.GetComponent<FlareScript>() != null)
+                    {
+                        powerUp.GetComponent<FlareScript>().UsePower();
                     }
                     else
                     {
@@ -88,12 +110,24 @@ public class PlayerMovement : NetworkComponent
                     //play the animation here
                 }
             }
+            
         }
         if(flag == "SPEEDCHANGE")
         {
             if(IsServer)
             {
                 speed = float.Parse(value);
+            }
+        }
+        //for aiming
+        if (IsLocalPlayer)
+        {
+            if (flag == "LAUNCHER")
+            {
+
+                LauncherEquipped = bool.Parse(value);
+
+
             }
         }
 
@@ -169,22 +203,22 @@ public class PlayerMovement : NetworkComponent
                 MakeSound(1);
             }
         }
+        //for aiming
         if (context.action.phase == InputActionPhase.Performed)
         {
             if (!itemCooldown && IsLocalPlayer)
             {
-                //for aiming
-                PlayerCharacter player = GetComponent<PlayerCharacter>();
-                //check if the player has an aimable powerup
-                if (player.PowerUp.TryGetComponent<FlareScript>(out var flare))
-                {
-                    flare.isAiming = true;
-                }
-                else if (player.PowerUp.TryGetComponent<LauncherScript>(out var launcher))
-                {
-                    launcher.isAiming = true;
-                }
+                isAiming = true;
             }
+        }
+        if(context.action.phase == InputActionPhase.Canceled)
+        {
+            if (IsLocalPlayer)
+            {
+                isAiming = false;
+                SendCommand("POWERUP_USE", "BOOP");
+            }
+            
         }
     }
 
@@ -207,6 +241,10 @@ public class PlayerMovement : NetworkComponent
     {
         rb = GetComponent<Rigidbody>();
         GetComponent<NetworkRigidbody>().rb = GetComponent<Rigidbody>();
+        if (curve == null)
+        {
+            curve = FindObjectOfType<ProjectileCurveVisualizer>();
+        }
     }
 
     // Update is called once per frame
@@ -215,6 +253,36 @@ public class PlayerMovement : NetworkComponent
         if (IsClient)
         {
             //animation prompts go here
+
+        }
+        if(IsLocalPlayer)
+        {
+            //aim visualizer
+            if (isAiming && LauncherEquipped)
+            {
+                curve.gameObject.SetActive(true);
+                if (launchPoint != null && curve != null)
+                {
+                    Vector3 velocity = launchPoint.transform.forward * launchSpeed;
+
+                    curve.VisualizeProjectileCurve(
+                        launchPoint.transform.position,
+                        0f, //start point offset
+                        velocity,
+                        0.1f, // projectile radius
+                        0.1f, // end point offset
+                        true, // debug draw
+                        out updatedProjectileStartPosition,
+                        out hitInfo
+                    );
+                }
+
+            }
+            else
+            {
+                //curve.gameObject.SetActive(false);
+                curve.HideProjectileCurve();
+            }
         }
     }
 }
