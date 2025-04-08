@@ -15,16 +15,19 @@ public class Audio : MonoBehaviour
         else
         {
             AudioSource[] temp = FindObjectsOfType<AudioSource>();
-            if (temp[0].name == "Music")
+            if (temp.Length > 0)
             {
-                music = temp[0];
-                sfx = temp[1];
-            }
-            else
-            {
-                sfx = temp[0];
-                music = temp[1];
+                if (temp[0].name == "Music")
+                {
+                    music = temp[0];
+                    sfx = temp[1];
+                }
+                else
+                {
+                    sfx = temp[0];
+                    music = temp[1];
 
+                }
             }
         }
     }
