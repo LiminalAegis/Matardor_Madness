@@ -33,6 +33,31 @@ public class Bull : NetworkComponent
                 StartCoroutine(Stunned());
             }
         }
+        if (IsClient)
+        {
+            
+            if (flag == "MOVE")
+            {
+                string[] split = value.Split(',');
+
+                Vector3 pos = new Vector3(
+                    float.Parse(split[0]),
+                    float.Parse(split[1]),
+                    float.Parse(split[2])
+                );
+
+                Vector3 rot = new Vector3(
+                    float.Parse(split[3]),
+                    float.Parse(split[4]),
+                    float.Parse(split[5])
+                );
+
+                transform.position = pos;
+                transform.rotation = Quaternion.Euler(rot);
+            }
+
+            
+        }
     }
 
     public override void NetworkedStart()
@@ -58,6 +83,11 @@ public class Bull : NetworkComponent
                 {
                     Roam();
                 }
+                Vector3 pos = transform.position;
+                Vector3 rot = transform.rotation.eulerAngles;
+
+                string message = $"{pos.x},{pos.y},{pos.z},{rot.x},{rot.y},{rot.z}";
+                SendUpdate("MOVE", message);
             }
             yield return new WaitForSeconds(MyCore.MasterTimer);
         }
