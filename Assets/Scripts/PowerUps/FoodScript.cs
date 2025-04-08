@@ -10,6 +10,10 @@ public class FoodScript : NetworkComponent
     public bool PickedUp = false;
     public GameObject OwnerPlayer;
 
+    ///Powerup variables
+    public float SpeedMulti = 2f;
+    public float PowerDuration = 5f;
+
 
 
     public override void HandleMessage(string flag, string value)
@@ -18,43 +22,29 @@ public class FoodScript : NetworkComponent
         {
             if (flag == "PICKEDUP")
             {
-                PlayerCharacter[] players = FindObjectsOfType<PlayerCharacter>();
-                int playerNum = int.Parse(value);
-                foreach (PlayerCharacter player in players)
-                {
-                    if (player.PlayerNum == playerNum)
-                    {
-                        OwnerPlayer = player.gameObject;
-                        //also assign self to the player
-                    }
-                }
-
                 //do visual effects for pickup
                 //disable floating object effect
+                this.GetComponent<MeshRenderer>().enabled = false;
 
-            }
-            if (flag == "USEPOWER")
-            {
-                //OwnerPlayer.GetComponent<PlayerCharacter>().Speed *=2;
-                StartCoroutine(EndPowerUp());
             }
 
         }
 
-        if (IsServer)
-        {
-            if(flag == "DESTROY")
-            {
-                MyCore.NetDestroyObject(this.gameObject.GetComponent<NetworkID>().NetId);
-            }
-        }
 
     }
+    public void UsePower()
+    {
+        float tempSpeed = OwnerPlayer.GetComponent<PlayerMovement>().speed *= SpeedMulti;
+        OwnerPlayer.GetComponent<PlayerMovement>().speed = tempSpeed;
+        StartCoroutine(EndPowerUp());
+    }
+
     public IEnumerator EndPowerUp()
     {
-        yield return new WaitForSeconds(5);
-        //OwnerPlayer.GetComponent<PlayerCharacter>().Speed /= 2;
-        SendCommand("DESTROY", "1");
+        yield return new WaitForSeconds(PowerDuration);
+        float tempSpeed = OwnerPlayer.GetComponent<PlayerMovement>().speed /= SpeedMulti;
+        OwnerPlayer.GetComponent<PlayerMovement>().speed = tempSpeed;
+        MyCore.NetDestroyObject(this.gameObject.GetComponent<NetworkID>().NetId);
     }
 
     public override void NetworkedStart()
@@ -92,7 +82,7 @@ public class FoodScript : NetworkComponent
         if (IsServer)
         {
 
-            if (other.gameObject.CompareTag("PLAYER"))
+            if (other.gameObject.CompareTag("Player"))
             {
                 if (PickedUp)
                 {
@@ -101,6 +91,9 @@ public class FoodScript : NetworkComponent
 
                 PickedUp = true;
                 OwnerPlayer = other.gameObject;
+                other.gameObject.GetComponent<PlayerCharacter>().PowerUp = this.gameObject;
+                this.GetComponent<MeshRenderer>().enabled = false;
+
                 SendUpdate("PICKEDUP", other.GetComponent<PlayerCharacter>().PlayerNum.ToString());
             }
         }

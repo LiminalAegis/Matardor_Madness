@@ -9,7 +9,7 @@ public class PlayerMovement : NetworkComponent
     public Rigidbody rb;
     //need the animation here too
     
-    float speed = 5;
+    public float speed = 5;
     public float directionUD, directionLR;
     public bool isMoving = false, isStealing = false, isPowerUp = false;
     public bool cooldown = false, itemCooldown = false;
@@ -62,6 +62,23 @@ public class PlayerMovement : NetworkComponent
                 itemCooldown = true;
                 //StartCoroutine(ItemCooldown());
                 SendUpdate("POWERUP_USE", itemCooldown.ToString());
+                
+                //check for which powerup we have and call its use
+                GameObject powerUp = GetComponent<PlayerCharacter>().PowerUp;
+                if (powerUp != null)
+                {
+                    //food powerup
+                    if (powerUp.GetComponent<FoodScript>() != null)
+                    {
+                        powerUp.GetComponent<FoodScript>().UsePower();
+                    }
+                    else
+                    {
+                        //other powerup use
+                    }
+
+                }
+                
             }
             if (IsClient)
             {
@@ -70,6 +87,13 @@ public class PlayerMovement : NetworkComponent
                 {
                     //play the animation here
                 }
+            }
+        }
+        if(flag == "SPEEDCHANGE")
+        {
+            if(IsServer)
+            {
+                speed = float.Parse(value);
             }
         }
 
