@@ -62,9 +62,23 @@ public class PlayerMovement : NetworkComponent
                 itemCooldown = true;
                 //StartCoroutine(ItemCooldown());
                 SendUpdate("POWERUP_USE", itemCooldown.ToString());
-                //specifically for food right now
-                //need way to call different scripts? maybe int based on powerup or something
-                this.GetComponent<PlayerCharacter>().PowerUp.GetComponent<FoodScript>().SendUpdate("USEPOWER", "1");
+                
+                //check for which powerup we have and call its use
+                GameObject powerUp = GetComponent<PlayerCharacter>().PowerUp;
+                if (powerUp != null)
+                {
+                    //food powerup
+                    if (powerUp.GetComponent<FoodScript>() != null)
+                    {
+                        powerUp.GetComponent<FoodScript>().UsePower();
+                    }
+                    else
+                    {
+                        //other powerup use
+                    }
+
+                }
+                
             }
             if (IsClient)
             {
