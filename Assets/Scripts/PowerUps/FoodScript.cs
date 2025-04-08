@@ -95,7 +95,6 @@ public class FoodScript : NetworkComponent
                 this.GetComponent<MeshRenderer>().enabled = false;
 
                 SendUpdate("PICKEDUP", other.GetComponent<PlayerCharacter>().PlayerNum.ToString());
-                SendCommand("DESTROY", "1");
             }
         }
     }

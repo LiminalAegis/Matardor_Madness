@@ -150,13 +150,28 @@ public class PlayerCharacter : NetworkComponent
 
     public void OnTriggerEnter(Collider other)
     {
+
+        //think we should handle collision on server - Dominic
         if (other.gameObject.tag == "ENEMY" && IsLocalPlayer)
         {
+            //if bull mask is powerup
+            
+
             PlayerHp -= 1;
             SendCommand("HIT", PlayerHp.ToString());
             StartCoroutine(stunPlayer());
             //call stun coroutine
         }
+
+        //server version for mask
+        /*
+        if (PowerUp.GetComponent<MaskScript>() != null)
+        {
+            other.gameObject.GetComponent<Bull>().StartCoroutine(Stunned());
+            MyCore.NetDestroyObject(PowerUp.GetComponent<NetworkID>().NetId);
+            return;
+        }*/
+
     }
 
 }
