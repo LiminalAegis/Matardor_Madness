@@ -9,6 +9,7 @@ TagManager:
   - ENEMY
   - AGGRO
   - Audio
+  - FLAG
   layers:
   - Default
   - TransparentFX
