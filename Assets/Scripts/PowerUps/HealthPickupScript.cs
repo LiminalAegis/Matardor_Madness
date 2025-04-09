@@ -72,7 +72,7 @@ public class HealthPickupScript : NetworkComponent
         if (IsServer)
         {
 
-            if (other.gameObject.CompareTag("PLAYER"))
+            if (other.gameObject.CompareTag("Player"))
             {
                 if (PickedUp)
                 {

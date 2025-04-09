@@ -18,34 +18,20 @@ public class MaskScript : NetworkComponent
         {
             if (flag == "PICKEDUP")
             {
-                PlayerCharacter[] players = FindObjectsOfType<PlayerCharacter>();
-                int playerNum = int.Parse(value);
-                foreach (PlayerCharacter player in players)
-                {
-                    if (player.PlayerNum == playerNum)
-                    {
-                        OwnerPlayer = player.gameObject;
-                        //also assign self to the player
-                    }
-                }
-
-                //disable players damage from bulls until they run into one
-
                 //do visual effects for pickup
                 //disable floating object effect
+                this.GetComponent<MeshRenderer>().enabled = false;
 
-            }
-            if (flag == "USEPOWER")
-            {
-                //for this one maybe we just have a collider attach to player and if they run into
-                //a bull its used.  passive rather than active effect
             }
 
         }
 
         if (IsServer)
         {
-          
+          if(flag == "DESTROY")
+            {
+                MyCore.NetDestroyObject(this.gameObject.GetComponent<NetworkID>().NetId);
+            }
         }
 
     }
@@ -85,7 +71,7 @@ public class MaskScript : NetworkComponent
         if(IsServer)
         {
             
-            if (other.gameObject.CompareTag("PLAYER"))
+            if (other.gameObject.CompareTag("Player"))
             {
                 if (PickedUp)
                 {
@@ -94,16 +80,9 @@ public class MaskScript : NetworkComponent
 
                 PickedUp = true;
                 OwnerPlayer = other.gameObject;
+                other.gameObject.GetComponent<PlayerCharacter>().PowerUp = this.gameObject;
+                this.GetComponent<MeshRenderer>().enabled = false;
                 SendUpdate("PICKEDUP", other.GetComponent<PlayerCharacter>().PlayerNum.ToString());
-            }
-
-            if(other.gameObject.CompareTag("BULL"))
-            {
-                if (!PickedUp)
-                {
-                    return;
-                }
-                //make the bull do its tired effect?
             }
         }
     }

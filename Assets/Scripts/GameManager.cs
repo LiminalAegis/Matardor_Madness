@@ -82,14 +82,14 @@ public class GameMaster : NetworkComponent
     }
     public IEnumerator AutoDisconnect()
     {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(100);
         NetworkCore nc = GameObject.FindObjectOfType<NetworkCore>();
         nc.UI_Quit();
         
     }
     public IEnumerator DisplayScoreboard()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(20);
         NPM[] npm = Object.FindObjectsOfType<NPM>();
 
         

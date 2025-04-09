@@ -20,24 +20,10 @@ public class FlareScript : NetworkComponent
         {
             if (flag == "PICKEDUP")
             {
-                PlayerCharacter[] players = FindObjectsOfType<PlayerCharacter>();
-                int playerNum = int.Parse(value);
-                foreach (PlayerCharacter player in players)
-                {
-                    if (player.PlayerNum == playerNum)
-                    {
-                        OwnerPlayer = player.gameObject;
-                        //also assign self to the player
-                    }
-                }
 
                 //do visual effects for pickup
                 //disable floating object effect
-
-            }
-            if (flag == "USEPOWER")
-            {
-
+                this.GetComponent<MeshRenderer>().enabled = false;
             }
 
         }
@@ -47,6 +33,12 @@ public class FlareScript : NetworkComponent
 
         }
 
+    }
+
+    public void UsePower()
+    {
+        OwnerPlayer.transform.GetChild(7).GetComponent<FlareCollisionScript>().Activate();
+        MyCore.NetDestroyObject(this.gameObject.GetComponent<NetworkID>().NetId);
     }
 
     public override void NetworkedStart()
@@ -76,10 +68,7 @@ public class FlareScript : NetworkComponent
     // Update is called once per frame
     void Update()
     {
-        if (IsLocalPlayer)
-        {
-            //do the line effect here?
-        }
+        
     }
 
     public void OnTriggerEnter(Collider other)
@@ -87,7 +76,7 @@ public class FlareScript : NetworkComponent
         if (IsServer)
         {
 
-            if (other.gameObject.CompareTag("PLAYER"))
+            if (other.gameObject.CompareTag("Player"))
             {
                 if (PickedUp)
                 {
@@ -96,6 +85,9 @@ public class FlareScript : NetworkComponent
 
                 PickedUp = true;
                 OwnerPlayer = other.gameObject;
+                other.gameObject.GetComponent<PlayerCharacter>().PowerUp = this.gameObject;
+                this.GetComponent<MeshRenderer>().enabled = false;
+
                 SendUpdate("PICKEDUP", other.GetComponent<PlayerCharacter>().PlayerNum.ToString());
             }
         }
