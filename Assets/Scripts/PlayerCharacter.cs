@@ -24,6 +24,10 @@ public class PlayerCharacter : NetworkComponent
     public PlayerInput MyInput;
     public InputActionAsset MyMap;
 
+    //animator related vars 
+    public Animator MyAnime;
+    public Rigidbody MyRig;
+
     public override void HandleMessage(string flag, string value)
     {
         if (IsClient)
@@ -92,6 +96,7 @@ public class PlayerCharacter : NetworkComponent
     public override void NetworkedStart()
     {
         MyInput = GetComponent<PlayerInput>();
+        MyRig = GetComponent<Rigidbody>();
         MyMap = MyInput.actions;
     }
 
@@ -117,7 +122,7 @@ public class PlayerCharacter : NetworkComponent
     // Start is called before the first frame update
     void Start()
     {
-        
+        MyAnime = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -132,6 +137,17 @@ public class PlayerCharacter : NetworkComponent
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetCameraPosition, cameraSpeed * Time.deltaTime);
             //orient
             Camera.main.transform.LookAt(this.gameObject.transform.position);
+        }
+        if (IsClient)
+        {
+            if (MyRig.velocity.magnitude > .1f)
+            {
+                MyAnime.SetBool("IsMoving", true);
+            }
+            else
+            {
+                MyAnime.SetBool("IsMoving", false);
+            }
         }
     }
 
