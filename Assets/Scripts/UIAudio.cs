@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuAudio : MonoBehaviour
+public class UIAudio : MonoBehaviour
 {
     public AudioClip menuMusic, buttonAffirm, buttonDeny;
     public AudioSource music, sfx;
@@ -24,9 +24,14 @@ public class MenuAudio : MonoBehaviour
                 music = temp[1];
 
             }
-            if (!music.isPlaying)
+
+            if(music.clip == null)
             {
                 music.clip = menuMusic;
+            }
+
+            if (!music.isPlaying)
+            {    
                 music.Play();
             }
         }

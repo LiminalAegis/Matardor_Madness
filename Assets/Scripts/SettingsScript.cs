@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SettingsScript : MonoBehaviour
@@ -26,6 +27,11 @@ public class SettingsScript : MonoBehaviour
         }
     }
 
+    public void ToMainMenu()
+    {
+        //FIX
+        SceneManager.LoadScene(2);
+    }
 
     // Update is called once per frame
     void Update()
