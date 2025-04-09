@@ -99,7 +99,7 @@ public class PowerUpSpawner : NetworkComponent
                     }
 
                     //check if spot available
-                    int availableSpot = 0;
+                    int availableSpot = -1;
                     for (int i = 0; i < PowerUps.Length; i++)
                     {
                         if (PowerUps[i] == null)
@@ -113,48 +113,85 @@ public class PowerUpSpawner : NetworkComponent
                         {
                             //no spots
                             Debug.Log("No available spots for powerups " + i);
-                            yield break;//return but for coroutines
-                            
+                            availableSpot = -1;
                         }
                     }
 
-                    //check spawn timer
-                    if (LastSpawnTime + SpawnRate <= Time.time)
+                    //if there IS an available spot do the rest
+                    if(availableSpot != -1)
                     {
-                        LastSpawnTime = Time.time;
 
-                        //random power up
-                        int powerupIndex = Random.Range(0, numOfPowers -1);
-
-                        //find available spawn point
-                        Transform tempSpawnPoint = SpawnPoints[Random.Range(0, SpawnPoints.Length - 1)];
-                        Debug.Log("chose first spot: " + tempSpawnPoint.position.ToString());
-                        for (int i = 0; i < usedSpawnPoints.Length; i++)
+                        //check spawn timer
+                        if (LastSpawnTime + SpawnRate <= Time.time)
                         {
-                            if (usedSpawnPoints[i] == tempSpawnPoint)
+                            LastSpawnTime = Time.time;
+
+                            //random power up
+                            int powerupIndex = Random.Range(0, numOfPowers - 1);
+
+                            //find available spawn point
+                            /*
+                            Transform tempSpawnPoint = SpawnPoints[Random.Range(0, SpawnPoints.Length - 1)];
+                            Debug.Log("chose first spot: " + tempSpawnPoint.position.ToString());
+                            for (int i = 0; i < usedSpawnPoints.Length; i++)
                             {
-                                Debug.Log("hit used spawn point: " + i);
-                                //this spawn point is already used
-                                tempSpawnPoint = SpawnPoints[Random.Range(0, SpawnPoints.Length - 1)];
-                                Debug.Log("chose new spot: " + tempSpawnPoint.position.ToString());
-                                i = 0;
+                                if (usedSpawnPoints[i] == tempSpawnPoint)
+                                {
+                                    Debug.Log("hit used spawn point: " + i);
+                                    //this spawn point is already used
+                                    tempSpawnPoint = SpawnPoints[Random.Range(0, SpawnPoints.Length - 1)];
+                                    Debug.Log("chose new spot: " + tempSpawnPoint.position.ToString());
+                                    i = 0;
+                                }
+                            }//might need optimized code if the spawn points isnt a lot
+                            */
+
+                            // list good
+                            List<Transform> availableSpawnPoints = new List<Transform>();
+                            foreach (Transform sp in SpawnPoints)
+                            {
+                                bool used = false;
+                                foreach (Transform usp in usedSpawnPoints)
+                                {
+                                    if (usp == sp)
+                                    {
+                                        used = true;
+                                        break;
+                                    }
+                                }
+                                if (!used)
+                                {
+                                    availableSpawnPoints.Add(sp);
+                                }
                             }
-                        }//might need optimized code if the spawn points isnt a lot
 
-                        //mark spawn point as used
-                        usedSpawnPoints[availableSpot] = tempSpawnPoint;
+                            //no available spawn points
+                            if (availableSpawnPoints.Count == 0)
+                            {
+                                Debug.Log("no unused spawn points");
+                                yield return new WaitForSeconds(.1f);
+                                continue;
+                            }
+
+                            //pick spanw point
+                            Transform tempSpawnPoint = availableSpawnPoints[Random.Range(0, availableSpawnPoints.Count)];
+
+                            //mark spawn point as used
+                            usedSpawnPoints[availableSpot] = tempSpawnPoint;
 
 
-                        Debug.Log("spawning at " + tempSpawnPoint.position.ToString());
-                        //spawn power up
-                        GameObject powerup = MyCore.NetCreateObject(
-                            1+ powerupIndex, //starting num in prefab array + powerupindex
-                            this.Owner, //server owned?
-                            tempSpawnPoint.position,
-                            Quaternion.identity
-                        );
-                        PowerUps[availableSpot] = powerup;
+                            Debug.Log("spawning at " + tempSpawnPoint.position.ToString());
+                            //spawn power up
+                            GameObject powerup = MyCore.NetCreateObject(
+                                1 + powerupIndex, //starting num in prefab array + powerupindex
+                                this.Owner, //server owned?
+                                tempSpawnPoint.position,
+                                Quaternion.identity
+                            );
+                            PowerUps[availableSpot] = powerup;
+                        }
                     }
+
                 
                     
                 
