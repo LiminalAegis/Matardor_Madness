@@ -7,6 +7,9 @@ using UnityEditor;
 
 public class Bull : NetworkComponent
 {
+    //animator vars 
+    public Animator myAnime;
+
     //nav mesh vars
     public NavMeshAgent agent;
     public float distance, speed = 10, acceleration = 10;
@@ -216,6 +219,8 @@ public class Bull : NetworkComponent
     // Start is called before the first frame update
     void Start()
     {
+
+        myAnime = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         agent.speed = speed;
         agent.acceleration = acceleration;
@@ -225,13 +230,17 @@ public class Bull : NetworkComponent
     // Update is called once per frame
     void Update()
     {
+       
         if (agent.remainingDistance <= 0.1 || agent.isPathStale) //REMOVE AFTER TESTING
         {
             Roam();
         }
         if (IsClient)
         {
-            //put animations/animation functions here
+            //animation calls
+            myAnime.SetBool("IsRoaming", isRoaming);
+            myAnime.SetBool("IsRushing", isRushing);
+
         }
     }
 }
