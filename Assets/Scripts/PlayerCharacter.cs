@@ -16,6 +16,7 @@ public class PlayerCharacter : NetworkComponent
     public string PTeam; //Team1 or Team2
     public int PlayerNum;
     public int PlayerHp = 3;
+    public int PlayerScore = 0;
     public GameObject PowerUp;
     public GameObject LaunchPoint;
 
@@ -79,6 +80,10 @@ public class PlayerCharacter : NetworkComponent
             if(flag == "HIT" && IsLocalPlayer)
             {
                 PlayerHp = int.Parse(value);
+            }
+            if(flag == "FLAG" && IsLocalPlayer)
+            {
+                PlayerScore = int.Parse(value);
             }
         }
        
@@ -163,6 +168,17 @@ public class PlayerCharacter : NetworkComponent
             SendCommand("HIT", PlayerHp.ToString());
             StartCoroutine(stunPlayer());
             //call stun coroutine
+        }
+        //NOT stealing, direct ground pickup 
+        if(other.gameObject.tag == "FLAG" && IsLocalPlayer)
+        {
+            //send score command 
+            PlayerScore += 1;
+            SendCommand("FLAG", PlayerScore.ToString()); 
+            Destroy(other.gameObject);
+            //Increase cape glow
+            //note that score should also update aggro calculation that should be handled elsewhere, however. 
+
         }
 
         //server version for mask
