@@ -121,7 +121,7 @@ public class PlayerCharacter : NetworkComponent
         if (IsLocalPlayer)
         {
             float cameraSpeed = 5.0f;
-            Vector3 offsetVector = new Vector3(0, 5, -5);
+            Vector3 offsetVector = new Vector3(0, 40, -25);
             Vector3 targetCameraPosition = this.gameObject.transform.position + offsetVector;
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetCameraPosition, cameraSpeed * Time.deltaTime);
             //orient
@@ -133,7 +133,8 @@ public class PlayerCharacter : NetworkComponent
     public IEnumerator stunPlayer()
     {
         Debug.Log("stun");
-        MyInput.PassivateInput();
+        MyInput.DeactivateInput();
+        //MyInput.PassivateInput();
         //disable input
         yield return new WaitForSeconds(2f);
         Debug.Log("Move again");

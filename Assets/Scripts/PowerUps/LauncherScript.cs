@@ -41,7 +41,17 @@ public class LauncherScript : NetworkComponent
     }
     public void UsePower()
     {
-        
+        //spawn the projectile
+        GameObject ThrownFlag = MyCore.NetCreateObject(
+                            1, //whatever number it ends up
+                            this.Owner, //server owned?
+                            launchPoint.transform.position,
+                            launchPoint.transform.rotation
+                        );
+        ThrownFlag.GetComponent<Rigidbody>().velocity = launchPoint.transform.forward * launchSpeed;
+
+        MyCore.NetDestroyObject(this.gameObject.GetComponent<NetworkID>().NetId);
+
     }
 
     public override void NetworkedStart()
