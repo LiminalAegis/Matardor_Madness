@@ -314,6 +314,7 @@ MonoBehaviour:
   PlayerNum: 0
   PlayerHp: 3
   PowerUp: {fileID: 0}
+  LaunchPoint: {fileID: 8303710320162121112}
   MyInput: {fileID: 0}
   MyMap: {fileID: 0}
 --- !u!114 &-8087631752439280273
