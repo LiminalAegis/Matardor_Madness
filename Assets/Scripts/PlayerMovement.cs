@@ -73,11 +73,21 @@ public class PlayerMovement : NetworkComponent
             if (IsServer)
             {
                 itemCooldown = true;
+                GameObject powerUp = GetComponent<PlayerCharacter>().PowerUp;
                 //StartCoroutine(ItemCooldown());
+
+                //boop means aim cancelled
+                if (value == "BOOP" && powerUp.GetComponent<LauncherScript>() != null)
+                {
+                    powerUp.GetComponent<LauncherScript>().UsePower();
+                    SendUpdate("LAUNCHER", "false");
+
+                }
+
                 SendUpdate("POWERUP_USE", itemCooldown.ToString());
                 
                 //check for which powerup we have and call its use
-                GameObject powerUp = GetComponent<PlayerCharacter>().PowerUp;
+                
                 if (powerUp != null)
                 {
                     //food powerup
@@ -93,12 +103,6 @@ public class PlayerMovement : NetworkComponent
                     else
                     {
                         //other powerup use
-                    }
-                    //boop means aim cancelled
-                    if (value == "BOOP")
-                    {
-                        powerUp.GetComponent<LauncherScript>().UsePower();
-
                     }
 
                 }
@@ -208,16 +212,19 @@ public class PlayerMovement : NetworkComponent
         //for aiming
         if (context.action.phase == InputActionPhase.Performed)
         {
-            if (!itemCooldown && IsLocalPlayer)
+            if (IsLocalPlayer)
             {
                 isAiming = true;
             }
         }
+        
+        
         if(context.action.phase == InputActionPhase.Canceled)
         {
             if (IsLocalPlayer)
             {
                 isAiming = false;
+                LauncherEquipped = false; //maybe works?
                 SendCommand("POWERUP_USE", "BOOP");
             }
             

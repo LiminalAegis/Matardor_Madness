@@ -17,6 +17,7 @@ public class PlayerCharacter : NetworkComponent
     public int PlayerNum;
     public int PlayerHp = 3;
     public GameObject PowerUp;
+    public GameObject LaunchPoint;
 
     //movement/action commands
     public PlayerInput MyInput;

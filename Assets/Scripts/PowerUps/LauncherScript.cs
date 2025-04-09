@@ -43,7 +43,7 @@ public class LauncherScript : NetworkComponent
     {
         //spawn the projectile
         GameObject ThrownFlag = MyCore.NetCreateObject(
-                            1, //whatever number it ends up
+                            7, //whatever number it ends up
                             this.Owner, //server owned?
                             launchPoint.transform.position,
                             launchPoint.transform.rotation
@@ -106,6 +106,7 @@ public class LauncherScript : NetworkComponent
                 OwnerPlayer = other.gameObject;
                 other.gameObject.GetComponent<PlayerCharacter>().PowerUp = this.gameObject;
                 this.GetComponent<MeshRenderer>().enabled = false;
+                launchPoint = OwnerPlayer.GetComponent<PlayerCharacter>().LaunchPoint;
 
                 SendUpdate("PICKEDUP", other.GetComponent<PlayerCharacter>().PlayerNum.ToString());
                 other.gameObject.GetComponent<PlayerMovement>().SendUpdate("LAUNCHER", "true");
