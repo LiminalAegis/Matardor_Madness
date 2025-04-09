@@ -236,6 +236,7 @@ GameObject:
   - component: {fileID: 6416599682908964202}
   - component: {fileID: 1117709141847512952}
   - component: {fileID: 5875995015457747483}
+  - component: {fileID: 1032315722234058007}
   m_Layer: 0
   m_Name: matador_base
   m_TagString: Player
@@ -263,7 +264,6 @@ Transform:
   - {fileID: 3151309062563255557}
   - {fileID: 5243906614742890913}
   - {fileID: 2615182669975353101}
-  - {fileID: 3804153318086048302}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5859918792248459089
@@ -565,88 +565,13 @@ MonoBehaviour:
   useAdjustedVelocity: 0
   adjustedVelocity: {x: 0, y: 0, z: 0}
   rb: {fileID: 0}
---- !u!1 &5874911296623456005
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3804153318086048302}
-  - component: {fileID: 8487204577909424547}
-  - component: {fileID: 788782840731817025}
-  - component: {fileID: 744327859907108572}
-  m_Layer: 0
-  m_Name: FlareCollider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3804153318086048302
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5874911296623456005}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7331477081796706819}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &8487204577909424547
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5874911296623456005}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 10
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &788782840731817025
+--- !u!114 &1032315722234058007
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5874911296623456005}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f34ca87a457962d459c49c36b9753ca5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Type: 0
-  Owner: -10
-  NetId: -10
-  IsInit: 0
-  IsLocalPlayer: 0
-  UseLobby: 0
-  UpdateFrequency: 0.1
-  MyCore: {fileID: 0}
---- !u!114 &744327859907108572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5874911296623456005}
+  m_GameObject: {fileID: 4710319891812981034}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d170d63f29c49d49bd3961bf82a7bbc, type: 3}

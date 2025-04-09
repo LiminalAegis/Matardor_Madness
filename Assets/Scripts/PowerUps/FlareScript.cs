@@ -37,7 +37,7 @@ public class FlareScript : NetworkComponent
 
     public void UsePower()
     {
-        OwnerPlayer.transform.GetChild(7).GetComponent<FlareCollisionScript>().Activate();
+        OwnerPlayer.GetComponent<FlareCollisionScript>().Activate();
         MyCore.NetDestroyObject(this.gameObject.GetComponent<NetworkID>().NetId);
     }
 
