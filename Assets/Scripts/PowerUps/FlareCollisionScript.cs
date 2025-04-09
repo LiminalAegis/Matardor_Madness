@@ -61,6 +61,7 @@ public class FlareCollisionScript : NetworkComponent
     public void Activate()
     {
         active = true;
+        StartCoroutine(End());
     }
     public IEnumerator End()
     {
