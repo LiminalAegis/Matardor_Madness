@@ -41,12 +41,16 @@ public class LauncherScript : NetworkComponent
     }
     public void UsePower()
     {
+        //make teh flag throw pole ways
+        //Quaternion adjustRotation = Quaternion.LookRotation(-launchPoint.transform.up, launchPoint.transform.forward);
+        Quaternion adjustRotation = launchPoint.transform.rotation * Quaternion.Euler(0, 0, 180f);
+
         //spawn the projectile
         GameObject ThrownFlag = MyCore.NetCreateObject(
                             9, //whatever number it ends up
                             this.Owner, //server owned?
                             launchPoint.transform.position,
-                            launchPoint.transform.rotation
+                            adjustRotation
                         );
         ThrownFlag.GetComponent<Rigidbody>().velocity = launchPoint.transform.forward * launchSpeed;
 
