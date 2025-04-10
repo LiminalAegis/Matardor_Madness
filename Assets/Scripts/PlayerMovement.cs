@@ -161,7 +161,8 @@ public class PlayerMovement : NetworkComponent
             {
                 if (isMoving)
                 {
-                    rb.velocity = (rb.transform.forward * directionUD * speed) + (rb.transform.right * directionLR * speed) + new Vector3(0, rb.velocity.y, 0);
+                    rb.velocity = new Vector3(directionLR*speed, 0, directionUD*speed) + new Vector3(0, rb.velocity.y, 0);
+                    rb.rotation = Quaternion.LookRotation(new Vector3(directionUD,0,-1*directionLR), rb.transform.up);
                 }
                 else
                 {

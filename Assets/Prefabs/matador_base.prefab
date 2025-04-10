@@ -496,6 +496,7 @@ MonoBehaviour:
   PlayerScoreTotal: 0
   PowerUp: {fileID: 0}
   LaunchPoint: {fileID: 8303710320162121112}
+  IsDead: 0
   MyInput: {fileID: 0}
   MyMap: {fileID: 0}
   MyAnime: {fileID: 0}
@@ -722,7 +723,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &5875995015457747483
 MonoBehaviour:
