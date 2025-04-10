@@ -17,6 +17,7 @@ public class PlayerCharacter : NetworkComponent
     public int PlayerNum;
     public int PlayerHp = 3;
     public int PlayerScore = 0;
+    public int PlayerScoreTotal = 0;
     public GameObject PowerUp;
     public GameObject LaunchPoint;
 
@@ -202,29 +203,45 @@ public class PlayerCharacter : NetworkComponent
             //NOT stealing, direct ground pickup 
             if (other.gameObject.tag == "FLAG")
             {
+                Debug.Log("Player touched flag");
                 //check for type of flag script
                 if (other.gameObject.GetComponent<FlagThrowScript>() != null)
                 {
+                    Debug.Log("Player touched thrown flag");
                     FlagThrowScript temp = other.gameObject.GetComponent<FlagThrowScript>();
 
                     //make sure we send our own team flag back to spawn
                     if (other.gameObject.GetComponent<FlagThrowScript>().Team == PTeam)
                     {
+                        Debug.Log("Player touched own team thrown flag");
                         //destroy flag and send command to spawn a new one at spawn point
-                        if(temp.PickedUp)
+                        if (temp.PickedUp)
                         {
                             return;
                         }
                         temp.PickedUp = true;
 
                         MyCore.NetDestroyObject(other.gameObject.GetComponent<NetworkID>().NetId);
+
                         //send command to spawn new flag at spawn point
+                        BaseFlag[] allFlags = FindObjectsOfType<BaseFlag>();
+
+                        foreach (BaseFlag flag in allFlags)
+                        {
+                            if (flag.Team == PTeam)
+                            {
+                                flag.Respawn();
+                            }
+                        }
+
+
                         return;
                     }
                     else
                     {
-                        
-                        if(temp.PickedUp)
+                        Debug.Log("Player touched other team thrown flag");
+
+                        if (temp.PickedUp)
                         {
                             return;
                         }
@@ -234,6 +251,7 @@ public class PlayerCharacter : NetworkComponent
                         PlayerScore += 1;
                         MyCore.NetDestroyObject(other.gameObject.GetComponent<NetworkID>().NetId);
                         SendUpdate("FLAG", PlayerScore.ToString());
+                        Debug.Log("Player Pciked up thrown flag");
                     }
                 }
                 if(other.gameObject.GetComponent<BaseFlag>() != null)
@@ -257,12 +275,57 @@ public class PlayerCharacter : NetworkComponent
                         temp.Pickup();
                         PlayerScore += 1;
                         SendUpdate("FLAG", PlayerScore.ToString());
+                        Debug.Log("Player Stole Flag");
                     }
                 }
 
             }
         }
 
+    }
+    //need to check trigger colission but also only when close enough
+    public void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("FLAG"))
+        {
+            //make sure its base flag
+            if (other.gameObject.GetComponent<BaseFlag>() != null)
+            {
+                //make sure its our flag for banking score
+                if (other.gameObject.GetComponent<BaseFlag>().Team != PTeam)
+                {
+                    return;
+                }
+
+                Vector3 myCenter = transform.position;
+                Vector3 otherCenter = other.transform.position;
+
+                float distance = Vector3.Distance(myCenter, otherCenter);
+
+                //within 1m of the flag
+                if (distance <= 1f)
+                {
+                    Debug.Log("Player Scoring");
+
+                    //bank score
+                    GameMaster GM = FindObjectOfType<GameMaster>();
+                    if(PTeam == "Team1")
+                    {
+                        GM.Team2Score += PlayerScore;
+                        PlayerScoreTotal += PlayerScore;
+                        PlayerScore = 0;
+                    }
+                    if (PTeam == "Team2")
+                    {
+                        GM.Team2Score += 1;
+                        PlayerScoreTotal += PlayerScore;
+                        PlayerScore = 0;
+                    }
+                    
+                }
+            }
+                
+        }
     }
 
 }
