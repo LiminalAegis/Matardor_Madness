@@ -84,8 +84,12 @@ public class PlayerCharacter : NetworkComponent
             if(flag == "HIT" && IsLocalPlayer)
             {
                 PlayerHp = int.Parse(value);
+                StartCoroutine(stunPlayer());
+                //do hit visual effects
             }
-            if(flag == "FLAG")
+
+            //removed local player since all players should see the glow increase
+            if (flag == "FLAG")
             {
                 //Increase cape glow
                 PlayerScore = int.Parse(value);
@@ -173,7 +177,8 @@ public class PlayerCharacter : NetworkComponent
         yield return new WaitForSeconds(5f);
     }
 
-    public void OnTriggerEnter(Collider other)
+    //trigger will be our aggro collider, use actual collision for getting hit
+    public void OnCollisionEnter(Collision other)
     {
         if(IsServer)
         {
@@ -189,26 +194,71 @@ public class PlayerCharacter : NetworkComponent
                 }
 
                 PlayerHp -= 1;
-                SendCommand("HIT", PlayerHp.ToString());
-                StartCoroutine(stunPlayer());
+                SendUpdate("HIT", PlayerHp.ToString());
+                //StartCoroutine(stunPlayer()); //stun in hit on local?
                 //call stun coroutine
+
             }
             //NOT stealing, direct ground pickup 
             if (other.gameObject.tag == "FLAG")
             {
-                //make sure we send our own team flag back to spawn
-                /*
-                if(other.gameObject.GetComponent<Script>().Team == PTeam)
+                //check for type of flag script
+                if (other.gameObject.GetComponent<FlagThrowScript>() != null)
                 {
-                    return;
-                }*/
+                    FlagThrowScript temp = other.gameObject.GetComponent<FlagThrowScript>();
 
-                //send score command 
-                PlayerScore += 1;
-                MyCore.NetDestroyObject(other.gameObject.GetComponent<NetworkID>().NetId);
-                //Increase cape glow
-                SendUpdate("FLAG", PlayerScore.ToString());
-                //note that score should also update aggro calculation that should be handled elsewhere, however. 
+                    //make sure we send our own team flag back to spawn
+                    if (other.gameObject.GetComponent<FlagThrowScript>().Team == PTeam)
+                    {
+                        //destroy flag and send command to spawn a new one at spawn point
+                        if(temp.PickedUp)
+                        {
+                            return;
+                        }
+                        temp.PickedUp = true;
+
+                        MyCore.NetDestroyObject(other.gameObject.GetComponent<NetworkID>().NetId);
+                        //send command to spawn new flag at spawn point
+                        return;
+                    }
+                    else
+                    {
+                        
+                        if(temp.PickedUp)
+                        {
+                            return;
+                        }
+
+                        temp.PickedUp = true;
+                        //enemy flag, capture
+                        PlayerScore += 1;
+                        MyCore.NetDestroyObject(other.gameObject.GetComponent<NetworkID>().NetId);
+                        SendUpdate("FLAG", PlayerScore.ToString());
+                    }
+                }
+                if(other.gameObject.GetComponent<BaseFlag>() != null)
+                {
+                    BaseFlag temp = other.gameObject.GetComponent<BaseFlag>();
+
+                    //make sure its not our flag
+                    if (other.gameObject.GetComponent<BaseFlag>().Team == PTeam)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        //enemy flag, capture
+                        if (temp.PickedUp)
+                        {
+                            return;
+                        }
+                        temp.PickedUp = true;
+                        
+                        temp.Pickup();
+                        PlayerScore += 1;
+                        SendUpdate("FLAG", PlayerScore.ToString());
+                    }
+                }
 
             }
         }
