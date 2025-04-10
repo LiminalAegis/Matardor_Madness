@@ -342,7 +342,7 @@ public class PlayerCharacter : NetworkComponent
 
                     //bank score
                     GameMaster GM = FindObjectOfType<GameMaster>();
-                    if(PTeam == "Team1")
+                    if (PTeam == "Team1")
                     {
                         GM.Team2Score += PlayerScore;
                         PlayerScoreTotal += PlayerScore;
@@ -354,7 +354,7 @@ public class PlayerCharacter : NetworkComponent
                         PlayerScoreTotal += PlayerScore;
                         PlayerScore = 0;
                     }
-                    
+
                 }
             }
             //just pick up the score?
@@ -364,6 +364,7 @@ public class PlayerCharacter : NetworkComponent
                 SendUpdate("FLAG", PlayerScore.ToString());
                 MyCore.NetDestroyObject(other.gameObject.GetComponent<NetworkID>().NetId);
             }
+        }
     }
 
 }
