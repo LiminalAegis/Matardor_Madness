@@ -43,7 +43,7 @@ public class LauncherScript : NetworkComponent
     {
         //spawn the projectile
         GameObject ThrownFlag = MyCore.NetCreateObject(
-                            7, //whatever number it ends up
+                            9, //whatever number it ends up
                             this.Owner, //server owned?
                             launchPoint.transform.position,
                             launchPoint.transform.rotation
