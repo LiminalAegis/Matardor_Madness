@@ -42,8 +42,10 @@ public class LauncherScript : NetworkComponent
     public void UsePower()
     {
         //make teh flag throw pole ways
-        //Quaternion adjustRotation = Quaternion.LookRotation(-launchPoint.transform.up, launchPoint.transform.forward);
-        Quaternion adjustRotation = launchPoint.transform.rotation * Quaternion.Euler(0, 0, 180f);
+        Quaternion adjustRotation = Quaternion.LookRotation(launchPoint.transform.up, launchPoint.transform.forward);
+        //cant get the test poel to shoot out bottom first. maybe just spawn it with world rot depending on the player rotation
+        //honestly maybe just have the model and hit aoe be on teh top of prefab
+
 
         //spawn the projectile
         GameObject ThrownFlag = MyCore.NetCreateObject(
@@ -53,6 +55,9 @@ public class LauncherScript : NetworkComponent
                             adjustRotation
                         );
         ThrownFlag.GetComponent<Rigidbody>().velocity = launchPoint.transform.forward * launchSpeed;
+        ThrownFlag.GetComponent<FlagThrowScript>().Team = OwnerPlayer.GetComponent<PlayerCharacter>().PTeam;
+
+        OwnerPlayer.GetComponent<PlayerCharacter>().PlayerScore -= 1;
 
         MyCore.NetDestroyObject(this.gameObject.GetComponent<NetworkID>().NetId);
 
