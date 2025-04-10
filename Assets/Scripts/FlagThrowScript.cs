@@ -23,6 +23,15 @@ public class FlagThrowScript : NetworkComponent
             {
                 rb.constraints = RigidbodyConstraints.FreezeAll;
             }
+            if (flag == "ROT")
+            {
+                string[] rot = value.Trim('(').Trim(')').Split(',');
+                float x = float.Parse(rot[0]);
+                float y = float.Parse(rot[1]);
+                float z = float.Parse(rot[2]);
+                Quaternion targetRot = Quaternion.Euler(x, y, z);
+                transform.rotation = targetRot;
+            }
         }
 
         if (IsServer)
@@ -56,6 +65,7 @@ public class FlagThrowScript : NetworkComponent
     {
         rb = GetComponent<Rigidbody>();
         solidCollider.enabled = false;
+        StartCoroutine(ThrowImmunity());
 
     }
     public IEnumerator ThrowImmunity()
@@ -70,6 +80,28 @@ public class FlagThrowScript : NetworkComponent
 
     }
 
+    public IEnumerator RotateUpright()
+    {
+        Quaternion startRot = transform.rotation;
+        Quaternion targetRot = Quaternion.LookRotation(Vector3.forward, Vector3.up);
+
+        float elapsed = 0f;
+        float duration = 0.2f;
+
+        while (elapsed < duration)
+        {
+            transform.rotation = Quaternion.Slerp(startRot, targetRot, elapsed / duration);
+            elapsed += Time.deltaTime;
+            SendUpdate("ROT", transform.rotation.eulerAngles.ToString());
+            yield return null;
+        }
+
+        transform.rotation = targetRot;
+
+        rb.constraints = RigidbodyConstraints.FreezeAll;
+        SendUpdate("FREEZE", "1");
+    }
+
     public void OnTriggerEnter(Collider other)
     {
         if (IsServer)
@@ -81,8 +113,7 @@ public class FlagThrowScript : NetworkComponent
 
             if (other.gameObject.CompareTag("Floor"))
             {
-                rb.constraints = RigidbodyConstraints.FreezeAll;
-                SendUpdate("FREEZE", "1");
+                StartCoroutine(RotateUpright());
                 solidCollider.enabled = true;
             }
         }

@@ -105,14 +105,14 @@ public class PowerUpSpawner : NetworkComponent
                         if (PowerUps[i] == null)
                         {
                             availableSpot = i;
-                            Debug.Log("available spot: " + i);
+                            //Debug.Log("available spot: " + i);
                             break;
                             
                         }
                         if (i == PowerUps.Length-1)
                         {
                             //no spots
-                            Debug.Log("No available spots for powerups " + i);
+                            //Debug.Log("No available spots for powerups " + i);
                             availableSpot = -1;
                         }
                     }
@@ -168,7 +168,7 @@ public class PowerUpSpawner : NetworkComponent
                             //no available spawn points
                             if (availableSpawnPoints.Count == 0)
                             {
-                                Debug.Log("no unused spawn points");
+                                //Debug.Log("no unused spawn points");
                                 yield return new WaitForSeconds(.1f);
                                 continue;
                             }
@@ -180,7 +180,7 @@ public class PowerUpSpawner : NetworkComponent
                             usedSpawnPoints[availableSpot] = tempSpawnPoint;
 
 
-                            Debug.Log("spawning at " + tempSpawnPoint.position.ToString());
+                            //Debug.Log("spawning at " + tempSpawnPoint.position.ToString());
                             //spawn power up
                             GameObject powerup = MyCore.NetCreateObject(
                                 1 + powerupIndex, //starting num in prefab array + powerupindex
