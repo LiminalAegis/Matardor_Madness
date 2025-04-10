@@ -20,6 +20,7 @@ public class PlayerCharacter : NetworkComponent
     public int PlayerScoreTotal = 0;
     public GameObject PowerUp;
     public GameObject LaunchPoint;
+    public bool IsDead = false;
 
     //movement/action commands
     public PlayerInput MyInput;
@@ -88,6 +89,15 @@ public class PlayerCharacter : NetworkComponent
                 StartCoroutine(stunPlayer());
                 //do hit visual effects
             }
+            if(flag == "DEAD" && IsLocalPlayer)
+            {
+                IsDead = true;
+                //start showing a respawn timer?
+            }
+            if(flag == "ALIVE" && IsLocalPlayer)
+            {
+                IsDead = false;
+            }
 
             //removed local player since all players should see the glow increase
             if (flag == "FLAG")
@@ -138,12 +148,21 @@ public class PlayerCharacter : NetworkComponent
         //Base Camera movement
         if (IsLocalPlayer)
         {
-            float cameraSpeed = 5.0f;
-            Vector3 offsetVector = new Vector3(0, 40, -25);
-            Vector3 targetCameraPosition = this.gameObject.transform.position + offsetVector;
-            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetCameraPosition, cameraSpeed * Time.deltaTime);
-            //orient
-            Camera.main.transform.LookAt(this.gameObject.transform.position);
+            if(IsDead)
+            {
+                Camera.main.transform.position = new Vector3(0, 10, -25);
+                Camera.main.transform.rotation = Quaternion.Euler(25, 0, 0);
+            }
+            else 
+            {
+                float cameraSpeed = 5.0f;
+                Vector3 offsetVector = new Vector3(0, 40, -25);
+                Vector3 targetCameraPosition = this.gameObject.transform.position + offsetVector;
+                Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetCameraPosition, cameraSpeed * Time.deltaTime);
+                //orient
+                Camera.main.transform.LookAt(this.gameObject.transform.position);
+            }
+                
         }
         if (IsClient)
         {
@@ -172,10 +191,24 @@ public class PlayerCharacter : NetworkComponent
 
     public IEnumerator playerDeath()
     {
+        GameObject playerDrop = MyCore.NetCreateObject(
+                                11, //make sure to keep right index
+                                this.Owner,
+                                this.transform.position,
+                                this.transform.rotation
+                            );
+        playerDrop.GetComponent<FlagDrop>().Score = PlayerScore;
+        PlayerScore = 0;
         //wait until we have the actual map and camera set up for this
         //fix camera in place (or switch to a different camera?)
+        SendUpdate("DEAD", "1");
         //teleport player under the map
+        this.transform.position = new Vector3(0, -100, 0);
+
         yield return new WaitForSeconds(5f);
+        //respawn
+        //need to place player at same spawn from game start.
+        //maybe either save span point as variable or use player num
     }
 
     //trigger will be our aggro collider, use actual collision for getting hit
@@ -324,8 +357,13 @@ public class PlayerCharacter : NetworkComponent
                     
                 }
             }
-                
-        }
+            //just pick up the score?
+            if (other.gameObject.GetComponent<FlagDrop>() != null)
+            {
+                PlayerScore += other.gameObject.GetComponent<FlagDrop>().Score;
+                SendUpdate("FLAG", PlayerScore.ToString());
+                MyCore.NetDestroyObject(other.gameObject.GetComponent<NetworkID>().NetId);
+            }
     }
 
 }
