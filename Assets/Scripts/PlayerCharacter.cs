@@ -24,6 +24,10 @@ public class PlayerCharacter : NetworkComponent
     public PlayerInput MyInput;
     public InputActionAsset MyMap;
 
+    //animator related vars 
+    public Animator MyAnime;
+    public Rigidbody MyRig;
+
     public override void HandleMessage(string flag, string value)
     {
         if (IsClient)
@@ -81,8 +85,9 @@ public class PlayerCharacter : NetworkComponent
             {
                 PlayerHp = int.Parse(value);
             }
-            if(flag == "FLAG" && IsLocalPlayer)
+            if(flag == "FLAG")
             {
+                //Increase cape glow
                 PlayerScore = int.Parse(value);
             }
         }
@@ -92,7 +97,9 @@ public class PlayerCharacter : NetworkComponent
     public override void NetworkedStart()
     {
         MyInput = GetComponent<PlayerInput>();
+        MyRig = GetComponent<Rigidbody>();
         MyMap = MyInput.actions;
+        MyRig.velocity = Vector3.zero;
     }
 
     public override IEnumerator SlowUpdate()
@@ -117,7 +124,7 @@ public class PlayerCharacter : NetworkComponent
     // Start is called before the first frame update
     void Start()
     {
-        
+        MyAnime = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -132,6 +139,17 @@ public class PlayerCharacter : NetworkComponent
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetCameraPosition, cameraSpeed * Time.deltaTime);
             //orient
             Camera.main.transform.LookAt(this.gameObject.transform.position);
+        }
+        if (IsClient)
+        {
+            if (MyRig.velocity.magnitude > .5f)
+            {
+                MyAnime.SetBool("IsMoving", true);
+            }
+            else
+            {
+                MyAnime.SetBool("IsMoving", false);
+            }
         }
     }
 
@@ -157,38 +175,43 @@ public class PlayerCharacter : NetworkComponent
 
     public void OnTriggerEnter(Collider other)
     {
-
-        //think we should handle collision on server - Dominic
-        if (other.gameObject.tag == "ENEMY" && IsLocalPlayer)
+        if(IsServer)
         {
-            //if bull mask is powerup
-            
+            if (other.gameObject.tag == "ENEMY")
+            {
+                //if bull mask is powerup
+                if (PowerUp.GetComponent<MaskScript>() != null)
+                {
+                    //this syntax sucks ass
+                    other.gameObject.GetComponent<Bull>().StartCoroutine(other.gameObject.GetComponent<Bull>().Stunned());
+                    MyCore.NetDestroyObject(PowerUp.GetComponent<NetworkID>().NetId);
+                    return;
+                }
 
-            PlayerHp -= 1;
-            SendCommand("HIT", PlayerHp.ToString());
-            StartCoroutine(stunPlayer());
-            //call stun coroutine
+                PlayerHp -= 1;
+                SendCommand("HIT", PlayerHp.ToString());
+                StartCoroutine(stunPlayer());
+                //call stun coroutine
+            }
+            //NOT stealing, direct ground pickup 
+            if (other.gameObject.tag == "FLAG")
+            {
+                //make sure we send our own team flag back to spawn
+                /*
+                if(other.gameObject.GetComponent<Script>().Team == PTeam)
+                {
+                    return;
+                }*/
+
+                //send score command 
+                PlayerScore += 1;
+                MyCore.NetDestroyObject(other.gameObject.GetComponent<NetworkID>().NetId);
+                //Increase cape glow
+                SendUpdate("FLAG", PlayerScore.ToString());
+                //note that score should also update aggro calculation that should be handled elsewhere, however. 
+
+            }
         }
-        //NOT stealing, direct ground pickup 
-        if(other.gameObject.tag == "FLAG" && IsLocalPlayer)
-        {
-            //send score command 
-            PlayerScore += 1;
-            SendCommand("FLAG", PlayerScore.ToString()); 
-            Destroy(other.gameObject);
-            //Increase cape glow
-            //note that score should also update aggro calculation that should be handled elsewhere, however. 
-
-        }
-
-        //server version for mask
-        /*
-        if (PowerUp.GetComponent<MaskScript>() != null)
-        {
-            other.gameObject.GetComponent<Bull>().StartCoroutine(Stunned());
-            MyCore.NetDestroyObject(PowerUp.GetComponent<NetworkID>().NetId);
-            return;
-        }*/
 
     }
 
