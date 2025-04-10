@@ -99,6 +99,7 @@ public class PlayerCharacter : NetworkComponent
         MyInput = GetComponent<PlayerInput>();
         MyRig = GetComponent<Rigidbody>();
         MyMap = MyInput.actions;
+        MyRig.velocity = Vector3.zero;
     }
 
     public override IEnumerator SlowUpdate()
@@ -141,7 +142,7 @@ public class PlayerCharacter : NetworkComponent
         }
         if (IsClient)
         {
-            if (MyRig.velocity.magnitude > .1f)
+            if (MyRig.velocity.magnitude > .5f)
             {
                 MyAnime.SetBool("IsMoving", true);
             }
