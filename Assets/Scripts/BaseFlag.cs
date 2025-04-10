@@ -20,11 +20,13 @@ public class BaseFlag : NetworkComponent
             {
                 //do visual effects for pickup
                 //disable floating object effect
-                this.GetComponent<MeshRenderer>().enabled = false;
+                //this.GetComponent<MeshRenderer>().enabled = false;
+                transform.GetChild(0).gameObject.SetActive(false);
             }
             if(flag == "RESPAWN")
             {
-                this.GetComponent<MeshRenderer>().enabled = true;
+                //this.GetComponent<MeshRenderer>().enabled = true;
+                transform.GetChild(0).gameObject.SetActive(true);
             }
         }
 
@@ -70,6 +72,7 @@ public class BaseFlag : NetworkComponent
     public void Respawn()
     {
         this.GetComponent<Collider>().enabled = true;
+        transform.GetChild(0).gameObject.SetActive(true);
         SendUpdate("RESPAWN", "1");
     }
 
@@ -77,6 +80,7 @@ public class BaseFlag : NetworkComponent
     {
         //disable the collider
         this.GetComponent<Collider>().enabled = false;
+        transform.GetChild(0).gameObject.SetActive(false);
         SendUpdate("PICKUP", "1");
     }
 
