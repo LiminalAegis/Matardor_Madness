@@ -10,6 +10,7 @@ public class GameMaster : NetworkComponent
     public bool GameOver = false;
 
     public Transform[] SpawnPoints;
+    //defunct?
     public GameObject[] PlayerNames;
     public GameObject[] PlayerScores;
 
@@ -21,6 +22,14 @@ public class GameMaster : NetworkComponent
     public float RoundTimer = 180; //3 minutes
     public float CurrentRoundTime;
     public float GameStartTime;
+
+    //Scoreboard variables
+    //each of these should have 4 elements for 4 players
+    public GameObject[] SBNames;
+    public GameObject[] SBScore;
+    public GameObject[] SBPF;
+    public GameObject[] SBCF;
+    public GameObject[] SBTeamScore; //should be 2
 
 
 
@@ -89,6 +98,7 @@ public class GameMaster : NetworkComponent
     }
     public IEnumerator DisplayScoreboard()
     {
+        /*
         yield return new WaitForSeconds(20);
         NPM[] npm = Object.FindObjectsOfType<NPM>();
 
@@ -103,7 +113,7 @@ public class GameMaster : NetworkComponent
         MyCore.transform.GetChild(0).GetChild(2).GetChild(1).GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Score: " + rand;
         rand = Random.Range(0, 100);
         MyCore.transform.GetChild(0).GetChild(2).GetChild(1).GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Score: " + rand;
-
+        */
         /*
         int tempPLayerLoop = 0;
         foreach (GameObject i in PlayerScores)
@@ -114,6 +124,10 @@ public class GameMaster : NetworkComponent
             tempPLayerLoop++;
         }*/
         //idk why i couldnt get this to work
+
+        //set it up with GM as canvas owner
+        yield return new WaitForSeconds(20);
+        this.gameObject.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
     }
 
     public override IEnumerator SlowUpdate()
