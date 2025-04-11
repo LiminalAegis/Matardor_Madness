@@ -13,6 +13,8 @@ public class FlagThrowScript : NetworkComponent
     public Rigidbody rb;
     public Collider solidCollider;
     public bool JustThrown = true;
+    public int PF;
+    public int CF;
 
 
     public override void HandleMessage(string flag, string value)
