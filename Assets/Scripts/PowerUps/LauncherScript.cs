@@ -86,6 +86,16 @@ public class LauncherScript : NetworkComponent
         {
             curve = FindObjectOfType<ProjectileCurveVisualizer>();
         }
+        StartCoroutine(DespawnTimer());
+    }
+
+    public IEnumerator DespawnTimer()
+    {
+        yield return new WaitForSeconds(30f);
+        if (!PickedUp)
+        {
+            MyCore.NetDestroyObject(this.gameObject.GetComponent<NetworkID>().NetId);
+        }
     }
 
     void Update()

@@ -62,7 +62,16 @@ public class FlareScript : NetworkComponent
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(DespawnTimer());
+    }
 
+    public IEnumerator DespawnTimer()
+    {
+        yield return new WaitForSeconds(30f);
+        if (!PickedUp)
+        {
+            MyCore.NetDestroyObject(this.gameObject.GetComponent<NetworkID>().NetId);
+        }
     }
 
     // Update is called once per frame
