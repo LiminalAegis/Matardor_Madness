@@ -18,6 +18,8 @@ public class PlayerCharacter : NetworkComponent
     public int PlayerHp = 3;
     public int PlayerScore = 0;
     public int PlayerScoreTotal = 0;
+    public int PlayerPF = 0;
+    public int PlayerCF = 1; //1 is own flag.  should always have 1 flag when playing?
     public GameObject PowerUp;
     public GameObject LaunchPoint;
     public bool IsDead = false;
@@ -197,8 +199,12 @@ public class PlayerCharacter : NetworkComponent
                                 this.transform.position,
                                 this.transform.rotation
                             );
-        playerDrop.GetComponent<FlagDrop>().Score = PlayerScore;
+        playerDrop.GetComponent<FlagDrop>().CF = PlayerCF;
+        playerDrop.GetComponent<FlagDrop>().PF = PlayerPF;
         PlayerScore = 0;
+        PlayerPF = 0;
+        PlayerCF = 0; //set to 1 after respawn?
+
         //wait until we have the actual map and camera set up for this
         //fix camera in place (or switch to a different camera?)
         SendUpdate("DEAD", "1");
@@ -253,20 +259,25 @@ public class PlayerCharacter : NetworkComponent
                             return;
                         }
                         temp.PickedUp = true;
+                        PlayerCF += other.gameObject.GetComponent<FlagThrowScript>().CF;
 
-                        MyCore.NetDestroyObject(other.gameObject.GetComponent<NetworkID>().NetId);
-
-                        //send command to spawn new flag at spawn point
-                        BaseFlag[] allFlags = FindObjectsOfType<BaseFlag>();
-
-                        foreach (BaseFlag flag in allFlags)
+                        //make sure a PF was thrown
+                        if(other.gameObject.GetComponent<FlagThrowScript>().PF >= 1)
                         {
-                            if (flag.Team == PTeam)
+                            //send command to spawn new flag at spawn point
+                            BaseFlag[] allFlags = FindObjectsOfType<BaseFlag>();
+
+                            foreach (BaseFlag flag in allFlags)
                             {
-                                flag.Respawn();
+                                if (flag.Team == PTeam)
+                                {
+                                    flag.Respawn();
+                                }
                             }
                         }
 
+                        
+                        MyCore.NetDestroyObject(other.gameObject.GetComponent<NetworkID>().NetId);
 
                         return;
                     }
@@ -281,7 +292,10 @@ public class PlayerCharacter : NetworkComponent
 
                         temp.PickedUp = true;
                         //enemy flag, capture
-                        PlayerScore += 1;
+                        PlayerPF += other.gameObject.GetComponent<FlagThrowScript>().PF;
+                        PlayerScore += other.gameObject.GetComponent<FlagThrowScript>().PF *3;
+                        PlayerCF += other.gameObject.GetComponent<FlagThrowScript>().CF;
+                        PlayerScore += other.gameObject.GetComponent<FlagThrowScript>().CF;
                         MyCore.NetDestroyObject(other.gameObject.GetComponent<NetworkID>().NetId);
                         SendUpdate("FLAG", PlayerScore.ToString());
                         Debug.Log("Player Pciked up thrown flag");
@@ -306,7 +320,8 @@ public class PlayerCharacter : NetworkComponent
                         temp.PickedUp = true;
                         
                         temp.Pickup();
-                        PlayerScore += 1;
+                        PlayerScore += 3;
+                        PlayerPF += 1;
                         SendUpdate("FLAG", PlayerScore.ToString());
                         Debug.Log("Player Stole Flag");
                     }
@@ -344,6 +359,7 @@ public class PlayerCharacter : NetworkComponent
                     GameMaster GM = FindObjectOfType<GameMaster>();
                     if (PTeam == "Team1")
                     {
+                        //maybe add tracking for PF/CF?
                         GM.Team2Score += PlayerScore;
                         PlayerScoreTotal += PlayerScore;
                         PlayerScore = 0;
@@ -361,6 +377,8 @@ public class PlayerCharacter : NetworkComponent
             if (other.gameObject.GetComponent<FlagDrop>() != null)
             {
                 PlayerScore += other.gameObject.GetComponent<FlagDrop>().Score;
+                PlayerCF += other.gameObject.GetComponent<FlagDrop>().CF;
+                PlayerPF += other.gameObject.GetComponent<FlagDrop>().PF;
                 SendUpdate("FLAG", PlayerScore.ToString());
                 MyCore.NetDestroyObject(other.gameObject.GetComponent<NetworkID>().NetId);
             }
