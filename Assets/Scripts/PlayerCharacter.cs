@@ -376,7 +376,7 @@ public class PlayerCharacter : NetworkComponent
             //just pick up the score?
             if (other.gameObject.GetComponent<FlagDrop>() != null)
             {
-                PlayerScore += other.gameObject.GetComponent<FlagDrop>().Score;
+                PlayerScore += other.gameObject.GetComponent<FlagDrop>().CF + other.gameObject.GetComponent<FlagDrop>().PF *3;
                 PlayerCF += other.gameObject.GetComponent<FlagDrop>().CF;
                 PlayerPF += other.gameObject.GetComponent<FlagDrop>().PF;
                 SendUpdate("FLAG", PlayerScore.ToString());
