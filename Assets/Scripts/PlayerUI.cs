@@ -11,6 +11,7 @@ public class PlayerUI : MonoBehaviour
 
     //set in editor
     public TextMeshProUGUI timeVal, team1Points, team2Points;
+    public Image puSlot, xIcon, sewingKit, mask, food;
 
     //mirrors of game master vals
     public float totalTime, currentTime;
@@ -54,6 +55,25 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
+    public void PowerUpVisual(int image)
+    {
+        switch (image)
+        {
+            case 0: // no PU
+                puSlot =xIcon;
+                break;
+            case 1:
+                puSlot = sewingKit;
+                break;
+            case 2:
+                puSlot = mask;
+                break;
+            case 3:
+                puSlot = food;
+                break;
+
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
