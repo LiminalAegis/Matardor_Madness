@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.80600005, y: 0.14}
   m_AnchorMax: {x: 0.95600003, y: 0.78000003}
-  m_AnchoredPosition: {x: -1.300003, y: 0.92430115}
+  m_AnchoredPosition: {x: -1.300003, y: 0.9243164}
   m_SizeDelta: {x: -1.459198, y: -0.5021}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3924688220414227749
@@ -479,7 +479,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -745,6 +745,11 @@ MonoBehaviour:
   timeVal: {fileID: 415832209030456893}
   team1Points: {fileID: 2818659401304016463}
   team2Points: {fileID: 2580817289931002021}
+  puSlot: {fileID: 0}
+  xIcon: {fileID: 0}
+  sewingKit: {fileID: 0}
+  mask: {fileID: 0}
+  food: {fileID: 0}
   totalTime: 0
   currentTime: 0
 --- !u!1 &5806244310206879133
@@ -781,7 +786,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.047000002, y: 0.14}
   m_AnchorMax: {x: 0.19700001, y: 0.78000003}
-  m_AnchoredPosition: {x: 0.80000305, y: 0.92430115}
+  m_AnchoredPosition: {x: 0.80000305, y: 0.9243164}
   m_SizeDelta: {x: -1.459198, y: -0.5021}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7100634339197344766
