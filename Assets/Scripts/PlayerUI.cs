@@ -24,6 +24,7 @@ public class PlayerUI : MonoBehaviour
         //countdown timer here
         yield return new WaitForSeconds(3);
         //trigger the GameRunningUI coroutine here
+        StartCoroutine(GameRunningUI());
     }
 
     public IEnumerator GameRunningUI()
