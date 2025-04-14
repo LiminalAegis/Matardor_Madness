@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7124888953299117985}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 774.0692, y: 274.88794, z: -260.64124}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1563771535639142748
 MonoBehaviour:
@@ -79,3 +79,4 @@ MonoBehaviour:
   port: 0
   buttonPrefab: {fileID: 1750401725644594784, guid: 8e32f437c5dfb974e843ef1932bcedec, type: 3}
   myButton: {fileID: 0}
+  hostGameName: 

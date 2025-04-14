@@ -307,7 +307,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000016855582}
+  m_AnchoredPosition: {x: 0, y: 0.000065936605}
   m_SizeDelta: {x: 0, y: 810.43}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &68152915
@@ -545,7 +545,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 378318156}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999943
+  m_Size: 0.99998003
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4492,6 +4492,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2124650040}
   - component: {fileID: 2124650039}
+  - component: {fileID: 2124650041}
   m_Layer: 0
   m_Name: WANNetworkManager
   m_TagString: Untagged
@@ -4560,6 +4561,54 @@ Transform:
   - {fileID: 1498744743}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2124650041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124650037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d566c9a9f1aea7d459ce44786f73fb26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OutputConsole: {fileID: 1649974887}
+  MaxConsoleLogSize: 1024
+  UsingUDP: 0
+  IsListening: 0
+  IsServer: 0
+  IsClient: 0
+  IsConnected: 0
+  AppNumber: 0
+  conCounter: 0
+  IP: 
+  PortNumber: 0
+  MaxConnections: 0
+  MasterTimer: 0.05
+  LocalConnectionID: -10
+  CycleTrigger: 3
+  UseMenuManager: 1
+  DisconnectScreen: {fileID: 0}
+  ObjectCounter: 0
+  SpawnPrefab: []
+  NetworkPlayerManager: {fileID: 7124888953299117985, guid: aa91568026d4b66408ee390ed8c99ee3, type: 3}
+  DefaultReturnScene: 0
+  publicIPAddress: 127.0.0.1
+  privateIPAddress: 23.128.112.66
+  portMininimum: 0
+  portMaxinimum: 0
+  isGameServer: 0
+  isClient: 0
+  gameCore: {fileID: 0}
+  localGameID: 
+  gameCounter: 0
+  maxGameTime: 360
+  gameRoomContent: {fileID: 68152913}
+  gameNameInput: {fileID: 1642041172}
+  createGameButton: {fileID: 211073371}
+  StartingScreen: {fileID: 1643587261}
+  LobbyScreen: {fileID: 365971149}
 --- !u!1 &2128744065
 GameObject:
   m_ObjectHideFlags: 0

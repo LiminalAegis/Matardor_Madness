@@ -15,7 +15,7 @@ public class MainMenuController : MonoBehaviour
             if (a.StartsWith("PORT_") || a.Contains("MASTER"))
             {
                 //Load Wan scene.
-                SceneManager.LoadScene(1);
+                SceneManager.LoadScene(2);
             }
         }
     }
