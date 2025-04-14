@@ -14,7 +14,7 @@ public class PlayerCharacter : NetworkComponent
     public int ColorSelected = -1;
     public string PName = "<Default>";
     public string PTeam; //Team1 or Team2
-    public int PlayerNum;
+    public int PlayerNum; //1, 2 for team1 | 3,4 for team2
     public int PlayerHp = 3;
     public int PlayerScore = 0;
     public int PlayerScoreTotal = 0;
@@ -99,6 +99,10 @@ public class PlayerCharacter : NetworkComponent
             if(flag == "ALIVE" && IsLocalPlayer)
             {
                 IsDead = false;
+            }
+            if(flag == "HEAL" && IsLocalPlayer)
+            {
+                PlayerHp += int.Parse(value);
             }
 
             //removed local player since all players should see the glow increase
