@@ -5,14 +5,23 @@ using NETWORK_ENGINE;
 
 public class Base : NetworkComponent
 {
-    Material pink, green, blue, orange;
-    MeshRenderer baseFloor;
+    public Material pink, green, blue, orange;
+    public MeshRenderer baseFloor;
+    public int team;
+
 
     public override void HandleMessage(string flag, string value)
     {
         if (flag == "COLOR")
         {
             ColorSet(int.Parse(value));
+        }
+        if (flag == "TEAM")
+        {
+            if (IsServer)
+            {
+                team = int.Parse(value);
+            }
         }
     }
 
