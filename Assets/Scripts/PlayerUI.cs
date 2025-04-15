@@ -12,6 +12,7 @@ public class PlayerUI : MonoBehaviour
     //set in editor
     public TextMeshProUGUI timeVal, team1Points, team2Points;
     public Image puSlot, xIcon, sewingKit, mask, food;
+    public Image h1, h2, h3;
 
     //mirrors of game master vals
     public float totalTime, currentTime;
@@ -75,6 +76,33 @@ public class PlayerUI : MonoBehaviour
                 puSlot = food;
                 break;
 
+        }
+    }
+
+    public void HealthChange(int state)
+    {
+        switch (state)
+        {
+            case 3:
+                h1.color = Color.white;
+                h2.color = Color.white;
+                h3.color = Color.white;
+                break;
+            case 2:
+                h1.color = Color.white;
+                h2.color = Color.white;
+                h3.color = Color.black;
+                break;
+            case 1:
+                h1.color = Color.white;
+                h2.color = Color.black;
+                h3.color = Color.black;
+                break;
+            case 0:
+                h1.color = Color.black;
+                h2.color = Color.black;
+                h3.color = Color.black;
+                break;
         }
     }
 
