@@ -251,6 +251,7 @@ MonoBehaviour:
   SBTeamScore:
   - {fileID: 2027021808151193126}
   - {fileID: 2821010107091030326}
+  ScoreBoard: {fileID: 5487381807971848376}
 --- !u!1 &743900652711270347
 GameObject:
   m_ObjectHideFlags: 0
@@ -1977,7 +1978,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5511306493406650767
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2749,7 +2750,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3786290117429541156
 RectTransform:
   m_ObjectHideFlags: 0
