@@ -15,6 +15,8 @@ public class PlayerMovement : NetworkComponent
     public bool isMoving = false, isStealing = false, isPowerUp = false;
     public bool cooldown = false, itemCooldown = false;
 
+    public Collider AttackSpace;
+
     public AudioClip stealSFX, powerUpGetSFX;
     public AudioSource SFX;
 
@@ -58,6 +60,33 @@ public class PlayerMovement : NetworkComponent
                 cooldown = true;
                 //StartCoroutine(Cooldown());
                 SendUpdate("STEAL", cooldown.ToString());
+
+                //check small space in front of us for collisions
+                Collider[] hits = Physics.OverlapBox(
+                    AttackSpace.bounds.center,
+                    AttackSpace.bounds.extents,
+                    AttackSpace.transform.rotation
+                );
+                //if we hit a player, steal from them
+                foreach (Collider col in hits)
+                {
+                    if (col.gameObject.CompareTag("Player"))
+                    {
+                        //whatever we do to other player
+                        //stun?
+                        col.GetComponent<PlayerCharacter>().StartCoroutine(col.GetComponent<PlayerCharacter>().stunPlayer());
+
+                        PlayerCharacter ME = this.gameObject.GetComponent<PlayerCharacter>();
+                        ME.PlayerPF += col.GetComponent<PlayerCharacter>().PlayerPF;
+                        col.GetComponent<PlayerCharacter>().PlayerPF = 0;
+                        ME.PlayerCF += col.GetComponent<PlayerCharacter>().PlayerCF;
+                        ME.PlayerScore += col.GetComponent<PlayerCharacter>().PlayerScore;
+                        col.GetComponent<PlayerCharacter>().PlayerScore = 0;
+
+                        //send visual effects to tagged player?
+                        //col.GetComponent<PlayerCharacter>().SendUpdate("STOLENFROM", "1");
+                    }
+                }
             }
             if (IsClient)
             {
@@ -191,10 +220,14 @@ public class PlayerMovement : NetworkComponent
         {
             if (!cooldown && IsLocalPlayer)
             {
+                
                 //GET OTHER PLAYER DETAILS AND PUT THEM HERE INSTEAD OF BEEP
                 //OR MAKE SERVER FIND OUT WHO IS NEAR ENOUGH TO STEAL FROM
+
+                //we handle targets on server in handle message
                 SendCommand("STEAL", "BEEP");
                 MakeSound(0);
+                
             }
         }
     }

@@ -161,12 +161,34 @@ public class PlayerCharacter : NetworkComponent
             }
             else 
             {
-                float cameraSpeed = 5.0f;
-                Vector3 offsetVector = new Vector3(0, 40, -25);
-                Vector3 targetCameraPosition = this.gameObject.transform.position + offsetVector;
-                Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetCameraPosition, cameraSpeed * Time.deltaTime);
-                //orient
-                Camera.main.transform.LookAt(this.gameObject.transform.position);
+                //works but movement would need to be turned 90 degrees depending on team
+                /*
+                if(PTeam == "Team1")
+                {
+                    float cameraSpeed = 5.0f;
+                    Vector3 offsetVector = new Vector3(-25, 40, 0);
+                    Vector3 targetCameraPosition = this.gameObject.transform.position + offsetVector;
+                    Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetCameraPosition, cameraSpeed * Time.deltaTime);
+                    //orient
+                    Camera.main.transform.LookAt(this.gameObject.transform.position);
+                }
+                else if(PTeam == "Team2")
+                {
+                    float cameraSpeed = 5.0f;
+                    Vector3 offsetVector = new Vector3(25, 40, 0);
+                    Vector3 targetCameraPosition = this.gameObject.transform.position + offsetVector;
+                    Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetCameraPosition, cameraSpeed * Time.deltaTime);
+                    //orient
+                    Camera.main.transform.LookAt(this.gameObject.transform.position);
+                } else
+                {*/
+                    float cameraSpeed = 5.0f;
+                    Vector3 offsetVector = new Vector3(0, 40, -25);
+                    Vector3 targetCameraPosition = this.gameObject.transform.position + offsetVector;
+                    Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetCameraPosition, cameraSpeed * Time.deltaTime);
+                    //orient
+                    Camera.main.transform.LookAt(this.gameObject.transform.position);
+                //}
             }
                 
         }
