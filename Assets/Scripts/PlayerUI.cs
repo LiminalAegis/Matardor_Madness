@@ -18,6 +18,8 @@ public class PlayerUI : MonoBehaviour
 
     public IEnumerator StartMatchUI(float matchLength)
     {
+        this.transform.GetChild(0).gameObject.SetActive(true);
+        this.transform.GetChild(1).gameObject.SetActive(true);
         totalTime = matchLength;
         currentTime = matchLength;
         timeVal.text = currentTime.ToString("N").Replace(".", ":");
