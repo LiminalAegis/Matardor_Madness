@@ -2225,6 +2225,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1682130398
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2468388493992771694, guid: 19df4917ec3969f4fbcdf8f3dcf03794, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -12.678369
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468388493992771694, guid: 19df4917ec3969f4fbcdf8f3dcf03794, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468388493992771694, guid: 19df4917ec3969f4fbcdf8f3dcf03794, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -22.938227
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468388493992771694, guid: 19df4917ec3969f4fbcdf8f3dcf03794, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468388493992771694, guid: 19df4917ec3969f4fbcdf8f3dcf03794, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468388493992771694, guid: 19df4917ec3969f4fbcdf8f3dcf03794, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468388493992771694, guid: 19df4917ec3969f4fbcdf8f3dcf03794, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468388493992771694, guid: 19df4917ec3969f4fbcdf8f3dcf03794, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468388493992771694, guid: 19df4917ec3969f4fbcdf8f3dcf03794, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468388493992771694, guid: 19df4917ec3969f4fbcdf8f3dcf03794, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2957364041324534484, guid: 19df4917ec3969f4fbcdf8f3dcf03794, type: 3}
+      propertyPath: m_Name
+      value: Crimson Longhorn
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 19df4917ec3969f4fbcdf8f3dcf03794, type: 3}
 --- !u!1001 &1709122091
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3465,6 +3522,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5511306493406650767, guid: 6f08989daa79edd40a82d1f5c2386241, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5511306493406650767, guid: 6f08989daa79edd40a82d1f5c2386241, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7474500958573748454, guid: 6f08989daa79edd40a82d1f5c2386241, type: 3}
       propertyPath: SpawnPoints.Array.data[0]
       value: 
@@ -3739,3 +3804,4 @@ SceneRoots:
   - {fileID: 1709122091}
   - {fileID: 1580584078}
   - {fileID: 433605377}
+  - {fileID: 1682130398}
