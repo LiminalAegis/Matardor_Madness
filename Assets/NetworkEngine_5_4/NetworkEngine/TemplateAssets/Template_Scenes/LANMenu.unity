@@ -435,7 +435,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 193353658626778737, guid: 2733765a123db3749b88caa1ecd96be5, type: 3}
       propertyPath: m_Name
-      value: LeftFlag
+      value: Flag
       objectReference: {fileID: 0}
     - target: {fileID: 4972210155713180257, guid: 2733765a123db3749b88caa1ecd96be5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -848,7 +848,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5087337977692586550, guid: d4e32db0f0bbe9849b272a6489639c78, type: 3}
       propertyPath: m_Name
-      value: Basic Bull
+      value: basic_bull_alt
       objectReference: {fileID: 0}
     - target: {fileID: 5607555770217977996, guid: d4e32db0f0bbe9849b272a6489639c78, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1996,7 +1996,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 193353658626778737, guid: 2733765a123db3749b88caa1ecd96be5, type: 3}
       propertyPath: m_Name
-      value: RightFlag
+      value: Flag
       objectReference: {fileID: 0}
     - target: {fileID: 4972210155713180257, guid: 2733765a123db3749b88caa1ecd96be5, type: 3}
       propertyPath: m_LocalPosition.x
