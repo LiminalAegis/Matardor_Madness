@@ -31,7 +31,7 @@ public class LauncherScript : NetworkComponent
 
                 //do visual effects for pickup
                 //disable floating object effect
-                this.GetComponent<MeshRenderer>().enabled = false;
+                transform.GetChild(0).gameObject.SetActive(false);
             }
         }
 

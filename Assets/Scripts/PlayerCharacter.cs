@@ -14,7 +14,7 @@ public class PlayerCharacter : NetworkComponent
     public int ColorSelected = -1;
     public string PName = "<Default>";
     public string PTeam; //Team1 or Team2
-    public int PlayerNum;
+    public int PlayerNum; //1, 2 for team1 | 3,4 for team2
     public int PlayerHp = 3;
     public int PlayerScore = 0;
     public int PlayerScoreTotal = 0;
@@ -100,6 +100,10 @@ public class PlayerCharacter : NetworkComponent
             {
                 IsDead = false;
             }
+            if(flag == "HEAL" && IsLocalPlayer)
+            {
+                PlayerHp += int.Parse(value);
+            }
 
             //removed local player since all players should see the glow increase
             if (flag == "FLAG")
@@ -157,12 +161,34 @@ public class PlayerCharacter : NetworkComponent
             }
             else 
             {
-                float cameraSpeed = 5.0f;
-                Vector3 offsetVector = new Vector3(0, 40, -25);
-                Vector3 targetCameraPosition = this.gameObject.transform.position + offsetVector;
-                Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetCameraPosition, cameraSpeed * Time.deltaTime);
-                //orient
-                Camera.main.transform.LookAt(this.gameObject.transform.position);
+                //works but movement would need to be turned 90 degrees depending on team
+                /*
+                if(PTeam == "Team1")
+                {
+                    float cameraSpeed = 5.0f;
+                    Vector3 offsetVector = new Vector3(-25, 40, 0);
+                    Vector3 targetCameraPosition = this.gameObject.transform.position + offsetVector;
+                    Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetCameraPosition, cameraSpeed * Time.deltaTime);
+                    //orient
+                    Camera.main.transform.LookAt(this.gameObject.transform.position);
+                }
+                else if(PTeam == "Team2")
+                {
+                    float cameraSpeed = 5.0f;
+                    Vector3 offsetVector = new Vector3(25, 40, 0);
+                    Vector3 targetCameraPosition = this.gameObject.transform.position + offsetVector;
+                    Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetCameraPosition, cameraSpeed * Time.deltaTime);
+                    //orient
+                    Camera.main.transform.LookAt(this.gameObject.transform.position);
+                } else
+                {*/
+                    float cameraSpeed = 5.0f;
+                    Vector3 offsetVector = new Vector3(0, 40, -25);
+                    Vector3 targetCameraPosition = this.gameObject.transform.position + offsetVector;
+                    Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetCameraPosition, cameraSpeed * Time.deltaTime);
+                    //orient
+                    Camera.main.transform.LookAt(this.gameObject.transform.position);
+                //}
             }
                 
         }

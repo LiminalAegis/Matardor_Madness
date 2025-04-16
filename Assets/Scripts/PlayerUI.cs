@@ -11,18 +11,23 @@ public class PlayerUI : MonoBehaviour
 
     //set in editor
     public TextMeshProUGUI timeVal, team1Points, team2Points;
+    public Image puSlot, xIcon, sewingKit, mask, food;
+    public Image h1, h2, h3;
 
     //mirrors of game master vals
     public float totalTime, currentTime;
 
     public IEnumerator StartMatchUI(float matchLength)
     {
+        this.transform.GetChild(0).gameObject.SetActive(true);
+        this.transform.GetChild(1).gameObject.SetActive(true);
         totalTime = matchLength;
         currentTime = matchLength;
         timeVal.text = currentTime.ToString("N").Replace(".", ":");
         //countdown timer here
         yield return new WaitForSeconds(3);
         //trigger the GameRunningUI coroutine here
+        StartCoroutine(GameRunningUI());
     }
 
     public IEnumerator GameRunningUI()
@@ -54,6 +59,52 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
+    public void PowerUpVisual(int image)
+    {
+        switch (image)
+        {
+            case 0: // no PU
+                puSlot =xIcon;
+                break;
+            case 1:
+                puSlot = sewingKit;
+                break;
+            case 2:
+                puSlot = mask;
+                break;
+            case 3:
+                puSlot = food;
+                break;
+
+        }
+    }
+
+    public void HealthChange(int state)
+    {
+        switch (state)
+        {
+            case 3:
+                h1.color = Color.white;
+                h2.color = Color.white;
+                h3.color = Color.white;
+                break;
+            case 2:
+                h1.color = Color.white;
+                h2.color = Color.white;
+                h3.color = Color.black;
+                break;
+            case 1:
+                h1.color = Color.white;
+                h2.color = Color.black;
+                h3.color = Color.black;
+                break;
+            case 0:
+                h1.color = Color.black;
+                h2.color = Color.black;
+                h3.color = Color.black;
+                break;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
