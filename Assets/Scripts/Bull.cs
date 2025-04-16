@@ -119,28 +119,31 @@ public class Bull : NetworkComponent
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Contact with " + other.name);
-        if (other.CompareTag("AGGRO")) //if the bull hits an aggro collider...
+        if (IsServer)
         {
-            GameObject aggroOwner = other.transform.parent.gameObject;
-            if (!isResting || aggroOwner != lastTagged)
-            { //only rush at players, not bulls
-                lastTagged = aggroOwner;
-                Rush(other.gameObject.transform.parent.gameObject);
-            }
-        }
-        if(other.CompareTag("Player")) //if bull hits an actual player
-        {
-            if (other.gameObject.GetComponent<PlayerCharacter>() != null)
+            Debug.Log("Contact with " + other.name);
+            if (other.CompareTag("AGGRO")) //if the bull hits an aggro collider...
             {
-                //THIS CHECK ISNT RIGHT
-                //placeholder for bull mask stun check
-                StartCoroutine(Stunned());
+                GameObject aggroOwner = other.transform.parent.gameObject;
+                if (!isResting || aggroOwner != lastTagged)
+                { //only rush at players, not bulls
+                    lastTagged = aggroOwner;
+                    Rush(other.gameObject.transform.parent.gameObject);
+                }
             }
-            StopCoroutine("Rushing");
-            isResting = true;
-            if(isRushing) isRushing = false;
-            StartCoroutine(Rest());
+            if (other.CompareTag("Player")) //if bull hits an actual player
+            {
+                if (other.gameObject.GetComponent<PlayerCharacter>() != null)
+                {
+                    //THIS CHECK ISNT RIGHT
+                    //placeholder for bull mask stun check
+                    StartCoroutine(Stunned());
+                }
+                StopCoroutine("Rushing");
+                isResting = true;
+                if (isRushing) isRushing = false;
+                StartCoroutine(Rest());
+            }
         }
     }
 

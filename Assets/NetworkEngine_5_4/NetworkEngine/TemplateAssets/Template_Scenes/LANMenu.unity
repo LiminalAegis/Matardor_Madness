@@ -435,7 +435,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 193353658626778737, guid: 2733765a123db3749b88caa1ecd96be5, type: 3}
       propertyPath: m_Name
-      value: Flag
+      value: LeftFlag
       objectReference: {fileID: 0}
     - target: {fileID: 4972210155713180257, guid: 2733765a123db3749b88caa1ecd96be5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -848,7 +848,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5087337977692586550, guid: d4e32db0f0bbe9849b272a6489639c78, type: 3}
       propertyPath: m_Name
-      value: basic_bull_alt
+      value: Basic Bull
       objectReference: {fileID: 0}
     - target: {fileID: 5607555770217977996, guid: d4e32db0f0bbe9849b272a6489639c78, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1996,7 +1996,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 193353658626778737, guid: 2733765a123db3749b88caa1ecd96be5, type: 3}
       propertyPath: m_Name
-      value: Flag (1)
+      value: RightFlag
       objectReference: {fileID: 0}
     - target: {fileID: 4972210155713180257, guid: 2733765a123db3749b88caa1ecd96be5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4029,6 +4029,8 @@ SceneRoots:
   - {fileID: 1652405345}
   - {fileID: 2093094157}
   - {fileID: 408742996}
+  - {fileID: 1489328088}
+  - {fileID: 1682130398}
   - {fileID: 251376335}
   - {fileID: 118766120}
   - {fileID: 1412077480}
@@ -4036,12 +4038,10 @@ SceneRoots:
   - {fileID: 1359201145129132124}
   - {fileID: 1777052136}
   - {fileID: 433605377}
-  - {fileID: 1682130398}
   - {fileID: 1580584078}
   - {fileID: 907337937}
   - {fileID: 4704032804341361311}
   - {fileID: 1709122091}
   - {fileID: 1088043200}
-  - {fileID: 1489328088}
   - {fileID: 117580663}
   - {fileID: 2941634}
