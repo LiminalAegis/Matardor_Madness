@@ -82,19 +82,19 @@ public class GameMaster : NetworkComponent
             {
                 string[] scoreInfo = value.Split(',');
                 int num = int.Parse(scoreInfo[1]);
-                SBScore[num].GetComponent<TextMeshProUGUI>().text = scoreInfo[0];
+                SBScore[num].GetComponent<TextMeshProUGUI>().text = "Score: " + scoreInfo[0];
             }
             if(flag == "SBPF")
             {
                 string[] pfInfo = value.Split(',');
                 int num = int.Parse(pfInfo[1]);
-                SBPF[num].GetComponent<TextMeshProUGUI>().text = pfInfo[0];
+                SBPF[num].GetComponent<TextMeshProUGUI>().text = "PF: " + pfInfo[0];
             }
             if(flag == "SBCF")
             {
                 string[] cfInfo = value.Split(',');
                 int num = int.Parse(cfInfo[1]);
-                SBCF[num].GetComponent<TextMeshProUGUI>().text = cfInfo[0];
+                SBCF[num].GetComponent<TextMeshProUGUI>().text = "CF: " + cfInfo[0];
             }
             //team scores: "score, int" int should be 0 if lost, 1 if won, 3 if tie
             if(flag == "TEAM1SCORE")
