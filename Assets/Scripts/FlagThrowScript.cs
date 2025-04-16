@@ -108,7 +108,11 @@ public class FlagThrowScript : NetworkComponent
     {
         if (IsServer)
         {
-            if(JustThrown)
+            if(other.gameObject.CompareTag("WALL"))
+            {
+                rb.velocity = -rb.velocity * 0.1f;
+            }
+            if (JustThrown)
             {
                 return;
             }
