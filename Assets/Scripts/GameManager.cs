@@ -132,6 +132,13 @@ public class GameMaster : NetworkComponent
                     SBTeamScore[1].GetComponent<TextMeshProUGUI>().text = "Team 2 Tied with " + t1sInfo[0] + " Points";
                 }
             }
+            if(flag == "SCOREDISPLAY")
+            {
+                string[] temp = value.Split(",");
+                PlayerUI ui = FindObjectOfType<PlayerUI>();
+                ui.ScoreUpdate(1, int.Parse(temp[0]));
+                ui.ScoreUpdate(2, int.Parse(temp[1]));
+            }
         }
 
         if(IsServer)
@@ -146,7 +153,9 @@ public class GameMaster : NetworkComponent
                 if (value == "Team2")
                 {
                     Team2Score++;
+                    ;
                 }
+                SendUpdate("SCOREDISPLAY", Team1Score.ToString() + "," + Team2Score.ToString());
             }
         }
         
