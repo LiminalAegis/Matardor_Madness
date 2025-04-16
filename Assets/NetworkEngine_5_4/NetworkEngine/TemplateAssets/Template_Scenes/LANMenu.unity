@@ -930,6 +930,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 315324433}
   m_CullTransparentMesh: 0
+--- !u!1001 &385176761
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2547270538006541917, guid: 67e9d03b889595c44b37425389e67144, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547270538006541917, guid: 67e9d03b889595c44b37425389e67144, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547270538006541917, guid: 67e9d03b889595c44b37425389e67144, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -15.093693
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547270538006541917, guid: 67e9d03b889595c44b37425389e67144, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.000000053385083
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547270538006541917, guid: 67e9d03b889595c44b37425389e67144, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547270538006541917, guid: 67e9d03b889595c44b37425389e67144, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547270538006541917, guid: 67e9d03b889595c44b37425389e67144, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.000000053385072
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547270538006541917, guid: 67e9d03b889595c44b37425389e67144, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547270538006541917, guid: 67e9d03b889595c44b37425389e67144, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547270538006541917, guid: 67e9d03b889595c44b37425389e67144, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2887486457583430887, guid: 67e9d03b889595c44b37425389e67144, type: 3}
+      propertyPath: m_Name
+      value: flaregun
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 67e9d03b889595c44b37425389e67144, type: 3}
 --- !u!1 &400750376
 GameObject:
   m_ObjectHideFlags: 0
@@ -4945,3 +5002,4 @@ SceneRoots:
   - {fileID: 3625069445241259676}
   - {fileID: 1359201145129132124}
   - {fileID: 1777052136}
+  - {fileID: 385176761}
