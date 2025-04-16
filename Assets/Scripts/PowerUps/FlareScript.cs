@@ -23,7 +23,7 @@ public class FlareScript : NetworkComponent
 
                 //do visual effects for pickup
                 //disable floating object effect
-                this.GetComponent<MeshRenderer>().enabled = false;
+                transform.GetChild(0).gameObject.SetActive(false);
             }
 
         }
@@ -95,7 +95,7 @@ public class FlareScript : NetworkComponent
                 PickedUp = true;
                 OwnerPlayer = other.gameObject;
                 other.gameObject.GetComponent<PlayerCharacter>().PowerUp = this.gameObject;
-                this.GetComponent<MeshRenderer>().enabled = false;
+                transform.GetChild(0).gameObject.SetActive(false);
 
                 SendUpdate("PICKEDUP", other.GetComponent<PlayerCharacter>().PlayerNum.ToString());
             }
