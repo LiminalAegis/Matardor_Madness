@@ -72,6 +72,11 @@ public class PlayerMovement : NetworkComponent
                 {
                     if (col.gameObject.CompareTag("Player"))
                     {
+                        if(col.GetComponent<PlayerCharacter>().PTeam == this.gameObject.GetComponent<PlayerCharacter>().PTeam)
+                        {
+                            //self or friendly fire, dont steal from teammates
+                            return;
+                        }
                         //whatever we do to other player
                         //stun?
                         col.GetComponent<PlayerCharacter>().StartCoroutine(col.GetComponent<PlayerCharacter>().stunPlayer());
