@@ -127,7 +127,7 @@ public class PowerUpSpawner : NetworkComponent
                             LastSpawnTime = Time.time;
 
                             //random power up
-                            int powerupIndex = Random.Range(0, numOfPowers - 1);
+                            int powerupIndex = Random.Range(0, numOfPowers );
 
                             //find available spawn point
                             /*
