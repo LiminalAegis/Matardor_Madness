@@ -98,6 +98,7 @@ public class FlareScript : NetworkComponent
                 transform.GetChild(0).gameObject.SetActive(false);
 
                 SendUpdate("PICKEDUP", other.GetComponent<PlayerCharacter>().PlayerNum.ToString());
+                other.gameObject.GetComponent<PlayerMovement>().SendUpdate("LAUNCHER", "false");
             }
         }
     }

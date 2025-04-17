@@ -13,6 +13,7 @@ public class FoodScript : NetworkComponent
     ///Powerup variables
     public float SpeedMulti = 2f;
     public float PowerDuration = 5f;
+    public bool used = false;
 
 
 
@@ -35,6 +36,12 @@ public class FoodScript : NetworkComponent
     }
     public void UsePower()
     {
+        if (used)
+        {
+            return;
+        }
+        used = true;
+
         float tempSpeed = OwnerPlayer.GetComponent<PlayerMovement>().speed *= SpeedMulti;
         OwnerPlayer.GetComponent<PlayerMovement>().speed = tempSpeed;
         StartCoroutine(EndPowerUp());
@@ -106,6 +113,7 @@ public class FoodScript : NetworkComponent
                 transform.GetChild(0).gameObject.SetActive(false);
 
                 SendUpdate("PICKEDUP", other.GetComponent<PlayerCharacter>().PlayerNum.ToString());
+                other.gameObject.GetComponent<PlayerMovement>().SendUpdate("LAUNCHER", "false");
             }
         }
     }
