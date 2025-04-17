@@ -233,7 +233,7 @@ public class Bull : NetworkComponent
        
         if (agent.remainingDistance <= 0.1 || agent.isPathStale) //REMOVE AFTER TESTING
         {
-            Roam();
+            //Roam();
         }
         if (IsClient)
         {
