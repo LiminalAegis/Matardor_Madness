@@ -32,6 +32,10 @@ public class PlayerCharacter : NetworkComponent
     public Animator MyAnime;
     public Rigidbody MyRig;
 
+    //audio vars
+    public AudioClip death, stun, steal;
+    public MatchAudio matchAudio;
+
     public override void HandleMessage(string flag, string value)
     {
         if (IsClient)
@@ -88,12 +92,20 @@ public class PlayerCharacter : NetworkComponent
             if(flag == "HIT" && IsLocalPlayer)
             {
                 PlayerHp = int.Parse(value);
+                if (matchAudio != null)
+                {
+                    matchAudio.SFX(4);
+                }
                 StartCoroutine(stunPlayer());
                 //do hit visual effects
             }
             if(flag == "DEAD" && IsLocalPlayer)
             {
                 IsDead = true;
+                if (matchAudio != null)
+                {
+                    matchAudio.SFX(2);
+                }
                 //start showing a respawn timer?
             }
             if(flag == "ALIVE" && IsLocalPlayer)
@@ -121,6 +133,7 @@ public class PlayerCharacter : NetworkComponent
         MyRig = GetComponent<Rigidbody>();
         MyMap = MyInput.actions;
         MyRig.velocity = Vector3.zero;
+        matchAudio = FindObjectOfType<MatchAudio>();
     }
 
     public override IEnumerator SlowUpdate()
@@ -396,7 +409,10 @@ public class PlayerCharacter : NetworkComponent
                         PlayerScoreTotal += PlayerScore;
                         PlayerScore = 0;
                     }
-
+                    if (matchAudio != null)
+                    {
+                        matchAudio.SFX(3);
+                    }
                 }
             }
             //just pick up the score?
