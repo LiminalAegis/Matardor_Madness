@@ -68,10 +68,21 @@ MonoBehaviour:
   MyCore: {fileID: 0}
   MyId: {fileID: 0}
   IsDirty: 0
+  numOfPowers: 5
   PowerUps:
-  - {fileID: 0}
+  - {fileID: 6662736405431048686, guid: 75cde4b953eb54e4c8ca8fd923648616, type: 3}
+  - {fileID: 1010463709957529917, guid: 7a640dbae6a386040bb39192644ecb59, type: 3}
+  - {fileID: 1527666131689784739, guid: 2a3066c4c26b1804d9135e7a94fa0a7e, type: 3}
+  - {fileID: 4317614814563054552, guid: b236d91f5ca813d49951eba86c25f517, type: 3}
+  - {fileID: 2632965484924255571, guid: 11e5c3d6728f6b34c96ff01ba534076c, type: 3}
   SpawnPoints:
-  - {fileID: 1038295445066632170}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  usedSpawnPoints: []
   LastSpawnTime: 0
-  SpawnRate: 5
+  SpawnRate: 10
   Started: 0
+  PowerUpsAtOnce: 4
