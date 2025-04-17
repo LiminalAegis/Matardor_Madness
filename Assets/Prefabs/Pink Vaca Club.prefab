@@ -132,6 +132,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 51a9f3482012b6649b3af81846c7bed0, type: 2}
+    - target: {fileID: 688353231540330070, guid: d4e32db0f0bbe9849b272a6489639c78, type: 3}
+      propertyPath: avoidancePriority
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 4450006408321457805, guid: d4e32db0f0bbe9849b272a6489639c78, type: 3}
       propertyPath: strength
       value: 10
