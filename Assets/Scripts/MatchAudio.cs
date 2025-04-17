@@ -52,7 +52,7 @@ public class MatchAudio : MonoBehaviour
             case 4: //stunned
                 temp = stunned;
                 break;
-            case 5:
+            case 5: //flare
                 temp = flare;
                 break;
         }
