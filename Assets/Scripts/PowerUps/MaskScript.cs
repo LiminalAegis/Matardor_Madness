@@ -92,6 +92,7 @@ public class MaskScript : NetworkComponent
                 other.gameObject.GetComponent<PlayerCharacter>().PowerUp = this.gameObject;
                 this.GetComponent<MeshRenderer>().enabled = false;
                 SendUpdate("PICKEDUP", other.GetComponent<PlayerCharacter>().PlayerNum.ToString());
+                other.gameObject.GetComponent<PlayerMovement>().SendUpdate("LAUNCHER", "false");
             }
         }
     }
