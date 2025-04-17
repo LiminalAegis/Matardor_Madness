@@ -6,7 +6,7 @@ using static Unity.VisualScripting.Member;
 
 public class MatchAudio : MonoBehaviour
 {
-    public AudioClip matchMusic, tackle, whistle, death, score, stunned, button, flare;
+    public AudioClip matchMusic, finalMin, tackle, whistle, death, score, stunned, button, flare;
     public AudioSource music, sfx;
 
     // Start is called before the first frame update
@@ -121,6 +121,8 @@ public class MatchAudio : MonoBehaviour
             case 0: //normal match music
                 break;
             case 1: //last minute rush
+                music.clip = finalMin;
+                music.Play();
                 break;
         }
     }

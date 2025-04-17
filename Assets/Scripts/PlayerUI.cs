@@ -13,6 +13,7 @@ public class PlayerUI : MonoBehaviour
     public TextMeshProUGUI timeVal, team1Points, team2Points;
     public Image puSlot, xIcon, sewingKit, mask, food;
     public Image h1, h2, h3;
+    bool lastMin = false;
 
     //mirrors of game master vals
     public float totalTime, currentTime;
@@ -23,6 +24,7 @@ public class PlayerUI : MonoBehaviour
         this.transform.GetChild(1).gameObject.SetActive(true);
         totalTime = matchLength;
         currentTime = matchLength;
+        if (matchLength < 60) lastMin = true;
         timeVal.text = currentTime.ToString("N").Replace(".", ":");
         //countdown timer here
         yield return new WaitForSeconds(3);
@@ -37,6 +39,15 @@ public class PlayerUI : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             currentTime -= 0.1f;
             timeVal.text = currentTime <= 0 ? "00:00" : currentTime.ToString("N").Replace(".", ":");
+            if (currentTime <= 60 && !lastMin)
+            {
+                lastMin = true;
+                MatchAudio matchAudio = FindObjectOfType<MatchAudio>();
+                if (matchAudio != null)
+                {
+                    matchAudio.Music(1);
+                }
+            }
             if(currentTime <= 0)
             {
                 //game end UI coroutine start here
