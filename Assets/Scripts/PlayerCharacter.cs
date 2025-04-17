@@ -264,7 +264,7 @@ public class PlayerCharacter : NetworkComponent
             if (other.gameObject.tag == "ENEMY")
             {
                 //if bull mask is powerup
-                if (PowerUp.GetComponent<MaskScript>() != null)
+                if (PowerUp != null && PowerUp.GetComponent<MaskScript>() != null)
                 {
                     //this syntax sucks ass
                     other.gameObject.GetComponent<Bull>().StartCoroutine(other.gameObject.GetComponent<Bull>().Stunned());

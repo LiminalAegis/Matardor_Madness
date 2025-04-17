@@ -4034,42 +4034,6 @@ PrefabInstance:
       value: PowerUpSpawner
       objectReference: {fileID: 0}
     - target: {fileID: 3236165675621380325, guid: cf00c94f7d47b8240984f24d75c8ab81, type: 3}
-      propertyPath: Started
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3236165675621380325, guid: cf00c94f7d47b8240984f24d75c8ab81, type: 3}
-      propertyPath: SpawnRate
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3236165675621380325, guid: cf00c94f7d47b8240984f24d75c8ab81, type: 3}
-      propertyPath: PowerUps.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3236165675621380325, guid: cf00c94f7d47b8240984f24d75c8ab81, type: 3}
-      propertyPath: PowerUps.Array.data[0]
-      value: 
-      objectReference: {fileID: 6662736405431048686, guid: 75cde4b953eb54e4c8ca8fd923648616, type: 3}
-    - target: {fileID: 3236165675621380325, guid: cf00c94f7d47b8240984f24d75c8ab81, type: 3}
-      propertyPath: PowerUps.Array.data[1]
-      value: 
-      objectReference: {fileID: 1010463709957529917, guid: 7a640dbae6a386040bb39192644ecb59, type: 3}
-    - target: {fileID: 3236165675621380325, guid: cf00c94f7d47b8240984f24d75c8ab81, type: 3}
-      propertyPath: PowerUps.Array.data[2]
-      value: 
-      objectReference: {fileID: 1527666131689784739, guid: 2a3066c4c26b1804d9135e7a94fa0a7e, type: 3}
-    - target: {fileID: 3236165675621380325, guid: cf00c94f7d47b8240984f24d75c8ab81, type: 3}
-      propertyPath: PowerUps.Array.data[3]
-      value: 
-      objectReference: {fileID: 4317614814563054552, guid: b236d91f5ca813d49951eba86c25f517, type: 3}
-    - target: {fileID: 3236165675621380325, guid: cf00c94f7d47b8240984f24d75c8ab81, type: 3}
-      propertyPath: PowerUps.Array.data[4]
-      value: 
-      objectReference: {fileID: 2632965484924255571, guid: 11e5c3d6728f6b34c96ff01ba534076c, type: 3}
-    - target: {fileID: 3236165675621380325, guid: cf00c94f7d47b8240984f24d75c8ab81, type: 3}
-      propertyPath: SpawnPoints.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3236165675621380325, guid: cf00c94f7d47b8240984f24d75c8ab81, type: 3}
       propertyPath: SpawnPoints.Array.data[0]
       value: 
       objectReference: {fileID: 1976816730}
@@ -4081,6 +4045,14 @@ PrefabInstance:
       propertyPath: SpawnPoints.Array.data[2]
       value: 
       objectReference: {fileID: 485285096}
+    - target: {fileID: 3236165675621380325, guid: cf00c94f7d47b8240984f24d75c8ab81, type: 3}
+      propertyPath: SpawnPoints.Array.data[3]
+      value: 
+      objectReference: {fileID: 122315013}
+    - target: {fileID: 3236165675621380325, guid: cf00c94f7d47b8240984f24d75c8ab81, type: 3}
+      propertyPath: SpawnPoints.Array.data[4]
+      value: 
+      objectReference: {fileID: 1652405345}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
