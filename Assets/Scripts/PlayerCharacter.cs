@@ -82,7 +82,7 @@ public class PlayerCharacter : NetworkComponent
                 PlayerMat = this.gameObject.transform.GetChild(0);
                 PlayerMat.GetComponent<Renderer>().material = MColor[ColorSelected];
                 GetComponent<SpriteRenderer>().color = MColor[ColorSelected].color;
-
+                //we need to change base color here too, or send a signal
 
             }
             if(flag == "NUM")
