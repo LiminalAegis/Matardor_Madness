@@ -109,17 +109,17 @@ public class PlayerUI : MonoBehaviour
             case 2:
                 h1.color = Color.white;
                 h2.color = Color.white;
-                h3.color = Color.black;
+                h3.color = Color.gray;
                 break;
             case 1:
                 h1.color = Color.white;
-                h2.color = Color.black;
-                h3.color = Color.black;
+                h2.color = Color.gray;
+                h3.color = Color.gray;
                 break;
             case 0:
-                h1.color = Color.black;
-                h2.color = Color.black;
-                h3.color = Color.black;
+                h1.color = Color.gray;
+                h2.color = Color.gray;
+                h3.color = Color.gray;
                 break;
         }
     }
