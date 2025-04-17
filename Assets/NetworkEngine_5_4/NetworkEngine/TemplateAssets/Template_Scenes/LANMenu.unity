@@ -751,6 +751,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MatchAudioObject
       objectReference: {fileID: 0}
+    - target: {fileID: 9031089650330078774, guid: 1c20428312a815741980fcb01334cc34, type: 3}
+      propertyPath: flare
+      value: 
+      objectReference: {fileID: 8300000, guid: 273b4a2b5a733144fa875474ebf9bdf0, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

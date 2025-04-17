@@ -6,7 +6,7 @@ using static Unity.VisualScripting.Member;
 
 public class MatchAudio : MonoBehaviour
 {
-    public AudioClip matchMusic, tackle, whistle, death, score, stunned, button;
+    public AudioClip matchMusic, tackle, whistle, death, score, stunned, button, flare;
     public AudioSource music, sfx;
 
     // Start is called before the first frame update
@@ -51,6 +51,9 @@ public class MatchAudio : MonoBehaviour
                 break;
             case 4: //stunned
                 temp = stunned;
+                break;
+            case 5:
+                temp = flare;
                 break;
         }
         if (temp != button)
