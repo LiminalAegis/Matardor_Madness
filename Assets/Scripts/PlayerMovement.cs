@@ -149,6 +149,11 @@ public class PlayerMovement : NetworkComponent
                 {
                     //play the animation here
                 }
+                PlayerUI ui = FindObjectOfType<PlayerUI>();
+                if (ui != null)
+                {
+                    ui.PowerUpVisual(0);
+                }
             }
             
         }

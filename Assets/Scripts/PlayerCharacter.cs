@@ -123,6 +123,14 @@ public class PlayerCharacter : NetworkComponent
                 //Increase cape glow
                 PlayerScore = int.Parse(value);
             }
+            if(flag == "CLEARPU" && IsLocalPlayer)
+            {
+                PlayerUI ui = FindObjectOfType<PlayerUI>();
+                if (ui != null)
+                {
+                    ui.PowerUpVisual(0);
+                }
+            }
         }
        
     }
@@ -269,6 +277,7 @@ public class PlayerCharacter : NetworkComponent
                     //this syntax sucks ass
                     other.gameObject.GetComponent<Bull>().StartCoroutine(other.gameObject.GetComponent<Bull>().Stunned());
                     MyCore.NetDestroyObject(PowerUp.GetComponent<NetworkID>().NetId);
+                    SendUpdate("CLEARPU", "");
                     return;
                 }
 

@@ -20,6 +20,11 @@ public class HealthPickupScript : NetworkComponent
             {
                 //do visual effects for pickup
                 //disable floating object effect
+                if (IsLocalPlayer)
+                {
+                    PlayerUI ui = FindObjectOfType<PlayerUI>();
+                    ui.PowerUpVisual(1);
+                }
 
             }
             if (flag == "USEPOWER")

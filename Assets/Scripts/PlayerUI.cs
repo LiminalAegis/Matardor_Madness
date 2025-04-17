@@ -11,7 +11,8 @@ public class PlayerUI : MonoBehaviour
 
     //set in editor
     public TextMeshProUGUI timeVal, team1Points, team2Points;
-    public Image puSlot, xIcon, sewingKit, mask, food;
+    public Image puSlot;
+    public Sprite xIcon, sewingKit, mask, food, glove, flare;
     public Image h1, h2, h3;
     bool lastMin = false;
 
@@ -75,16 +76,22 @@ public class PlayerUI : MonoBehaviour
         switch (image)
         {
             case 0: // no PU
-                puSlot =xIcon;
+                puSlot.sprite = xIcon;
                 break;
             case 1:
-                puSlot = sewingKit;
+                puSlot.sprite = sewingKit;
                 break;
             case 2:
-                puSlot = mask;
+                puSlot.sprite = mask;
                 break;
             case 3:
-                puSlot = food;
+                puSlot.sprite = food;
+                break;
+            case 4:
+                puSlot.sprite = glove;
+                break;
+            case 5:
+                puSlot.sprite = flare;
                 break;
 
         }

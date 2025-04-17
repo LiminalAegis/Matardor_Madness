@@ -25,6 +25,11 @@ public class FlareScript : NetworkComponent
                 //do visual effects for pickup
                 //disable floating object effect
                 transform.GetChild(0).gameObject.SetActive(false);
+                if (IsLocalPlayer)
+                {
+                    PlayerUI ui = FindObjectOfType<PlayerUI>();
+                    ui.PowerUpVisual(5);
+                }
             }
 
         }
