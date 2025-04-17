@@ -11,6 +11,7 @@ TagManager:
   - Audio
   - FLAG
   - WALL
+  - PowerUpSpot
   layers:
   - Default
   - TransparentFX
