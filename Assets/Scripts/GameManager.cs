@@ -177,7 +177,7 @@ public class GameMaster : NetworkComponent
             do
             {
                 players = FindObjectsOfType<NPM>();
-                allReady = players.Length >= 2; // at least 2 players
+                allReady = players.Length >= 4; // at least 2 players
                 //for matador, probably should make 4 players
 
                 foreach (NPM player in players)
