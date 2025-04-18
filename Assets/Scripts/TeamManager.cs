@@ -154,7 +154,7 @@ public class TeamManager : NetworkComponent
             }
             //set the corresponding button to be un-interactable
             SendUpdate("TEAMSELECT", type.ToString());
-            Debug.Log(type);
+            //Debug.Log(type);
         }
     }
     // Start is called before the first frame update
