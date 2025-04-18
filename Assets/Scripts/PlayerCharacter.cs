@@ -133,7 +133,10 @@ public class PlayerCharacter : NetworkComponent
             if (flag == "UI" && IsLocalPlayer)
             {
                 PlayerUI ui = FindObjectOfType<PlayerUI>();
-                ui.PowerUpVisual(int.Parse(value));
+                if (int.Parse(value) != 1)
+                {
+                    ui.PowerUpVisual(int.Parse(value));
+                }
             }
         }
        
