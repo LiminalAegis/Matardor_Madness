@@ -151,9 +151,7 @@ public class PlayerCharacter : NetworkComponent
     public override void NetworkedStart()
     {
         MyInput = GetComponent<PlayerInput>();
-        MyRig = GetComponent<Rigidbody>();
         MyMap = MyInput.actions;
-        MyRig.velocity = Vector3.zero;
         matchAudio = FindObjectOfType<MatchAudio>();
         if (matchAudio == null)
         {
@@ -183,6 +181,8 @@ public class PlayerCharacter : NetworkComponent
     // Start is called before the first frame update
     void Start()
     {
+        MyRig = GetComponent<Rigidbody>();
+        MyRig.velocity = Vector3.zero;
         MyAnime = GetComponent<Animator>();
     }
 
