@@ -307,7 +307,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00030039524}
+  m_AnchoredPosition: {x: 0, y: -0.000019220215}
   m_SizeDelta: {x: 0, y: 810.43}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &68152915
@@ -545,7 +545,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 378318156}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999815
+  m_Size: 0.9999513
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -807,9 +807,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: UI_CreateRoom
+      - m_Target: {fileID: 2124650041}
+        m_TargetAssemblyTypeName: LobbyManager2, Assembly-CSharp
+        m_MethodName: UI_CreateGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5278,7 +5278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faa3c0b1ce93b53448f5d6edda383bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OutputConsole: {fileID: 0}
+  OutputConsole: {fileID: 1649974887}
   MaxConsoleLogSize: 1024
   UsingUDP: 0
   IsListening: 0
@@ -5288,7 +5288,7 @@ MonoBehaviour:
   AppNumber: 0
   conCounter: 0
   IP: 
-  PortNumber: 0
+  PortNumber: 9000
   MaxConnections: 4
   MasterTimer: 0.05
   LocalConnectionID: -1
@@ -5313,6 +5313,7 @@ MonoBehaviour:
   - {fileID: 2184437750462976778, guid: 8a23bfad1585bf24a8e3b3afcfb30614, type: 3}
   - {fileID: 8053859683615719334, guid: 19df4917ec3969f4fbcdf8f3dcf03794, type: 3}
   - {fileID: 3728700285180760046, guid: 3227191f3ff8c42408e243cc3fb07565, type: 3}
+  - {fileID: 2538631316100269751, guid: f95a37b3b86f4d343a3cbe32269bc793, type: 3}
   NetworkPlayerManager: {fileID: 8924587938452622135, guid: 6a56e5624ffec214faff8c1ff72e434c, type: 3}
   DefaultReturnScene: 0
 --- !u!4 &2124650040
@@ -5353,24 +5354,24 @@ MonoBehaviour:
   AppNumber: 0
   conCounter: 0
   IP: 
-  PortNumber: 0
-  MaxConnections: 0
+  PortNumber: 9000
+  MaxConnections: 4
   MasterTimer: 0.05
   LocalConnectionID: -10
   CycleTrigger: 3
-  UseMenuManager: 1
+  UseMenuManager: 0
   DisconnectScreen: {fileID: 0}
   ObjectCounter: 0
   SpawnPrefab: []
   NetworkPlayerManager: {fileID: 7124888953299117985, guid: aa91568026d4b66408ee390ed8c99ee3, type: 3}
   DefaultReturnScene: 0
   publicIPAddress: 127.0.0.1
-  privateIPAddress: 23.128.112.66
-  portMininimum: 0
-  portMaxinimum: 0
+  privateIPAddress: 127.0.0.1
+  portMininimum: 9001
+  portMaxinimum: 10000
   isGameServer: 0
   isClient: 0
-  gameCore: {fileID: 0}
+  gameCore: {fileID: 2124650039}
   localGameID: 
   gameCounter: 0
   maxGameTime: 360
