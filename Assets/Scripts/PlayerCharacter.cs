@@ -10,6 +10,7 @@ public class PlayerCharacter : NetworkComponent
 {
     public TextMeshProUGUI PlayerName;
     public Transform PlayerMat;
+    public Transform CapeMat;
     public Material[] MColor;
     public int ColorSelected = -1;
     public string PName = "<Default>";
@@ -84,6 +85,8 @@ public class PlayerCharacter : NetworkComponent
                 PlayerMat = this.gameObject.transform.GetChild(0);
                 PlayerMat.GetComponent<Renderer>().material = MColor[ColorSelected];
                 //cape colors. 
+                CapeMat = this.gameObject.transform.GetChild(9);
+                CapeMat.GetComponent<Renderer>().material = MColor[(ColorSelected+4)];
                 //we need to change base color here too, or send a signal
 
             }

@@ -132,7 +132,7 @@ public class GameMaster : NetworkComponent
                     SBTeamScore[1].GetComponent<TextMeshProUGUI>().text = "Team 2 Tied with " + t1sInfo[0] + " Points";
                 }
             }
-            if(flag == "SCOREDISPLAY")
+            if(flag == "")
             {
                 string[] temp = value.Split(",");
                 PlayerUI ui = FindObjectOfType<PlayerUI>();

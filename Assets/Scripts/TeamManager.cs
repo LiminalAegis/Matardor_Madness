@@ -22,7 +22,6 @@ public class TeamManager : NetworkComponent
         {
             if(flag == "TEAMSELECT")
             {
-                Debug.Log("Is this flag even getting called");
 
                 int teamColor = int.Parse(value); 
 
@@ -74,10 +73,11 @@ public class TeamManager : NetworkComponent
                 foreach (NPM player in npm)
                 {
                     //get player color from index 
-                    //
+                    //move this elsewhere maybe? 
                     if (Team1Assigned && player.ColorSelected == Team1Color)
                     {
                         player.NPTeam = "Team1";
+                       // Debug.Log(player.NPTeam);
                     }
                     else if (Team1Assigned && player.ColorSelected != Team1Color)
                     {
@@ -117,7 +117,7 @@ public class TeamManager : NetworkComponent
     public void checker(int amount, int type)
     {
         //amount is 1 for debugging. Set it to 2 in the actual game. 
-        if (amount >= 1)
+        if (amount >= 2)
         {
             //set the corresponding button to be un-interactable
             SendUpdate("TEAMSELECT", type.ToString());
