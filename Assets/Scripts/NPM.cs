@@ -80,7 +80,7 @@ public class NPM : NetworkComponent
         if(IsLocalPlayer)
         {
             SendCommand("COLOR", c.ToString());
-            Debug.Log(c.ToString());
+            //Debug.Log(c.ToString());
         }
     }
 
