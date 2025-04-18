@@ -29,15 +29,16 @@ public class TeamManager : NetworkComponent
         {
             if (IsServer)
             {
+                int blueTotal = 0;
+                int greenTotal = 0;
+                int orangeTotal = 0;
+                int pinkTotal = 0;
+
                 NPM[] npm = Object.FindObjectsOfType<NPM>();
                 foreach (NPM player in npm)
                 {
                     //get player color from index 
                     //
-                    int blueTotal = 0;
-                    int greenTotal = 0;
-                    int orangeTotal = 0;
-                    int pinkTotal = 0;
 
                     if (player.ColorSelected == 0)
                     {
@@ -76,7 +77,8 @@ public class TeamManager : NetworkComponent
     }
     public void checker(int amount, Button type)
     {
-        if (amount >= 2)
+        //amount is 1 for debugging. Set it to 2 in the actual game. 
+        if (amount >= 1)
         {
           //set type.interactable to false. 
             Debug.Log(type);
