@@ -72,7 +72,6 @@ public class BaseFlag : NetworkComponent
     public void Respawn()
     {
         PickedUp = false;
-        this.GetComponent<Collider>().enabled = true;
         transform.GetChild(0).gameObject.SetActive(true);
         SendUpdate("RESPAWN", "1");
     }
