@@ -95,7 +95,6 @@ public class PlayerUI : MonoBehaviour
                 break;
 
         }
-        Debug.Log("PowerUp Changed to "+image);
     }
 
     public void HealthChange(int state)
