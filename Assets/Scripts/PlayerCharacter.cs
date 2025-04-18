@@ -449,6 +449,19 @@ public class PlayerCharacter : NetworkComponent
                         PlayerScoreTotal += PlayerScore;
                         TotalPlayerCF += PlayerCF - 1;
                         TotalPlayerPF += PlayerPF;
+                        if(PlayerPF > 0)
+                        {
+                            //respawn base flag
+                            BaseFlag[] baseFlags = FindObjectsOfType<BaseFlag>();
+                            foreach (BaseFlag flag in baseFlags)
+                            {
+                                if (flag.Team != PTeam)
+                                {
+                                    flag.Respawn();
+                                }
+                            }
+
+                        }
                         PlayerCF = 1;
                         PlayerPF = 0;
                         PlayerScore = 0;
@@ -459,6 +472,19 @@ public class PlayerCharacter : NetworkComponent
                         PlayerScoreTotal += PlayerScore;
                         TotalPlayerCF += PlayerCF;
                         TotalPlayerPF += PlayerPF;
+                        if (PlayerPF > 0)
+                        {
+                            //respawn base flag
+                            BaseFlag[] baseFlags = FindObjectsOfType<BaseFlag>();
+                            foreach (BaseFlag flag in baseFlags)
+                            {
+                                if (flag.Team != PTeam)
+                                {
+                                    flag.Respawn();
+                                }
+                            }
+
+                        }
                         PlayerCF = 0;
                         PlayerPF = 0;
                         PlayerScore = 0;
