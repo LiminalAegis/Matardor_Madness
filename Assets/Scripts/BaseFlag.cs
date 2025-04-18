@@ -71,6 +71,7 @@ public class BaseFlag : NetworkComponent
     //call this on enemy score or on friendly flag return
     public void Respawn()
     {
+        PickedUp = false;
         this.GetComponent<Collider>().enabled = true;
         transform.GetChild(0).gameObject.SetActive(true);
         SendUpdate("RESPAWN", "1");
@@ -78,8 +79,7 @@ public class BaseFlag : NetworkComponent
 
     public void Pickup()
     {
-        //disable the collider
-        this.GetComponent<Collider>().enabled = false;
+        PickedUp = true;
         transform.GetChild(0).gameObject.SetActive(false);
         SendUpdate("PICKUP", "1");
     }

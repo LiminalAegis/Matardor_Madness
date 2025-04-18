@@ -359,7 +359,7 @@ public class GameMaster : NetworkComponent
         foreach (PlayerCharacter PC in PCs)
         {
             //int num = PC.PlayerNum - 1;
-            int num = PC.Owner;
+            int num = PC.PlayerNum;
             Debug.Log("PlayerNum: " + num.ToString());
             //Name
             SBNames[num].GetComponent<TextMeshProUGUI>().text = PC.PName;

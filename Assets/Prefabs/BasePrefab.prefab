@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 8064194723885338832}
   - component: {fileID: 8854116707553996440}
   - component: {fileID: 5991933861628966645}
+  - component: {fileID: 1071324638209367758}
   m_Layer: 0
   m_Name: BasePrefab
-  m_TagString: Untagged
+  m_TagString: TEAM1BASE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -80,6 +81,27 @@ MonoBehaviour:
   orange: {fileID: 2100000, guid: 84c8f116bc09e904cb99033cef464b1f, type: 2}
   baseFloor: {fileID: 2247270785603646592}
   team: 0
+--- !u!65 &1071324638209367758
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2797241802930223109}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &222011332013717740
 PrefabInstance:
   m_ObjectHideFlags: 0
