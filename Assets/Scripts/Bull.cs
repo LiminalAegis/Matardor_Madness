@@ -133,12 +133,6 @@ public class Bull : NetworkComponent
             }
             if (other.CompareTag("Player")) //if bull hits an actual player
             {
-                if (other.gameObject.GetComponent<PlayerCharacter>() != null)
-                {
-                    //THIS CHECK ISNT RIGHT
-                    //placeholder for bull mask stun check
-                    StartCoroutine(Stunned());
-                }
                 StopCoroutine("Rushing");
                 isResting = true;
                 if (isRushing) isRushing = false;
