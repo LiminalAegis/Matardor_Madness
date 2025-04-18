@@ -38,11 +38,6 @@ public class FlareScript : NetworkComponent
 
     public void UsePower()
     {
-        MatchAudio mAudio = FindObjectOfType<MatchAudio>();
-        if (mAudio != null)
-        {
-            mAudio.SFX(5); //plays flare sfx
-        }
         OwnerPlayer.GetComponent<FlareCollisionScript>().Activate();
         MyCore.NetDestroyObject(this.gameObject.GetComponent<NetworkID>().NetId);
     }

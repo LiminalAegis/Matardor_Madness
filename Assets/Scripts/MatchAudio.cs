@@ -34,6 +34,7 @@ public class MatchAudio : MonoBehaviour
     {
         AudioClip temp = button;
         bool fadeOut = false;
+        sfx.Stop();
         switch (action)
         {
             case 0: //tackle
@@ -68,6 +69,10 @@ public class MatchAudio : MonoBehaviour
             {
                 sfx.PlayOneShot(temp);
             }
+        }
+        else
+        {
+            Debug.Log("No valid audio");
         }
     }
 
@@ -120,6 +125,8 @@ public class MatchAudio : MonoBehaviour
         switch (trigger)
         {
             case 0: //normal match music
+                music.clip = matchMusic;
+                music.Play();
                 break;
             case 1: //last minute rush
                 music.clip = finalMin;

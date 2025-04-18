@@ -186,7 +186,7 @@ NavMeshAgent:
   m_StoppingDistance: 0.1
   m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
-  m_AutoRepath: 0
+  m_AutoRepath: 1
   m_Height: 1.68
   m_BaseOffset: 1.72
   m_WalkableMask: 4294967295

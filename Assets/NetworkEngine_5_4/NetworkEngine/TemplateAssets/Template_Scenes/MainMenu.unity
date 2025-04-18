@@ -535,6 +535,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 377235705}
   m_CullTransparentMesh: 0
+--- !u!82 &623930354 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4786417178180883845, guid: 622871e4a668e824b8ec3d85acd3da03, type: 3}
+  m_PrefabInstance: {fileID: 1892999639886991906}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &623961288
 GameObject:
   m_ObjectHideFlags: 0
@@ -1426,6 +1431,11 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!82 &1848818360 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 414134934549243306, guid: 622871e4a668e824b8ec3d85acd3da03, type: 3}
+  m_PrefabInstance: {fileID: 1892999639886991906}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1990945961
 GameObject:
   m_ObjectHideFlags: 0
@@ -1848,6 +1858,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1235671323590653847, guid: 622871e4a668e824b8ec3d85acd3da03, type: 3}
+      propertyPath: sfx
+      value: 
+      objectReference: {fileID: 623930354}
+    - target: {fileID: 1235671323590653847, guid: 622871e4a668e824b8ec3d85acd3da03, type: 3}
+      propertyPath: music
+      value: 
+      objectReference: {fileID: 1848818360}
     - target: {fileID: 3071084747564269885, guid: 622871e4a668e824b8ec3d85acd3da03, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

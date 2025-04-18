@@ -14,6 +14,7 @@ public class PlayerUI : MonoBehaviour
     public Image puSlot;
     public Sprite xIcon, sewingKit, mask, food, glove, flare;
     public Image h1, h2, h3;
+    MatchAudio matchAudio;
     bool lastMin = false;
 
     //mirrors of game master vals
@@ -27,6 +28,7 @@ public class PlayerUI : MonoBehaviour
         currentTime = matchLength;
         if (matchLength < 60) lastMin = true;
         timeVal.text = currentTime.ToString("N").Replace(".", ":");
+        matchAudio.Music(0);
         //countdown timer here
         yield return new WaitForSeconds(3);
         //trigger the GameRunningUI coroutine here
@@ -35,6 +37,11 @@ public class PlayerUI : MonoBehaviour
 
     public IEnumerator GameRunningUI()
     {
+        
+        if (matchAudio != null)
+        {
+            matchAudio.Music(0);
+        }
         while (true)
         {
             yield return new WaitForSeconds(0.1f);
@@ -43,11 +50,7 @@ public class PlayerUI : MonoBehaviour
             if (currentTime <= 60 && !lastMin)
             {
                 lastMin = true;
-                MatchAudio matchAudio = FindObjectOfType<MatchAudio>();
-                if (matchAudio != null)
-                {
-                    matchAudio.Music(1);
-                }
+                
             }
             if(currentTime <= 0)
             {
@@ -95,7 +98,6 @@ public class PlayerUI : MonoBehaviour
                 break;
 
         }
-        Debug.Log("PowerUp Changed to "+image);
     }
 
     public void HealthChange(int state)
@@ -131,6 +133,7 @@ public class PlayerUI : MonoBehaviour
     {
         //grab the game master from the scene
         gameMaster = FindAnyObjectByType<GameMaster>();
+        matchAudio = FindObjectOfType<MatchAudio>();
     }
 
 
