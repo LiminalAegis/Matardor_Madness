@@ -20,6 +20,8 @@ public class PlayerCharacter : NetworkComponent
     public int PlayerScoreTotal = 0;
     public int PlayerPF = 0;
     public int PlayerCF = 1; //1 is own flag.  should always have 1 flag when playing?
+    public int TotalPlayerCF = 0;
+    public int TotalPlayerPF = 0;
     public GameObject PowerUp;
     public GameObject LaunchPoint;
     public bool IsDead = false;
@@ -272,6 +274,8 @@ public class PlayerCharacter : NetworkComponent
         yield return new WaitForSeconds(5f);
         //respawn
         //need to place player at same spawn from game start.
+
+        PlayerCF = 1;
         //maybe either save span point as variable or use player num
     }
 
@@ -293,6 +297,11 @@ public class PlayerCharacter : NetworkComponent
                 }
 
                 PlayerHp -= 1;
+                if(PlayerHp <= 0 )
+                {
+                    PlayerHp = 0;
+                    StartCoroutine(playerDeath());
+                }
                 SendUpdate("HIT", PlayerHp.ToString());
                 //StartCoroutine(stunPlayer()); //stun in hit on local?
                 //call stun coroutine
@@ -421,12 +430,20 @@ public class PlayerCharacter : NetworkComponent
                         //maybe add tracking for PF/CF?
                         GM.Team2Score += PlayerScore;
                         PlayerScoreTotal += PlayerScore;
+                        TotalPlayerCF += PlayerCF - 1;
+                        TotalPlayerPF += PlayerPF;
+                        PlayerCF = 1;
+                        PlayerPF = 0;
                         PlayerScore = 0;
                     }
                     if (PTeam == "Team2")
                     {
                         GM.Team2Score += 1;
                         PlayerScoreTotal += PlayerScore;
+                        TotalPlayerCF += PlayerCF;
+                        TotalPlayerPF += PlayerPF;
+                        PlayerCF = 0;
+                        PlayerPF = 0;
                         PlayerScore = 0;
                     }
                     if (matchAudio != null)
