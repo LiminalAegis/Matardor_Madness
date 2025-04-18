@@ -222,7 +222,7 @@ public class GameMaster : NetworkComponent
                         team1num++;
                         Debug.Log("NUMBER: " + pc.PlayerNum);
                     }
-                    if(team1num == 1)
+                    else if(team1num == 1)
                     {
                         pc.PlayerNum = 1;
                         pc.transform.position = SpawnPoints[pc.PlayerNum].position;
@@ -240,7 +240,7 @@ public class GameMaster : NetworkComponent
                         team2num++;
                         Debug.Log("NUMBER: " + pc.PlayerNum);
                     }
-                    if (team2num == 1)
+                    else if (team2num == 1)
                     {
                         pc.PlayerNum = 3;
                         pc.transform.position = SpawnPoints[pc.PlayerNum].position;
