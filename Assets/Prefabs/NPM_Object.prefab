@@ -544,7 +544,7 @@ MonoBehaviour:
   PName: 
   NPTeam: 
   IsReady: 0
-  ColorSelected: 0
+  ColorSelected: -1
   CharSelected: 0
 --- !u!114 &3431538824683473707
 MonoBehaviour:
@@ -567,6 +567,8 @@ MonoBehaviour:
   pink: {fileID: 8777328911351123601}
   Team1Assigned: 0
   Team1Color: 0
+  Team2Assigned: 0
+  Team2Color: 0
 --- !u!1 &8924587938476316620
 GameObject:
   m_ObjectHideFlags: 0

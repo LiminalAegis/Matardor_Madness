@@ -422,23 +422,23 @@ public class PlayerCharacter : NetworkComponent
             //make sure its base flag
             if (other.gameObject.GetComponent<BaseFlag>() != null)
             {
-                Debug.Log("Player checking Scoring");
+                //Debug.Log("Player checking Scoring");
                 //make sure its our flag for banking score
                 if (other.gameObject.GetComponent<BaseFlag>().Team != PTeam)
                 {
                     return;
-                    Debug.Log("Player not Scoring");
+                    //Debug.Log("Player not Scoring");
                 }
 
                 Vector3 myCenter = transform.position;
                 Vector3 otherCenter = other.transform.position;
 
                 float distance = Vector3.Distance(myCenter, otherCenter);
-                Debug.Log("Player checking Scoring distance: " + distance);
+                //Debug.Log("Player checking Scoring distance: " + distance);
                 //within 1m of the flag
                 if (distance <= 2f)
                 {
-                    Debug.Log("Player Scoring");
+                    //Debug.Log("Player Scoring");
 
                     //bank score
                     GameMaster GM = FindObjectOfType<GameMaster>();

@@ -267,7 +267,10 @@ public class GameMaster : NetworkComponent
 
             yield return new WaitForSeconds(3);
             SendUpdate("GAMESTART", "1");
-            
+            //testing
+            DisplayScoreboard();
+
+
             MyCore.NotifyGameStart();
 
             while (!GameOver)
@@ -368,11 +371,11 @@ public class GameMaster : NetworkComponent
             SBScore[num].GetComponent<TextMeshProUGUI>().text = PC.PlayerScoreTotal.ToString();
             SendUpdate("SBSCORE", PC.PlayerScoreTotal.ToString() + "," + num.ToString());
             //PF
-            SBPF[num].GetComponent<TextMeshProUGUI>().text = PC.PlayerPF.ToString();
-            SendUpdate("SBPF", PC.PlayerPF.ToString() + "," + num.ToString());
+            SBPF[num].GetComponent<TextMeshProUGUI>().text = PC.TotalPlayerPF.ToString();
+            SendUpdate("SBPF", PC.TotalPlayerPF.ToString() + "," + num.ToString());
             //CF
-            SBCF[num].GetComponent<TextMeshProUGUI>().text = PC.PlayerCF.ToString();
-            SendUpdate("SBCF", PC.PlayerCF.ToString() + "," + num.ToString());
+            SBCF[num].GetComponent<TextMeshProUGUI>().text = PC.TotalPlayerCF.ToString();
+            SendUpdate("SBCF", PC.TotalPlayerCF.ToString() + "," + num.ToString());
 
             //team scores
             //switch on teamwin

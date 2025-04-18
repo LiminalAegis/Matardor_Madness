@@ -494,7 +494,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 43e53c820d9a9ea41806d6fc7f053c37, type: 2}
   - {fileID: 2100000, guid: 84c8f116bc09e904cb99033cef464b1f, type: 2}
   - {fileID: 2100000, guid: 21e0c9f777c8c1041a2d09e633bba340, type: 2}
-  ColorSelected: -1
+  ColorSelected: 8
   PName: <Default>
   PTeam: 
   PlayerNum: 0
@@ -503,6 +503,8 @@ MonoBehaviour:
   PlayerScoreTotal: 0
   PlayerPF: 0
   PlayerCF: 1
+  TotalPlayerCF: 0
+  TotalPlayerPF: 0
   PowerUp: {fileID: 0}
   LaunchPoint: {fileID: 8303710320162121112}
   IsDead: 0
