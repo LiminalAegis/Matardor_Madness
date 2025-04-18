@@ -489,6 +489,10 @@ MonoBehaviour:
   - {fileID: 2100000, guid: d548938c144f31549a9dead913202fe9, type: 2}
   - {fileID: 2100000, guid: 2f0d5bb43d847b440a72a06063c678bf, type: 2}
   - {fileID: 2100000, guid: f143a76c53c65d54e9925fadb4e963ab, type: 2}
+  - {fileID: 2100000, guid: 9106561a560079c4aaa2f912646f1a45, type: 2}
+  - {fileID: 2100000, guid: 43e53c820d9a9ea41806d6fc7f053c37, type: 2}
+  - {fileID: 2100000, guid: 84c8f116bc09e904cb99033cef464b1f, type: 2}
+  - {fileID: 2100000, guid: 21e0c9f777c8c1041a2d09e633bba340, type: 2}
   ColorSelected: -1
   PName: <Default>
   PTeam: 
@@ -505,6 +509,10 @@ MonoBehaviour:
   MyMap: {fileID: 0}
   MyAnime: {fileID: 0}
   MyRig: {fileID: 0}
+  death: {fileID: 0}
+  stun: {fileID: 0}
+  steal: {fileID: 0}
+  matchAudio: {fileID: 0}
 --- !u!114 &-8087631752439280273
 MonoBehaviour:
   m_ObjectHideFlags: 0

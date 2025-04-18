@@ -56,6 +56,7 @@ public class NPM : NetworkComponent
         if(IsLocalPlayer)
         {
             SendCommand("READY", r.ToString());
+            
         }
     }
     public override void NetworkedStart()
@@ -79,6 +80,7 @@ public class NPM : NetworkComponent
         if(IsLocalPlayer)
         {
             SendCommand("COLOR", c.ToString());
+            //Debug.Log(c.ToString());
         }
     }
 
