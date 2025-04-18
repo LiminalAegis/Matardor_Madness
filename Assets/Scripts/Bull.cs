@@ -29,6 +29,10 @@ public class Bull : NetworkComponent
 
     public override void HandleMessage(string flag, string value)
     {
+        if (flag == "GAMESTART" && IsServer)
+        {
+            //Roam();
+        }
         if (flag == "STUNNED")
         {
             if (IsServer)
