@@ -20,17 +20,14 @@ public class HealthPickupScript : NetworkComponent
             {
                 //do visual effects for pickup
                 //disable floating object effect
-                if (IsLocalPlayer)
-                {
-                    PlayerUI ui = FindObjectOfType<PlayerUI>();
-                    ui.PowerUpVisual(1);
-                }
+                
 
             }
             if (flag == "USEPOWER")
             {
                 //use automatically when picked up?
             }
+            
 
         }
 
@@ -92,11 +89,13 @@ public class HealthPickupScript : NetworkComponent
                 {
                     return;
                 }
+                
 
                 PickedUp = true;
                 OwnerPlayer = other.gameObject;
+                OwnerPlayer.GetComponent<NetworkComponent>().SendUpdate("UI", "1");
 
-                
+
                 if (OwnerPlayer.GetComponent<PlayerCharacter>().PlayerHp < 3)
                 {
                     OwnerPlayer.GetComponent<PlayerCharacter>().PlayerHp += 1;

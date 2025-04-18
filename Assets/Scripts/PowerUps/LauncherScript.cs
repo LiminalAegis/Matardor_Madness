@@ -32,12 +32,9 @@ public class LauncherScript : NetworkComponent
                 //do visual effects for pickup
                 //disable floating object effect
                 transform.GetChild(0).gameObject.SetActive(false);
-                if (IsLocalPlayer)
-                {
-                    PlayerUI ui = FindObjectOfType<PlayerUI>();
-                    ui.PowerUpVisual(4);
-                }
+                
             }
+            
         }
 
         if (IsServer)
@@ -128,6 +125,7 @@ public class LauncherScript : NetworkComponent
 
                 PickedUp = true;
                 OwnerPlayer = other.gameObject;
+                OwnerPlayer.GetComponent<NetworkComponent>().SendUpdate("UI", "4");
                 other.gameObject.GetComponent<PlayerCharacter>().PowerUp = this.gameObject;
                 this.GetComponent<MeshRenderer>().enabled = false;
                 launchPoint = OwnerPlayer.GetComponent<PlayerCharacter>().LaunchPoint;

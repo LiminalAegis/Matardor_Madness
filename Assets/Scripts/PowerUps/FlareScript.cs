@@ -25,13 +25,8 @@ public class FlareScript : NetworkComponent
                 //do visual effects for pickup
                 //disable floating object effect
                 transform.GetChild(0).gameObject.SetActive(false);
-                if (IsLocalPlayer)
-                {
-                    PlayerUI ui = FindObjectOfType<PlayerUI>();
-                    ui.PowerUpVisual(5);
-                }
             }
-
+            
         }
 
         if (IsServer)
@@ -103,8 +98,10 @@ public class FlareScript : NetworkComponent
                     return;
                 }
 
+
                 PickedUp = true;
                 OwnerPlayer = other.gameObject;
+                OwnerPlayer.GetComponent<NetworkComponent>().SendUpdate("UI", "5");
                 other.gameObject.GetComponent<PlayerCharacter>().PowerUp = this.gameObject;
                 transform.GetChild(0).gameObject.SetActive(false);
 

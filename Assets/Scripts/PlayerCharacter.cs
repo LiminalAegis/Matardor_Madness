@@ -130,6 +130,11 @@ public class PlayerCharacter : NetworkComponent
                     ui.PowerUpVisual(0);
                 }
             }
+            if (flag == "UI" && IsLocalPlayer)
+            {
+                PlayerUI ui = FindObjectOfType<PlayerUI>();
+                ui.PowerUpVisual(int.Parse(value));
+            }
         }
        
     }

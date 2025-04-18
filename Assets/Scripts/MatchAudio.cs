@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static Unity.VisualScripting.Member;
 
 public class MatchAudio : MonoBehaviour
 {
@@ -25,8 +23,10 @@ public class MatchAudio : MonoBehaviour
                 sfx = temp[0];
                 music = temp[1];
             }
-
-
+        }
+        else
+        {
+            Debug.Log("failed to get audio sources");
         }
     }
 
@@ -58,6 +58,7 @@ public class MatchAudio : MonoBehaviour
         }
         if (temp != button)
         {
+            Debug.Log("sfx played");
             if (fadeOut)
             {
                 sfx.PlayOneShot(temp);

@@ -95,6 +95,7 @@ public class PlayerUI : MonoBehaviour
                 break;
 
         }
+        Debug.Log("PowerUp Changed to "+image);
     }
 
     public void HealthChange(int state)
@@ -122,6 +123,7 @@ public class PlayerUI : MonoBehaviour
                 h3.color = Color.gray;
                 break;
         }
+        Debug.Log("Health changed to"+state);
     }
 
     // Start is called before the first frame update

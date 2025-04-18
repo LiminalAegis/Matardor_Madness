@@ -27,14 +27,10 @@ public class FoodScript : NetworkComponent
                 //disable floating object effect
                 //this.GetComponent<MeshRenderer>().enabled = false;
                 transform.GetChild(0).gameObject.SetActive(false);
-                if (IsLocalPlayer)
-                {
-                    PlayerUI ui = FindObjectOfType<PlayerUI>();
-                    ui.PowerUpVisual(3);
-                }
+                
 
             }
-
+            
         }
 
 
@@ -110,9 +106,11 @@ public class FoodScript : NetworkComponent
                 {
                     return;
                 }
+                
 
                 PickedUp = true;
                 OwnerPlayer = other.gameObject;
+                OwnerPlayer.GetComponent<NetworkComponent>().SendUpdate("UI", "3");
                 other.gameObject.GetComponent<PlayerCharacter>().PowerUp = this.gameObject;
                 //this.GetComponent<MeshRenderer>().enabled = false;
                 transform.GetChild(0).gameObject.SetActive(false);
