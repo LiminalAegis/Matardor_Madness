@@ -15,7 +15,7 @@ public class TeamManager : NetworkComponent
 
     public override void HandleMessage(string flag, string value)
     {
-   
+
     }
 
     public override void NetworkedStart()
@@ -27,42 +27,43 @@ public class TeamManager : NetworkComponent
     {
         while (IsConnected)
         {
-            NPM[] npm = Object.FindObjectsOfType<NPM>();
-            foreach (NPM player in npm)
-            {
-                //get player color from index 
-                //
-                int blueTotal = 0;
-                int greenTotal = 0;
-                int orangeTotal = 0;
-                int pinkTotal = 0;
-
-                if (player.ColorSelected == 0)
-                {
-                    blueTotal++;
-                    checker(blueTotal, blue);
-                }
-                else if (player.ColorSelected == 1)
-                {
-                    greenTotal++;
-                    checker(greenTotal, green);
-                }
-                else if (player.ColorSelected == 2)
-                {
-                    orangeTotal++;
-                    checker(orangeTotal, orange);
-                }
-                else if (player.ColorSelected == 3)
-                {
-                    pinkTotal++;
-                    checker(pinkTotal, pink);
-                }
-                //Debug.Log(player.ColorSelected.ToString());
-                //Debug.Log(player.Owner);
-
-            }
             if (IsServer)
             {
+                NPM[] npm = Object.FindObjectsOfType<NPM>();
+                foreach (NPM player in npm)
+                {
+                    //get player color from index 
+                    //
+                    int blueTotal = 0;
+                    int greenTotal = 0;
+                    int orangeTotal = 0;
+                    int pinkTotal = 0;
+
+                    if (player.ColorSelected == 0)
+                    {
+                        blueTotal++;
+                        checker(blueTotal, blue);
+                    }
+                    else if (player.ColorSelected == 1)
+                    {
+                        greenTotal++;
+                        checker(greenTotal, green);
+                    }
+                    else if (player.ColorSelected == 2)
+                    {
+                        orangeTotal++;
+                        checker(orangeTotal, orange);
+                    }
+                    else if (player.ColorSelected == 3)
+                    {
+                        pinkTotal++;
+                        checker(pinkTotal, pink);
+                    }
+                    //Debug.Log(player.ColorSelected.ToString());
+                    //Debug.Log(player.Owner);
+
+                }
+
                 if (IsDirty)
                 {
                     IsDirty = false;
@@ -75,9 +76,9 @@ public class TeamManager : NetworkComponent
     }
     public void checker(int amount, Button type)
     {
-        if (amount >= 1)
+        if (amount >= 2)
         {
-            type.interactable = false;
+          //set type.interactable to false. 
             Debug.Log(type);
         }
     }
