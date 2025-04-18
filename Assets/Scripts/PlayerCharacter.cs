@@ -35,9 +35,10 @@ public class PlayerCharacter : NetworkComponent
     public Animator MyAnime;
     public Rigidbody MyRig;
 
-    //audio vars
+    //audio and UI vars
     public AudioClip death, stun, steal;
     public MatchAudio matchAudio;
+    public PlayerUI ui;
 
     public override void HandleMessage(string flag, string value)
     {
@@ -101,8 +102,10 @@ public class PlayerCharacter : NetworkComponent
                 {
                     matchAudio.SFX(4);
                 }
+                ui.HealthChange(PlayerHp - 1);
                 StartCoroutine(stunPlayer());
                 //do hit visual effects
+                
             }
             if(flag == "DEAD" && IsLocalPlayer)
             {
@@ -116,10 +119,12 @@ public class PlayerCharacter : NetworkComponent
             if(flag == "ALIVE" && IsLocalPlayer)
             {
                 IsDead = false;
+                ui.HealthChange(PlayerHp);
             }
             if(flag == "HEAL" && IsLocalPlayer)
             {
                 PlayerHp += int.Parse(value);
+                ui.HealthChange(PlayerHp);
             }
 
             //removed local player since all players should see the glow increase
@@ -130,7 +135,6 @@ public class PlayerCharacter : NetworkComponent
             }
             if(flag == "CLEARPU" && IsLocalPlayer)
             {
-                PlayerUI ui = FindObjectOfType<PlayerUI>();
                 if (ui != null)
                 {
                     ui.PowerUpVisual(0);
@@ -138,7 +142,6 @@ public class PlayerCharacter : NetworkComponent
             }
             if (flag == "UI" && IsLocalPlayer)
             {
-                PlayerUI ui = FindObjectOfType<PlayerUI>();
                 if (int.Parse(value) != 1)
                 {
                     ui.PowerUpVisual(int.Parse(value));
@@ -184,6 +187,7 @@ public class PlayerCharacter : NetworkComponent
     void Start()
     {
         MyAnime = GetComponent<Animator>();
+        ui = FindObjectOfType<PlayerUI>();
     }
 
     // Update is called once per frame
@@ -287,7 +291,7 @@ public class PlayerCharacter : NetworkComponent
         PlayerCF = 1;
         PlayerHp = 3;
         SendUpdate("ALIVE", "1");
-        //maybe either save span point as variable or use player num
+        //maybe either save spawn point as variable or use player num
     }
 
     //trigger will be our aggro collider, use actual collision for getting hit
