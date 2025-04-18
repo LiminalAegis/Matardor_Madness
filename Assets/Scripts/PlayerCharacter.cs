@@ -278,8 +278,14 @@ public class PlayerCharacter : NetworkComponent
         yield return new WaitForSeconds(5f);
         //respawn
         //need to place player at same spawn from game start.
-
+        GameMaster gameManager = FindObjectOfType<GameMaster>();
+        if (gameManager != null)
+        {
+            this.transform.position = gameManager.SpawnPoints[PlayerNum].transform.position;
+            this.transform.rotation = gameManager.SpawnPoints[PlayerNum].transform.rotation;
+        }
         PlayerCF = 1;
+        SendUpdate("ALIVE", "1");
         //maybe either save span point as variable or use player num
     }
 

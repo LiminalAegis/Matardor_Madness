@@ -192,10 +192,10 @@ public class GameMaster : NetworkComponent
             } while (!allReady);
 
 
-            int tempLoopNum = 0;
+            int team1num = 0;
+            int team2num = 0;
             foreach (NPM player in players)
             {
-                tempLoopNum++;
 
                 GameObject character = MyCore.NetCreateObject(
                     0,
@@ -203,11 +203,51 @@ public class GameMaster : NetworkComponent
                     SpawnPoints[player.Owner].position,
                     Quaternion.identity
                 );
+                
 
                 PlayerCharacter pc = character.GetComponent<PlayerCharacter>();
                 pc.PName = player.PName;
                 pc.ColorSelected = player.ColorSelected;
-                pc.PlayerNum = tempLoopNum;
+
+                //assign team
+                pc.PTeam = player.NPTeam;
+                Debug.Log("Assigned Player Team: " + pc.PTeam);
+                Debug.Log("Assigned Player Team: " + player.NPTeam);
+                if (pc.PTeam == "Team1")
+                {
+                    if(team1num == 0)
+                    {
+                        pc.PlayerNum = 0;
+                        pc.transform.position = SpawnPoints[pc.PlayerNum].position;
+                        team1num++;
+                        Debug.Log("NUMBER: " + pc.PlayerNum);
+                    }
+                    if(team1num == 1)
+                    {
+                        pc.PlayerNum = 1;
+                        pc.transform.position = SpawnPoints[pc.PlayerNum].position;
+                        team1num++;
+                        Debug.Log("NUMBER: " + pc.PlayerNum);
+                    }
+                    
+                }
+                else if (pc.PTeam == "Team2")
+                {
+                    if (team2num == 0)
+                    {
+                        pc.PlayerNum = 2;
+                        pc.transform.position = SpawnPoints[pc.PlayerNum].position;
+                        team2num++;
+                        Debug.Log("NUMBER: " + pc.PlayerNum);
+                    }
+                    if (team2num == 1)
+                    {
+                        pc.PlayerNum = 3;
+                        pc.transform.position = SpawnPoints[pc.PlayerNum].position;
+                        team2num++;
+                        Debug.Log("NUMBER: " + pc.PlayerNum);
+                    }
+                }
 
                 pc.SendUpdate("NUM", pc.PlayerNum.ToString());
                 pc.SendUpdate("NAME", pc.PName);
