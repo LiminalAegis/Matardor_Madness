@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using NETWORK_ENGINE;
 using UnityEngine.UI;
+using Unity.VisualScripting;
+using Palmmedia.ReportGenerator.Core.Common;
 
 public class TeamManager : NetworkComponent
 {
@@ -11,6 +13,8 @@ public class TeamManager : NetworkComponent
     public Button orange;
     public Button pink;
 
+    public bool Team1Assigned;
+    public int Team1Color;
 
 
     public override void HandleMessage(string flag, string value)
@@ -20,7 +24,33 @@ public class TeamManager : NetworkComponent
             if(flag == "TEAMSELECT")
             {
                 Debug.Log("Is this flag even getting called");
-                blue.interactable = false;
+
+                int teamColor = int.Parse(value); 
+
+                //spaghetti but it works
+                //set the given team as uninterractable.
+                if(teamColor == 0)
+                {
+                    blue.interactable = false;
+                }
+                else if (teamColor == 1)
+                {
+                    green.interactable = false;
+                }
+                else if (teamColor == 2)
+                {
+                    orange.interactable = false;
+                }
+                else if (teamColor == 3)
+                {
+                    pink.interactable = false;
+                }
+
+                if(Team1Assigned == false)
+                {
+                    Team1Color = int.Parse(value);
+                    Team1Assigned = true;
+                }
             }
         }
     }
@@ -46,35 +76,38 @@ public class TeamManager : NetworkComponent
                 {
                     //get player color from index 
                     //
+                    if (Team1Assigned && player.ColorSelected == Team1Color)
+                    {
+                        player.NPTeam = "Team1";
+                    }
+                    else if (Team1Assigned && player.ColorSelected != Team1Color)
+                    {
+                        player.NPTeam = "Team2";
+                    }
 
                     if (player.ColorSelected == 0)
                     {
                         blueTotal++;
-                        checker(blueTotal, blue);
+                        checker(blueTotal, 0);
                     }
                     else if (player.ColorSelected == 1)
                     {
                         greenTotal++;
-                        checker(greenTotal, green);
+                        checker(greenTotal, 1);
                     }
                     else if (player.ColorSelected == 2)
                     {
                         orangeTotal++;
-                        checker(orangeTotal, orange);
+                        checker(orangeTotal, 2);
                     }
                     else if (player.ColorSelected == 3)
                     {
                         pinkTotal++;
-                        checker(pinkTotal, pink);
+                        checker(pinkTotal, 3);
                     }
                     //Debug.Log(player.ColorSelected.ToString());
                     //Debug.Log(player.Owner);
 
-                }
-
-                if (IsDirty)
-                {
-                    IsDirty = false;
                 }
                
             }
@@ -82,13 +115,13 @@ public class TeamManager : NetworkComponent
         }
         
     }
-    public void checker(int amount, Button type)
+    public void checker(int amount, int type)
     {
         //amount is 1 for debugging. Set it to 2 in the actual game. 
         if (amount >= 1)
         {
-            SendUpdate("TEAMSELECT", "value");
-          //set type.interactable to false. 
+            //set the corresponding button to be un-interactable
+            SendUpdate("TEAMSELECT", type.ToString());
             Debug.Log(type);
         }
     }
