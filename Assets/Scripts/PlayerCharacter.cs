@@ -285,6 +285,7 @@ public class PlayerCharacter : NetworkComponent
             this.transform.rotation = gameManager.SpawnPoints[PlayerNum].transform.rotation;
         }
         PlayerCF = 1;
+        PlayerHp = 3;
         SendUpdate("ALIVE", "1");
         //maybe either save span point as variable or use player num
     }
@@ -384,7 +385,7 @@ public class PlayerCharacter : NetworkComponent
                     BaseFlag temp = other.gameObject.GetComponent<BaseFlag>();
 
                     //make sure its not our flag
-                    if (other.gameObject.GetComponent<BaseFlag>().Team == PTeam)
+                    if (temp.Team == PTeam)
                     {
                         return;
                     }
@@ -465,13 +466,54 @@ public class PlayerCharacter : NetworkComponent
             //just pick up the score?
             if (other.gameObject.GetComponent<FlagDrop>() != null)
             {
-                PlayerScore += other.gameObject.GetComponent<FlagDrop>().CF + other.gameObject.GetComponent<FlagDrop>().PF *3;
+                PlayerScore += other.gameObject.GetComponent<FlagDrop>().CF + other.gameObject.GetComponent<FlagDrop>().PF * 3;
                 PlayerCF += other.gameObject.GetComponent<FlagDrop>().CF;
                 PlayerPF += other.gameObject.GetComponent<FlagDrop>().PF;
                 SendUpdate("FLAG", PlayerScore.ToString());
                 MyCore.NetDestroyObject(other.gameObject.GetComponent<NetworkID>().NetId);
             }
         }
-    }
+        //for banking
+        /*
+        if (other.CompareTag("TEAM1BASE"))
+        {
+            //not our base
+            if (PTeam == "Team2")
+            {
+                return;
+            }
 
+            Vector3 myCenter = transform.position;
+            Vector3 otherCenter = other.transform.position;
+
+            float distance = Vector3.Distance(myCenter, otherCenter);
+
+            if (distance <= .1f)
+            {
+                //in our base
+                //bank
+                GameMaster GM = FindObjectOfType<GameMaster>();
+
+            }
+            if (other.CompareTag("TEAM2BASE"))
+            {
+                //not our base
+                if (PTeam == "Team1")
+                {
+                    return;
+                }
+
+                Vector3 myCenter = transform.position;
+                Vector3 otherCenter = other.transform.position;
+
+                float distance = Vector3.Distance(myCenter, otherCenter);
+
+                if (distance <= .1f)
+                {
+
+                }
+
+            }
+        }*/
+    }
 }
