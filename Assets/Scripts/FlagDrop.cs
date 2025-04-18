@@ -9,7 +9,8 @@ public class FlagDrop : NetworkComponent
 {
     public bool PickedUp = false;
     public string Team; //Team1 or Team2
-    public int Score;
+    public int CF;
+    public int PF;
 
 
 

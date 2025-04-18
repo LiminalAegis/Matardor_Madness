@@ -31,7 +31,12 @@ public class LauncherScript : NetworkComponent
 
                 //do visual effects for pickup
                 //disable floating object effect
-                this.GetComponent<MeshRenderer>().enabled = false;
+                transform.GetChild(0).gameObject.SetActive(false);
+                if (IsLocalPlayer)
+                {
+                    PlayerUI ui = FindObjectOfType<PlayerUI>();
+                    ui.PowerUpVisual(4);
+                }
             }
         }
 
@@ -85,6 +90,16 @@ public class LauncherScript : NetworkComponent
         if (curve == null)
         {
             curve = FindObjectOfType<ProjectileCurveVisualizer>();
+        }
+        StartCoroutine(DespawnTimer());
+    }
+
+    public IEnumerator DespawnTimer()
+    {
+        yield return new WaitForSeconds(30f);
+        if (!PickedUp)
+        {
+            MyCore.NetDestroyObject(this.gameObject.GetComponent<NetworkID>().NetId);
         }
     }
 

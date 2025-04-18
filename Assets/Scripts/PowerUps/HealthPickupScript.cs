@@ -20,6 +20,11 @@ public class HealthPickupScript : NetworkComponent
             {
                 //do visual effects for pickup
                 //disable floating object effect
+                if (IsLocalPlayer)
+                {
+                    PlayerUI ui = FindObjectOfType<PlayerUI>();
+                    ui.PowerUpVisual(1);
+                }
 
             }
             if (flag == "USEPOWER")
@@ -58,7 +63,16 @@ public class HealthPickupScript : NetworkComponent
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(DespawnTimer());
+    }
 
+    public IEnumerator DespawnTimer()
+    {
+        yield return new WaitForSeconds(30f);
+        if (!PickedUp)
+        {
+            MyCore.NetDestroyObject(this.gameObject.GetComponent<NetworkID>().NetId);
+        }
     }
 
     // Update is called once per frame

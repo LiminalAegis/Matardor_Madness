@@ -10,6 +10,7 @@ public class GameMaster : NetworkComponent
     public bool GameOver = false;
 
     public Transform[] SpawnPoints;
+    //defunct?
     public GameObject[] PlayerNames;
     public GameObject[] PlayerScores;
 
@@ -22,15 +23,26 @@ public class GameMaster : NetworkComponent
     public float CurrentRoundTime;
     public float GameStartTime;
 
+    public GameObject Timer;
+
+    //Scoreboard variables
+    //each of these should have 4 elements for 4 players
+    public GameObject[] SBNames;
+    public GameObject[] SBScore;
+    public GameObject[] SBPF;
+    public GameObject[] SBCF;
+    public GameObject[] SBTeamScore; //should be 2
+
+    public GameObject ScoreBoard;
+
 
 
     public override void HandleMessage(string flag, string value)
     {
         if (IsClient)
         {
-            if (flag == "GAMESTART")
+            if (flag == "LOBBYEND")
             {
-                GameStarted = true;
 
                 NPM[] npm = Object.FindObjectsOfType<NPM>();
                 foreach (NPM player in npm)
@@ -41,19 +53,91 @@ public class GameMaster : NetworkComponent
                     player.transform.GetChild(0).gameObject.SetActive(false);
 
                 }
-                
-                StartCoroutine(DisplayScoreboard());
-                StartCoroutine(AutoDisconnect());
                  // for testing
+            }
+            if(flag == "GAMESTART")
+            {
+                GameStarted = true;
             }
             if (flag == "TIMER")
             {
                 //set the timer UI
+                PlayerUI UI = FindObjectOfType<PlayerUI>();
+                UI.StartCoroutine(UI.StartMatchUI(RoundTimer));
             }
-            if (flag == "GAMEOVER")
+            if (flag == "SB")
             {
-                //DisplayScoreboard(); //make sure to remove the coroutine, make it a normal function for real game
+                ScoreBoard.SetActive(true);
 
+            }
+
+            //flags for populating scoreboard, pass in "value, playernum"
+            if(flag == "SBNAME")
+            {
+                string[] nameInfo = value.Split(',');
+                int num = int.Parse(nameInfo[1]);
+                SBNames[num].GetComponent<TextMeshProUGUI>().text = nameInfo[0];
+            }
+            if(flag == "SBSCORE")
+            {
+                string[] scoreInfo = value.Split(',');
+                int num = int.Parse(scoreInfo[1]);
+                SBScore[num].GetComponent<TextMeshProUGUI>().text = "Score: " + scoreInfo[0];
+            }
+            if(flag == "SBPF")
+            {
+                string[] pfInfo = value.Split(',');
+                int num = int.Parse(pfInfo[1]);
+                SBPF[num].GetComponent<TextMeshProUGUI>().text = "PF: " + pfInfo[0];
+            }
+            if(flag == "SBCF")
+            {
+                string[] cfInfo = value.Split(',');
+                int num = int.Parse(cfInfo[1]);
+                SBCF[num].GetComponent<TextMeshProUGUI>().text = "CF: " + cfInfo[0];
+            }
+            //team scores: "score, int" int should be 0 if lost, 1 if won, 3 if tie
+            if(flag == "TEAM1SCORE")
+            {
+                string[] t1sInfo = value.Split(",");
+                int num = int.Parse(t1sInfo[1]);
+                if (num == 1)
+                {
+                    SBTeamScore[0].GetComponent<TextMeshProUGUI>().text = "Team 1 Won with " + t1sInfo[0] + " Points";
+                }
+                else if (num == 0)
+                {
+                    SBTeamScore[0].GetComponent<TextMeshProUGUI>().text = "Team 1 Lost with " + t1sInfo[0] + " Points";
+                }
+                else if (num == 3)
+                {
+                    SBTeamScore[0].GetComponent<TextMeshProUGUI>().text = "Team 1 Tied with " + t1sInfo[0] + " Points";
+                }
+
+            }
+            if(flag == "TEAM2SCORE")
+            {
+                string[] t1sInfo = value.Split(",");
+                int num = int.Parse(t1sInfo[1]);
+                if (num == 1)
+                {
+                    SBTeamScore[1].GetComponent<TextMeshProUGUI>().text = "Team 2 Won with " + t1sInfo[0] + " Points";
+                }
+                else if (num == 0)
+                {
+                    SBTeamScore[1].GetComponent<TextMeshProUGUI>().text = "Team 2 Lost with " + t1sInfo[0] + " Points";
+                }
+                else if (num == 3)
+                {
+                    SBTeamScore[1].GetComponent<TextMeshProUGUI>().text = "Team 2 Tied with " + t1sInfo[0] + " Points";
+                }
+            }
+            if(flag == "SCOREDISPLAY")
+            {
+                string[] temp = value.Split(",");
+                PlayerUI ui = FindObjectOfType<PlayerUI>();
+                ui.ScoreUpdate(1, int.Parse(temp[0]));
+                ui.ScoreUpdate(2, int.Parse(temp[1]));
             }
         }
 
@@ -69,7 +153,9 @@ public class GameMaster : NetworkComponent
                 if (value == "Team2")
                 {
                     Team2Score++;
+                    ;
                 }
+                SendUpdate("SCOREDISPLAY", Team1Score.ToString() + "," + Team2Score.ToString());
             }
         }
         
@@ -79,41 +165,6 @@ public class GameMaster : NetworkComponent
     public override void NetworkedStart()
     {
         
-    }
-    public IEnumerator AutoDisconnect()
-    {
-        yield return new WaitForSeconds(100);
-        NetworkCore nc = GameObject.FindObjectOfType<NetworkCore>();
-        nc.UI_Quit();
-        
-    }
-    public IEnumerator DisplayScoreboard()
-    {
-        yield return new WaitForSeconds(20);
-        NPM[] npm = Object.FindObjectsOfType<NPM>();
-
-        
-        MyCore.transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
-
-        int rand = Random.Range(0, 100);
-        MyCore.transform.GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Score: " + rand;
-        rand = Random.Range(0, 100);
-        MyCore.transform.GetChild(0).GetChild(2).GetChild(0).GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Score: " + rand;
-        rand = Random.Range(0, 100);
-        MyCore.transform.GetChild(0).GetChild(2).GetChild(1).GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Score: " + rand;
-        rand = Random.Range(0, 100);
-        MyCore.transform.GetChild(0).GetChild(2).GetChild(1).GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Score: " + rand;
-
-        /*
-        int tempPLayerLoop = 0;
-        foreach (GameObject i in PlayerScores)
-        {
-            
-            int rand = Random.Range(0, 100);
-            PlayerScores[tempPLayerLoop].GetComponent<TextMeshProUGUI>().text = "Score: " + rand;
-            tempPLayerLoop++;
-        }*/
-        //idk why i couldnt get this to work
     }
 
     public override IEnumerator SlowUpdate()
@@ -171,8 +222,12 @@ public class GameMaster : NetworkComponent
 
             PowerUpSpawner PUSpawner = FindObjectOfType<PowerUpSpawner>();
             PUSpawner.Started = true;
+            SendUpdate("TIMER", RoundTimer.ToString());
+            SendUpdate("LOBBYEND", "1");
 
+            yield return new WaitForSeconds(3);
             SendUpdate("GAMESTART", "1");
+            
             MyCore.NotifyGameStart();
 
             while (!GameOver)
@@ -180,26 +235,40 @@ public class GameMaster : NetworkComponent
 
                 //handle time updates
                 CurrentRoundTime = Time.time;
-                SendUpdate("TIMER", CurrentRoundTime.ToString());
 
                 // Game logic here
 
-
+                //TESTING
+                /*
+                int rand = Random.Range(0, 3);
+                if(rand == 0)
+                {
+                    Team1Score = WinScore;
+                }
+                if(rand == 1)
+                {
+                    Team2Score = WinScore;
+                }
+                if (rand == 2)
+                {
+                    Team1Score = WinScore;
+                    Team2Score = WinScore;
+                }*/
 
                 //win conditions
 
                 //win by WinScore
-                if (Team1Score == WinScore || Team2Score == WinScore)
+                if (Team1Score >= WinScore || Team2Score >= WinScore)
                 {
-                    if(Team1Score == WinScore && Team2Score == WinScore)
+                    if(Team1Score >= WinScore && Team2Score >= WinScore)
                     {
                         WinTeam = 3;
                     }
-                    else if(Team1Score == WinScore)
+                    else if(Team1Score >= WinScore)
                     {
                         WinTeam = 1;
                     }
-                    else if(Team2Score == WinScore)
+                    else if(Team2Score >= WinScore)
                     {
                         WinTeam = 2;
                     }
@@ -229,12 +298,67 @@ public class GameMaster : NetworkComponent
                 yield return new WaitForSeconds(0.1f);
             }
 
+            DisplayScoreboard();
+            yield return new WaitForSeconds(10);
             SendUpdate("GAMEOVER", "1");
             StartCoroutine(MyCore.DisconnectServer());
 
 
             yield return new WaitForSeconds(.1f);
         }
+    }
+
+    public void DisplayScoreboard()
+    {
+        ScoreBoard.SetActive(true);
+        SendUpdate("SB", "1");
+
+        //set it up with GM as canvas owner
+        PlayerCharacter[] PCs = FindObjectsOfType<PlayerCharacter>();
+
+        foreach (PlayerCharacter PC in PCs)
+        {
+            //int num = PC.PlayerNum - 1;
+            int num = PC.Owner;
+            Debug.Log("PlayerNum: " + num.ToString());
+            //Name
+            SBNames[num].GetComponent<TextMeshProUGUI>().text = PC.PName;
+            SendUpdate("SBNAME", PC.PName + "," + num.ToString());
+            //Score
+            SBScore[num].GetComponent<TextMeshProUGUI>().text = PC.PlayerScoreTotal.ToString();
+            SendUpdate("SBSCORE", PC.PlayerScoreTotal.ToString() + "," + num.ToString());
+            //PF
+            SBPF[num].GetComponent<TextMeshProUGUI>().text = PC.PlayerPF.ToString();
+            SendUpdate("SBPF", PC.PlayerPF.ToString() + "," + num.ToString());
+            //CF
+            SBCF[num].GetComponent<TextMeshProUGUI>().text = PC.PlayerCF.ToString();
+            SendUpdate("SBCF", PC.PlayerCF.ToString() + "," + num.ToString());
+
+            //team scores
+            //switch on teamwin
+            switch(WinTeam)
+            {
+                case 1:
+                    SBTeamScore[0].GetComponent<TextMeshProUGUI>().text = "Team 1 Won with " + Team1Score + " Points";
+                    SendUpdate("TEAM1SCORE", Team1Score.ToString() + "," + "1");
+                    SBTeamScore[1].GetComponent<TextMeshProUGUI>().text = "Team 2 Lost with " + Team2Score + " Points";
+                    SendUpdate("TEAM2SCORE", Team2Score.ToString() + "," + "0");
+                    break;
+                case 2:
+                    SBTeamScore[0].GetComponent<TextMeshProUGUI>().text = "Team 1 Lost with " + Team1Score + " Points";
+                    SendUpdate("TEAM1SCORE", Team1Score.ToString() + "," + "0");
+                    SBTeamScore[1].GetComponent<TextMeshProUGUI>().text = "Team 2 Won with " + Team2Score + " Points";
+                    SendUpdate("TEAM2SCORE", Team2Score.ToString() + "," + "1");
+                    break;
+                case 3:
+                    SBTeamScore[0].GetComponent<TextMeshProUGUI>().text = "Team 1 Tied with " + Team1Score + " Points";
+                    SendUpdate("TEAM1SCORE", Team1Score.ToString() + "," + "3");
+                    SBTeamScore[1].GetComponent<TextMeshProUGUI>().text = "Team 2 Tied with " + Team2Score + " Points";
+                    SendUpdate("TEAM2SCORE", Team2Score.ToString() + "," + "3");
+                    break;
+            }
+        }
+        
     }
     // Start is called before the first frame update
     void Start()
@@ -247,4 +371,5 @@ public class GameMaster : NetworkComponent
     {
 
     }
+
 }

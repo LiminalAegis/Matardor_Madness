@@ -8,6 +8,7 @@ using NETWORK_ENGINE;
 public class NPM : NetworkComponent
 {
     public string PName;
+    public string NPTeam;
     public bool IsReady;
     public int ColorSelected;
     public int CharSelected;

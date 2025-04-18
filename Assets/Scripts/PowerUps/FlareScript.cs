@@ -4,6 +4,7 @@ using UnityEngine;
 using NETWORK_ENGINE;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Playables;
 
 public class FlareScript : NetworkComponent
 {
@@ -23,7 +24,12 @@ public class FlareScript : NetworkComponent
 
                 //do visual effects for pickup
                 //disable floating object effect
-                this.GetComponent<MeshRenderer>().enabled = false;
+                transform.GetChild(0).gameObject.SetActive(false);
+                if (IsLocalPlayer)
+                {
+                    PlayerUI ui = FindObjectOfType<PlayerUI>();
+                    ui.PowerUpVisual(5);
+                }
             }
 
         }
@@ -37,6 +43,11 @@ public class FlareScript : NetworkComponent
 
     public void UsePower()
     {
+        MatchAudio mAudio = FindObjectOfType<MatchAudio>();
+        if (mAudio != null)
+        {
+            mAudio.SFX(5); //plays flare sfx
+        }
         OwnerPlayer.GetComponent<FlareCollisionScript>().Activate();
         MyCore.NetDestroyObject(this.gameObject.GetComponent<NetworkID>().NetId);
     }
@@ -62,7 +73,16 @@ public class FlareScript : NetworkComponent
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(DespawnTimer());
+    }
 
+    public IEnumerator DespawnTimer()
+    {
+        yield return new WaitForSeconds(30f);
+        if (!PickedUp)
+        {
+            MyCore.NetDestroyObject(this.gameObject.GetComponent<NetworkID>().NetId);
+        }
     }
 
     // Update is called once per frame
@@ -86,9 +106,10 @@ public class FlareScript : NetworkComponent
                 PickedUp = true;
                 OwnerPlayer = other.gameObject;
                 other.gameObject.GetComponent<PlayerCharacter>().PowerUp = this.gameObject;
-                this.GetComponent<MeshRenderer>().enabled = false;
+                transform.GetChild(0).gameObject.SetActive(false);
 
                 SendUpdate("PICKEDUP", other.GetComponent<PlayerCharacter>().PlayerNum.ToString());
+                other.gameObject.GetComponent<PlayerMovement>().SendUpdate("LAUNCHER", "false");
             }
         }
     }

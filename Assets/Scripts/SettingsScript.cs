@@ -29,8 +29,7 @@ public class SettingsScript : MonoBehaviour
 
     public void ToMainMenu()
     {
-        //FIX
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(0);
     }
 
     // Update is called once per frame

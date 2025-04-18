@@ -13,6 +13,7 @@ public class FoodScript : NetworkComponent
     ///Powerup variables
     public float SpeedMulti = 2f;
     public float PowerDuration = 5f;
+    public bool used = false;
 
 
 
@@ -26,6 +27,11 @@ public class FoodScript : NetworkComponent
                 //disable floating object effect
                 //this.GetComponent<MeshRenderer>().enabled = false;
                 transform.GetChild(0).gameObject.SetActive(false);
+                if (IsLocalPlayer)
+                {
+                    PlayerUI ui = FindObjectOfType<PlayerUI>();
+                    ui.PowerUpVisual(3);
+                }
 
             }
 
@@ -35,6 +41,12 @@ public class FoodScript : NetworkComponent
     }
     public void UsePower()
     {
+        if (used)
+        {
+            return;
+        }
+        used = true;
+
         float tempSpeed = OwnerPlayer.GetComponent<PlayerMovement>().speed *= SpeedMulti;
         OwnerPlayer.GetComponent<PlayerMovement>().speed = tempSpeed;
         StartCoroutine(EndPowerUp());
@@ -69,7 +81,16 @@ public class FoodScript : NetworkComponent
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(DespawnTimer());
+    }
 
+    public IEnumerator DespawnTimer()
+    {
+        yield return new WaitForSeconds(30f);
+        if (!PickedUp)
+        {
+            MyCore.NetDestroyObject(this.gameObject.GetComponent<NetworkID>().NetId);
+        }
     }
 
     // Update is called once per frame
@@ -97,6 +118,7 @@ public class FoodScript : NetworkComponent
                 transform.GetChild(0).gameObject.SetActive(false);
 
                 SendUpdate("PICKEDUP", other.GetComponent<PlayerCharacter>().PlayerNum.ToString());
+                other.gameObject.GetComponent<PlayerMovement>().SendUpdate("LAUNCHER", "false");
             }
         }
     }
