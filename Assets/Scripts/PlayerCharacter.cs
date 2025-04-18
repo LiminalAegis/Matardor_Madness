@@ -35,9 +35,10 @@ public class PlayerCharacter : NetworkComponent
     public Animator MyAnime;
     public Rigidbody MyRig;
 
-    //audio vars
+    //audio and UI vars
     public AudioClip death, stun, steal;
     public MatchAudio matchAudio;
+    public PlayerUI ui;
 
     public override void HandleMessage(string flag, string value)
     {
@@ -101,8 +102,10 @@ public class PlayerCharacter : NetworkComponent
                 {
                     matchAudio.SFX(4);
                 }
+                ui.HealthChange(PlayerHp - 1);
                 StartCoroutine(stunPlayer());
                 //do hit visual effects
+                
             }
             if(flag == "DEAD" && IsLocalPlayer)
             {
@@ -116,10 +119,12 @@ public class PlayerCharacter : NetworkComponent
             if(flag == "ALIVE" && IsLocalPlayer)
             {
                 IsDead = false;
+                ui.HealthChange(PlayerHp);
             }
             if(flag == "HEAL" && IsLocalPlayer)
             {
                 PlayerHp += int.Parse(value);
+                ui.HealthChange(PlayerHp);
             }
 
             //removed local player since all players should see the glow increase
@@ -130,7 +135,6 @@ public class PlayerCharacter : NetworkComponent
             }
             if(flag == "CLEARPU" && IsLocalPlayer)
             {
-                PlayerUI ui = FindObjectOfType<PlayerUI>();
                 if (ui != null)
                 {
                     ui.PowerUpVisual(0);
@@ -138,7 +142,6 @@ public class PlayerCharacter : NetworkComponent
             }
             if (flag == "UI" && IsLocalPlayer)
             {
-                PlayerUI ui = FindObjectOfType<PlayerUI>();
                 if (int.Parse(value) != 1)
                 {
                     ui.PowerUpVisual(int.Parse(value));
@@ -184,6 +187,7 @@ public class PlayerCharacter : NetworkComponent
         MyRig = GetComponent<Rigidbody>();
         MyRig.velocity = Vector3.zero;
         MyAnime = GetComponent<Animator>();
+        ui = FindObjectOfType<PlayerUI>();
     }
 
     // Update is called once per frame
@@ -278,9 +282,16 @@ public class PlayerCharacter : NetworkComponent
         yield return new WaitForSeconds(5f);
         //respawn
         //need to place player at same spawn from game start.
-
+        GameMaster gameManager = FindObjectOfType<GameMaster>();
+        if (gameManager != null)
+        {
+            this.transform.position = gameManager.SpawnPoints[PlayerNum].transform.position;
+            this.transform.rotation = gameManager.SpawnPoints[PlayerNum].transform.rotation;
+        }
         PlayerCF = 1;
-        //maybe either save span point as variable or use player num
+        PlayerHp = 3;
+        SendUpdate("ALIVE", "1");
+        //maybe either save spawn point as variable or use player num
     }
 
     //trigger will be our aggro collider, use actual collision for getting hit
@@ -378,7 +389,7 @@ public class PlayerCharacter : NetworkComponent
                     BaseFlag temp = other.gameObject.GetComponent<BaseFlag>();
 
                     //make sure its not our flag
-                    if (other.gameObject.GetComponent<BaseFlag>().Team == PTeam)
+                    if (temp.Team == PTeam)
                     {
                         return;
                     }
@@ -411,19 +422,21 @@ public class PlayerCharacter : NetworkComponent
             //make sure its base flag
             if (other.gameObject.GetComponent<BaseFlag>() != null)
             {
+                Debug.Log("Player checking Scoring");
                 //make sure its our flag for banking score
                 if (other.gameObject.GetComponent<BaseFlag>().Team != PTeam)
                 {
                     return;
+                    Debug.Log("Player not Scoring");
                 }
 
                 Vector3 myCenter = transform.position;
                 Vector3 otherCenter = other.transform.position;
 
                 float distance = Vector3.Distance(myCenter, otherCenter);
-
+                Debug.Log("Player checking Scoring distance: " + distance);
                 //within 1m of the flag
-                if (distance <= 1f)
+                if (distance <= 2f)
                 {
                     Debug.Log("Player Scoring");
 
@@ -432,7 +445,7 @@ public class PlayerCharacter : NetworkComponent
                     if (PTeam == "Team1")
                     {
                         //maybe add tracking for PF/CF?
-                        GM.Team2Score += PlayerScore;
+                        GM.Team1Score += PlayerScore;
                         PlayerScoreTotal += PlayerScore;
                         TotalPlayerCF += PlayerCF - 1;
                         TotalPlayerPF += PlayerPF;
@@ -442,7 +455,7 @@ public class PlayerCharacter : NetworkComponent
                     }
                     if (PTeam == "Team2")
                     {
-                        GM.Team2Score += 1;
+                        GM.Team2Score += PlayerScore;
                         PlayerScoreTotal += PlayerScore;
                         TotalPlayerCF += PlayerCF;
                         TotalPlayerPF += PlayerPF;
@@ -459,13 +472,54 @@ public class PlayerCharacter : NetworkComponent
             //just pick up the score?
             if (other.gameObject.GetComponent<FlagDrop>() != null)
             {
-                PlayerScore += other.gameObject.GetComponent<FlagDrop>().CF + other.gameObject.GetComponent<FlagDrop>().PF *3;
+                PlayerScore += other.gameObject.GetComponent<FlagDrop>().CF + other.gameObject.GetComponent<FlagDrop>().PF * 3;
                 PlayerCF += other.gameObject.GetComponent<FlagDrop>().CF;
                 PlayerPF += other.gameObject.GetComponent<FlagDrop>().PF;
                 SendUpdate("FLAG", PlayerScore.ToString());
                 MyCore.NetDestroyObject(other.gameObject.GetComponent<NetworkID>().NetId);
             }
         }
-    }
+        //for banking
+        /*
+        if (other.CompareTag("TEAM1BASE"))
+        {
+            //not our base
+            if (PTeam == "Team2")
+            {
+                return;
+            }
 
+            Vector3 myCenter = transform.position;
+            Vector3 otherCenter = other.transform.position;
+
+            float distance = Vector3.Distance(myCenter, otherCenter);
+
+            if (distance <= .1f)
+            {
+                //in our base
+                //bank
+                GameMaster GM = FindObjectOfType<GameMaster>();
+
+            }
+            if (other.CompareTag("TEAM2BASE"))
+            {
+                //not our base
+                if (PTeam == "Team1")
+                {
+                    return;
+                }
+
+                Vector3 myCenter = transform.position;
+                Vector3 otherCenter = other.transform.position;
+
+                float distance = Vector3.Distance(myCenter, otherCenter);
+
+                if (distance <= .1f)
+                {
+
+                }
+
+            }
+        }*/
+    }
 }

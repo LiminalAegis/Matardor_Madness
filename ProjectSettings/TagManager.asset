@@ -12,6 +12,8 @@ TagManager:
   - FLAG
   - WALL
   - PowerUpSpot
+  - TEAM1BASE
+  - TEAM2BASE
   layers:
   - Default
   - TransparentFX

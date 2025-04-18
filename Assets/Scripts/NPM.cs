@@ -10,7 +10,7 @@ public class NPM : NetworkComponent
     public string PName;
     public string NPTeam;
     public bool IsReady;
-    public int ColorSelected;
+    public int ColorSelected = -1;
     public int CharSelected;
 
     public override void HandleMessage(string flag, string value)

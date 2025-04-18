@@ -15,6 +15,9 @@ public class TeamManager : NetworkComponent
     public bool Team1Assigned;
     public int Team1Color;
 
+    public bool Team2Assigned;
+    public int Team2Color;
+
 
     public override void HandleMessage(string flag, string value)
     {
@@ -44,12 +47,22 @@ public class TeamManager : NetworkComponent
                     pink.interactable = false;
                 }
 
-                if(Team1Assigned == false)
-                {
-                    Team1Color = int.Parse(value);
-                    Team1Assigned = true;
-                }
+                
             }
+        }
+        if(IsServer)
+        {
+            /*
+            if (flag == "TEAMASS")
+            {
+                Team1Assigned = true;
+                Team1Color = int.Parse(value);
+            }
+            if (flag == "TEAMASS2")
+            {
+                Team2Assigned = true;
+                Team2Color = int.Parse(value);
+            }*/
         }
     }
 
@@ -64,6 +77,8 @@ public class TeamManager : NetworkComponent
         {
             if (IsServer)
             {
+                    
+
                 int blueTotal = 0;
                 int greenTotal = 0;
                 int orangeTotal = 0;
@@ -72,6 +87,12 @@ public class TeamManager : NetworkComponent
                 NPM[] npm = Object.FindObjectsOfType<NPM>();
                 foreach (NPM player in npm)
                 {
+                    //skipping players that have not selected a color yet
+                    if (player.ColorSelected == -1)
+                    {
+                        continue;
+                    }
+
                     //get player color from index 
                     //move this elsewhere maybe? 
                     if (Team1Assigned && player.ColorSelected == Team1Color)
@@ -79,7 +100,7 @@ public class TeamManager : NetworkComponent
                         player.NPTeam = "Team1";
                        // Debug.Log(player.NPTeam);
                     }
-                    else if (Team1Assigned && player.ColorSelected == Team1Color)
+                    else if (Team2Assigned && player.ColorSelected == Team2Color)
                     {
                         player.NPTeam = "Team2";
                     }
@@ -119,6 +140,18 @@ public class TeamManager : NetworkComponent
         //amount is 1 for debugging. Set it to 2 in the actual game. 
         if (amount >= 2)
         {
+            if (Team1Assigned == false && type != Team2Color)
+            {
+                Team1Color = type;
+                //SendCommand("TEAMASS", Team1Color.ToString());
+                Team1Assigned = true;
+            }
+            else if (Team2Assigned == false && type != Team1Color)
+            {
+                Team2Color = type; ;
+                //SendCommand("TEAMASS2", Team2Color.ToString());
+                Team2Assigned = true;
+            }
             //set the corresponding button to be un-interactable
             SendUpdate("TEAMSELECT", type.ToString());
             Debug.Log(type);
