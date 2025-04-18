@@ -39,9 +39,9 @@ public class TeamManager : NetworkComponent
             {
                
             }
-          
+            yield return new WaitForSeconds(.1f);
         }
-        yield return new WaitForSeconds(.1f);
+        
     }
 
     // Start is called before the first frame update
