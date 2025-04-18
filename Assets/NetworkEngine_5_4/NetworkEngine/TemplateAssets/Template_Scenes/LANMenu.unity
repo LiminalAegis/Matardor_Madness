@@ -741,6 +741,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: basic_bull_alt
       objectReference: {fileID: 0}
+    - target: {fileID: 5087337977692586550, guid: d4e32db0f0bbe9849b272a6489639c78, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5607555770217977996, guid: d4e32db0f0bbe9849b272a6489639c78, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2264,6 +2268,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pink Vaca Club
       objectReference: {fileID: 0}
+    - target: {fileID: 8462445652602808988, guid: 3227191f3ff8c42408e243cc3fb07565, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9095993411650990118, guid: 3227191f3ff8c42408e243cc3fb07565, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2598,6 +2606,10 @@ PrefabInstance:
     - target: {fileID: 2957364041324534484, guid: 19df4917ec3969f4fbcdf8f3dcf03794, type: 3}
       propertyPath: m_Name
       value: Crimson Longhorn
+      objectReference: {fileID: 0}
+    - target: {fileID: 2957364041324534484, guid: 19df4917ec3969f4fbcdf8f3dcf03794, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
