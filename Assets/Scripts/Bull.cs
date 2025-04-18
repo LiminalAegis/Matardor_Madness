@@ -234,10 +234,7 @@ public class Bull : NetworkComponent
     void Update()
     {
        
-        if (agent.remainingDistance <= 0.1 || agent.isPathStale) //REMOVE AFTER TESTING
-        {
-            //Roam();
-        }
+        
         if (IsClient)
         {
             //animation calls
