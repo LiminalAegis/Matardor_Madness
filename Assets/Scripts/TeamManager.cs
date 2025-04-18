@@ -79,7 +79,7 @@ public class TeamManager : NetworkComponent
                         player.NPTeam = "Team1";
                        // Debug.Log(player.NPTeam);
                     }
-                    else if (Team1Assigned && player.ColorSelected != Team1Color)
+                    else if (Team1Assigned && player.ColorSelected == Team1Color)
                     {
                         player.NPTeam = "Team2";
                     }
