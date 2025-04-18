@@ -146,6 +146,10 @@ public class PlayerCharacter : NetworkComponent
         MyMap = MyInput.actions;
         MyRig.velocity = Vector3.zero;
         matchAudio = FindObjectOfType<MatchAudio>();
+        if (matchAudio == null)
+        {
+            Debug.Log("No Match audio bitch!");
+        }
     }
 
     public override IEnumerator SlowUpdate()
