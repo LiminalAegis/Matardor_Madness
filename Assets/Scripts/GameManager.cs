@@ -190,7 +190,7 @@ public class GameMaster : NetworkComponent
 
                 yield return new WaitForSeconds(1);
             } while (!allReady);
-
+            MyCore.NotifyGameStart();
 
             int team1num = 0;
             int team2num = 0;
@@ -344,7 +344,7 @@ public class GameMaster : NetworkComponent
             DisplayScoreboard();
             yield return new WaitForSeconds(10);
             SendUpdate("GAMEOVER", "1");
-            StartCoroutine(MyCore.DisconnectServer());
+            MyCore.UI_Quit();
 
 
             yield return new WaitForSeconds(.1f);
