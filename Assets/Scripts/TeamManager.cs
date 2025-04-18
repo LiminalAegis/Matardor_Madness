@@ -15,7 +15,14 @@ public class TeamManager : NetworkComponent
 
     public override void HandleMessage(string flag, string value)
     {
-
+        if(IsClient)
+        {
+            if(flag == "TEAMSELECT")
+            {
+                Debug.Log("Is this flag even getting called");
+                blue.interactable = false;
+            }
+        }
     }
 
     public override void NetworkedStart()
@@ -80,6 +87,7 @@ public class TeamManager : NetworkComponent
         //amount is 1 for debugging. Set it to 2 in the actual game. 
         if (amount >= 1)
         {
+            SendUpdate("TEAMSELECT", "value");
           //set type.interactable to false. 
             Debug.Log(type);
         }
