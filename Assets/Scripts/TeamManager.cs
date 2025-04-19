@@ -148,7 +148,7 @@ public class TeamManager : NetworkComponent
             }
             else if (Team2Assigned == false && type != Team1Color)
             {
-                Team2Color = type; ;
+                Team2Color = type;
                 //SendCommand("TEAMASS2", Team2Color.ToString());
                 Team2Assigned = true;
             }
