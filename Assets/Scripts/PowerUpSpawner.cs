@@ -191,10 +191,16 @@ public class PowerUpSpawner : NetworkComponent
                             PowerUps[availableSpot] = powerup;
                         }
                     }
+                    else
+                    {
+                        //No available spots for powerups
+                        //reset spawn timer until a spot is available
+                        LastSpawnTime = Time.time;
+                    }
 
-                
-                    
-                
+
+
+
                 }
             }
             yield return new WaitForSeconds(.1f);

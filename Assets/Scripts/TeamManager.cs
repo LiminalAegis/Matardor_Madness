@@ -148,13 +148,13 @@ public class TeamManager : NetworkComponent
             }
             else if (Team2Assigned == false && type != Team1Color)
             {
-                Team2Color = type; ;
+                Team2Color = type;
                 //SendCommand("TEAMASS2", Team2Color.ToString());
                 Team2Assigned = true;
             }
             //set the corresponding button to be un-interactable
             SendUpdate("TEAMSELECT", type.ToString());
-            Debug.Log(type);
+            //Debug.Log(type);
         }
     }
     // Start is called before the first frame update

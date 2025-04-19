@@ -3795,14 +3795,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 5511306493406650767, guid: 6f08989daa79edd40a82d1f5c2386241, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5511306493406650767, guid: 6f08989daa79edd40a82d1f5c2386241, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7474500958573748454, guid: 6f08989daa79edd40a82d1f5c2386241, type: 3}
       propertyPath: SpawnPoints.Array.data[0]
       value: 

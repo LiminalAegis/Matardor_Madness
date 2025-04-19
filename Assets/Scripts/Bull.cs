@@ -20,6 +20,8 @@ public class Bull : NetworkComponent
     //bull vars
     public float strength = 5;
 
+    public bool HitPlayer = false;
+
 
     //sfx vars
     public AudioClip walking, rush, stunned;
@@ -172,6 +174,11 @@ public class Bull : NetworkComponent
         float tempTimer = 0;
         while (tempRushing)
         {
+            if(HitPlayer)
+            {
+                HitPlayer = false;
+                tempRushing = false;
+            }
             tempTimer += 0.1f;
             if (tempTimer >= rushTimer) tempRushing = false;
 

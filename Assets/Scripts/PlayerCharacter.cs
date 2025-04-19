@@ -26,6 +26,7 @@ public class PlayerCharacter : NetworkComponent
     public GameObject PowerUp;
     public GameObject LaunchPoint;
     public bool IsDead = false;
+    public bool RecentlyHit = false;
 
     //movement/action commands
     public PlayerInput MyInput;
@@ -291,6 +292,7 @@ public class PlayerCharacter : NetworkComponent
         PlayerCF = 1;
         PlayerHp = 3;
         SendUpdate("ALIVE", "1");
+        SendUpdate("HEAL", "3");
         //maybe either save spawn point as variable or use player num
     }
 
@@ -301,6 +303,12 @@ public class PlayerCharacter : NetworkComponent
         {
             if (other.gameObject.tag == "ENEMY")
             {
+                if(RecentlyHit)
+                {
+                    return;
+                }
+                RecentlyHit = true;
+                StartCoroutine(RecentHitTimer());
                 //if bull mask is powerup
                 if (PowerUp != null && PowerUp.GetComponent<MaskScript>() != null)
                 {
@@ -310,6 +318,8 @@ public class PlayerCharacter : NetworkComponent
                     SendUpdate("CLEARPU", "");
                     return;
                 }
+
+                other.gameObject.GetComponent<Bull>().HitPlayer = true;
 
                 PlayerHp -= 1;
                 if(PlayerHp <= 0 )
@@ -422,23 +432,23 @@ public class PlayerCharacter : NetworkComponent
             //make sure its base flag
             if (other.gameObject.GetComponent<BaseFlag>() != null)
             {
-                Debug.Log("Player checking Scoring");
+                //Debug.Log("Player checking Scoring");
                 //make sure its our flag for banking score
                 if (other.gameObject.GetComponent<BaseFlag>().Team != PTeam)
                 {
                     return;
-                    Debug.Log("Player not Scoring");
+                    //Debug.Log("Player not Scoring");
                 }
 
                 Vector3 myCenter = transform.position;
                 Vector3 otherCenter = other.transform.position;
 
                 float distance = Vector3.Distance(myCenter, otherCenter);
-                Debug.Log("Player checking Scoring distance: " + distance);
+                //Debug.Log("Player checking Scoring distance: " + distance);
                 //within 1m of the flag
                 if (distance <= 2f)
                 {
-                    Debug.Log("Player Scoring");
+                    //Debug.Log("Player Scoring");
 
                     //bank score
                     GameMaster GM = FindObjectOfType<GameMaster>();
@@ -449,6 +459,19 @@ public class PlayerCharacter : NetworkComponent
                         PlayerScoreTotal += PlayerScore;
                         TotalPlayerCF += PlayerCF - 1;
                         TotalPlayerPF += PlayerPF;
+                        if(PlayerPF > 0)
+                        {
+                            //respawn base flag
+                            BaseFlag[] baseFlags = FindObjectsOfType<BaseFlag>();
+                            foreach (BaseFlag flag in baseFlags)
+                            {
+                                if (flag.Team != PTeam)
+                                {
+                                    flag.Respawn();
+                                }
+                            }
+
+                        }
                         PlayerCF = 1;
                         PlayerPF = 0;
                         PlayerScore = 0;
@@ -459,6 +482,19 @@ public class PlayerCharacter : NetworkComponent
                         PlayerScoreTotal += PlayerScore;
                         TotalPlayerCF += PlayerCF;
                         TotalPlayerPF += PlayerPF;
+                        if (PlayerPF > 0)
+                        {
+                            //respawn base flag
+                            BaseFlag[] baseFlags = FindObjectsOfType<BaseFlag>();
+                            foreach (BaseFlag flag in baseFlags)
+                            {
+                                if (flag.Team != PTeam)
+                                {
+                                    flag.Respawn();
+                                }
+                            }
+
+                        }
                         PlayerCF = 0;
                         PlayerPF = 0;
                         PlayerScore = 0;
@@ -472,6 +508,18 @@ public class PlayerCharacter : NetworkComponent
             //just pick up the score?
             if (other.gameObject.GetComponent<FlagDrop>() != null)
             {
+                //check distance
+                Vector3 myCenter = transform.position;
+                Vector3 otherCenter = other.transform.position;
+
+                float distance = Vector3.Distance(myCenter, otherCenter);
+                //within 2m of the flag
+                if (distance >= 2f)
+                {
+                    return;
+                }
+
+
                 PlayerScore += other.gameObject.GetComponent<FlagDrop>().CF + other.gameObject.GetComponent<FlagDrop>().PF * 3;
                 PlayerCF += other.gameObject.GetComponent<FlagDrop>().CF;
                 PlayerPF += other.gameObject.GetComponent<FlagDrop>().PF;
@@ -521,5 +569,10 @@ public class PlayerCharacter : NetworkComponent
 
             }
         }*/
+    }
+    public IEnumerator RecentHitTimer()
+    {
+        yield return new WaitForSeconds(.5f);
+        RecentlyHit = false;
     }
 }
