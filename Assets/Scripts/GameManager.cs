@@ -277,7 +277,7 @@ public class GameMaster : NetworkComponent
             yield return new WaitForSeconds(3);
             SendUpdate("GAMESTART", "1");
             //testing
-            StartCoroutine(DisplayScoreboard());
+            //StartCoroutine(DisplayScoreboard());
 
 
             MyCore.NotifyGameStart();
