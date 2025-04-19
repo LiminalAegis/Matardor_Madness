@@ -21,6 +21,7 @@ public class Bull : NetworkComponent
     public float strength = 5;
 
     public bool HitPlayer = false;
+    public bool started = false;
 
 
     //sfx vars
@@ -78,7 +79,7 @@ public class Bull : NetworkComponent
         }
         else
         {
-            Roam();
+            //Roam();
         }
     }
 
@@ -90,7 +91,12 @@ public class Bull : NetworkComponent
             {
                 if (agent.remainingDistance <= 0.1 || agent.isPathStale)
                 {
-                    Roam();
+                    if(started)
+                    {
+                        Roam();
+
+                    }
+                    
                 }
                 Vector3 pos = transform.position;
                 Vector3 rot = transform.rotation.eulerAngles;

@@ -177,9 +177,10 @@ public class MapSwap : NetworkComponent
                     powerUpSpots[i].transform.position = pos;
                 }
                 //move bulls
-                GameObject[] bulls = GameObject.FindGameObjectsWithTag("ENEMY");
+                Bull[] bulls = FindObjectsOfType<Bull>();
+
                 int i2 = 0;
-                foreach (GameObject bull in bulls)
+                foreach (Bull bull in bulls)
                 {
 
                     Vector3 pos = Vector3.zero;
@@ -187,7 +188,7 @@ public class MapSwap : NetworkComponent
                     switch (i2)
                     {
                         case 0:
-                            pos = new Vector3(0, .8f, 15);
+                            pos = new Vector3(0, .8f, 20);
                             break;
                         case 1:
                             pos = new Vector3(0, .8f, 25);
@@ -199,7 +200,7 @@ public class MapSwap : NetworkComponent
                         
 
                     }
-                    bull.transform.position = pos;
+                    bull.gameObject.transform.position = pos;
                     i2++;
                 }
             }
