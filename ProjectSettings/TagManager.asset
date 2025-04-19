@@ -14,6 +14,8 @@ TagManager:
   - PowerUpSpot
   - TEAM1BASE
   - TEAM2BASE
+  - Arena1
+  - Arena0
   layers:
   - Default
   - TransparentFX

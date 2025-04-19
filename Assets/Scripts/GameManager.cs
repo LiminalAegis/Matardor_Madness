@@ -274,6 +274,12 @@ public class GameMaster : NetworkComponent
             SendUpdate("TIMER", RoundTimer.ToString());
             SendUpdate("LOBBYEND", "1");
 
+
+            //can remove if maps is problem
+            MapSwap MS = FindObjectOfType<MapSwap>();
+            MS.RandMap();
+            MS.SpawnMap();
+
             yield return new WaitForSeconds(3);
             SendUpdate("GAMESTART", "1");
             //testing
