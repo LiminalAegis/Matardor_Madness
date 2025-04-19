@@ -26,6 +26,7 @@ public class PlayerCharacter : NetworkComponent
     public GameObject PowerUp;
     public GameObject LaunchPoint;
     public bool IsDead = false;
+    public bool RecentlyHit = false;
 
     //movement/action commands
     public PlayerInput MyInput;
@@ -291,6 +292,7 @@ public class PlayerCharacter : NetworkComponent
         PlayerCF = 1;
         PlayerHp = 3;
         SendUpdate("ALIVE", "1");
+        SendUpdate("HEAL", "3");
         //maybe either save spawn point as variable or use player num
     }
 
@@ -301,6 +303,12 @@ public class PlayerCharacter : NetworkComponent
         {
             if (other.gameObject.tag == "ENEMY")
             {
+                if(RecentlyHit)
+                {
+                    return;
+                }
+                RecentlyHit = true;
+                StartCoroutine(RecentHitTimer());
                 //if bull mask is powerup
                 if (PowerUp != null && PowerUp.GetComponent<MaskScript>() != null)
                 {
@@ -310,6 +318,8 @@ public class PlayerCharacter : NetworkComponent
                     SendUpdate("CLEARPU", "");
                     return;
                 }
+
+                other.gameObject.GetComponent<Bull>().HitPlayer = true;
 
                 PlayerHp -= 1;
                 if(PlayerHp <= 0 )
@@ -547,5 +557,10 @@ public class PlayerCharacter : NetworkComponent
 
             }
         }*/
+    }
+    public IEnumerator RecentHitTimer()
+    {
+        yield return new WaitForSeconds(.5f);
+        RecentlyHit = false;
     }
 }
