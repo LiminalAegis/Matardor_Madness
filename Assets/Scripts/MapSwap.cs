@@ -10,12 +10,31 @@ public class MapSwap : NetworkComponent
    public int MapID; //should be numbers in the spawn prefab aray
 
 
+    public GameObject[] MapPrefabs;
+    public int MapNum = 0; //num in array
+
+
 
     public override void HandleMessage(string flag, string value)
     {
         if (IsClient)
         {
-            
+            if(flag == "MAPSWAP")
+            {
+                MapPrefabs[0].SetActive(false);
+                //do visual effects for pickup
+                //disable floating object effect
+                //this.GetComponent<MeshRenderer>().enabled = false;
+                int num = int.Parse(value);
+                if (MapPrefabs[num] != null)
+                {
+                    MapPrefabs[num].SetActive(true);
+                }
+                else
+                {
+                    MapPrefabs[0].SetActive(true);
+                }
+            }
 
         }
 
@@ -59,26 +78,34 @@ public class MapSwap : NetworkComponent
 
     public void RandMap()
     {
-        MapID = Random.Range(0, 3);
-        MapID += 0; //should be the offset for spawn prefab array
+        MapID = Random.Range(0, 2);
+        MapID += 18;
+        Debug.Log("MapID: " + MapID);
+
     }
 
     public void SpawnMap()
     {
         if (IsServer)
         {
+            GameObject oldmap = GameObject.FindGameObjectWithTag("Arena0");
+
+            MyCore.NetDestroyObject(oldmap.gameObject.GetComponent<NetworkID>().NetId);
+
             GameObject map = MyCore.NetCreateObject(
                 MapID,
                 this.Owner,
                 Vector3.zero,
                 Quaternion.Euler(0, 90, 0)
                 );
+            
+
 
             //move power up spawn spots
             GameObject[] powerUpSpots = GameObject.FindGameObjectsWithTag("PowerUpSpot");
             //see which map we are using
 
-            if(MapID == 0)//make sure its spawn prefab value, default map
+            if(MapID == 18)//make sure its spawn prefab value, default map
             {
                 //place each power up spot
                 for (int i = 0; i < powerUpSpots.Length; i++)
@@ -115,7 +142,7 @@ public class MapSwap : NetworkComponent
                 }
 
             }//do for for each map kind
-            else if(MapID == 1)
+            else if(MapID == 19)
             {
                 for (int i = 0; i < powerUpSpots.Length; i++)
                 {
@@ -148,6 +175,32 @@ public class MapSwap : NetworkComponent
                     }
                     //move
                     powerUpSpots[i].transform.position = pos;
+                }
+                //move bulls
+                GameObject[] bulls = GameObject.FindGameObjectsWithTag("ENEMY");
+                int i2 = 0;
+                foreach (GameObject bull in bulls)
+                {
+
+                    Vector3 pos = Vector3.zero;
+
+                    switch (i2)
+                    {
+                        case 0:
+                            pos = new Vector3(0, .8f, 15);
+                            break;
+                        case 1:
+                            pos = new Vector3(0, .8f, 25);
+                            break;
+                        case 2:
+                            pos = new Vector3(0, .8f, -20);
+                            break;
+                        
+                        
+
+                    }
+                    bull.transform.position = pos;
+                    i2++;
                 }
             }
 
