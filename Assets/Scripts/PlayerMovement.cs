@@ -10,7 +10,7 @@ public class PlayerMovement : NetworkComponent
     public Rigidbody rb;
     //need the animation here too
     
-    public float speed = 5;
+    public float speed = 6.25f;
     public float directionUD, directionLR;
     public bool isMoving = false, isStealing = false, isPowerUp = false;
     public bool cooldown = false, itemCooldown = false;
@@ -57,7 +57,7 @@ public class PlayerMovement : NetworkComponent
         {
             if (IsServer)
             {
-                cooldown = true;
+                //cooldown = true;
                 //StartCoroutine(Cooldown());
                 SendUpdate("STEAL", cooldown.ToString());
 
@@ -72,20 +72,27 @@ public class PlayerMovement : NetworkComponent
                 {
                     if (col.gameObject.CompareTag("Player"))
                     {
-                        if(col.GetComponent<PlayerCharacter>().PTeam == this.gameObject.GetComponent<PlayerCharacter>().PTeam)
+                        //big debug
+                        Debug.Log(this.gameObject.GetComponent<PlayerCharacter>().PlayerNum + " stole from " + col.gameObject.GetComponent<PlayerCharacter>().PlayerNum);
+                        
+                        if (col.GetComponent<PlayerCharacter>().PTeam == this.gameObject.GetComponent<PlayerCharacter>().PTeam)
                         {
                             //self or friendly fire, dont steal from teammates
+                            Debug.Log("Not Doing steal");
                             return;
                         }
+                        Debug.Log("Doing steal");
                         //whatever we do to other player
                         //stun?
                         col.GetComponent<PlayerCharacter>().StartCoroutine(col.GetComponent<PlayerCharacter>().stunPlayer());
 
                         PlayerCharacter ME = this.gameObject.GetComponent<PlayerCharacter>();
                         ME.PlayerPF += col.GetComponent<PlayerCharacter>().PlayerPF;
+                        ME.PlayerScore += col.GetComponent<PlayerCharacter>().PlayerPF * 3;
                         col.GetComponent<PlayerCharacter>().PlayerPF = 0;
                         ME.PlayerCF += col.GetComponent<PlayerCharacter>().PlayerCF;
-                        ME.PlayerScore += col.GetComponent<PlayerCharacter>().PlayerScore;
+                        ME.PlayerScore += col.GetComponent<PlayerCharacter>().PlayerCF;
+                        col.GetComponent<PlayerCharacter>().PlayerCF = 0;
                         col.GetComponent<PlayerCharacter>().PlayerScore = 0;
 
                         //send visual effects to tagged player?
