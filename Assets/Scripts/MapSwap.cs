@@ -10,12 +10,31 @@ public class MapSwap : NetworkComponent
    public int MapID; //should be numbers in the spawn prefab aray
 
 
+    public GameObject[] MapPrefabs;
+    public int MapNum = 0; //num in array
+
+
 
     public override void HandleMessage(string flag, string value)
     {
         if (IsClient)
         {
-            
+            if(flag == "MAPSWAP")
+            {
+                MapPrefabs[0].SetActive(false);
+                //do visual effects for pickup
+                //disable floating object effect
+                //this.GetComponent<MeshRenderer>().enabled = false;
+                int num = int.Parse(value);
+                if (MapPrefabs[num] != null)
+                {
+                    MapPrefabs[num].SetActive(true);
+                }
+                else
+                {
+                    MapPrefabs[0].SetActive(true);
+                }
+            }
 
         }
 
@@ -59,20 +78,41 @@ public class MapSwap : NetworkComponent
 
     public void RandMap()
     {
-        MapID = Random.Range(0, 3);
-        MapID += 0; //should be the offset for spawn prefab array
+        MapID = Random.Range(0, 2);
+        MapID += 18;
+        Debug.Log("MapID: " + MapID);
+
     }
 
     public void SpawnMap()
     {
         if (IsServer)
         {
+            GameObject oldmap = GameObject.FindGameObjectWithTag("Arena0");
+
+            MyCore.NetDestroyObject(oldmap.gameObject.GetComponent<NetworkID>().NetId);
+
             GameObject map = MyCore.NetCreateObject(
                 MapID,
                 this.Owner,
                 Vector3.zero,
                 Quaternion.Euler(0, 90, 0)
                 );
+            /*
+            MapPrefabs[0].SetActive(false);
+            if(MapPrefabs[MapNum] != null)
+            {
+                MapPrefabs[MapNum].SetActive(true);
+                Debug.Log("enabling MapID: " + MapID);
+                SendUpdate("MAPSWAP", MapNum.ToString());
+            }
+            else
+            {
+                MapPrefabs[0].SetActive(true);
+                Debug.Log("forced MapID: " + MapID);
+                SendUpdate("MAPSWAP", "0");
+            }*/
+
 
             //move power up spawn spots
             GameObject[] powerUpSpots = GameObject.FindGameObjectsWithTag("PowerUpSpot");
