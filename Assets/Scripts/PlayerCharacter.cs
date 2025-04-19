@@ -449,7 +449,7 @@ public class PlayerCharacter : NetworkComponent
                 if (distance <= 2f)
                 {
                     //Debug.Log("Player Scoring");
-
+                    
                     //bank score
                     GameMaster GM = FindObjectOfType<GameMaster>();
                     if (PTeam == "Team1")
@@ -457,6 +457,7 @@ public class PlayerCharacter : NetworkComponent
                         //maybe add tracking for PF/CF?
                         GM.Team1Score += PlayerScore;
                         PlayerScoreTotal += PlayerScore;
+                        ui.ScoreUpdate(1, GM.Team1Score);
                         TotalPlayerCF += PlayerCF - 1;
                         TotalPlayerPF += PlayerPF;
                         if(PlayerPF > 0)
@@ -480,6 +481,7 @@ public class PlayerCharacter : NetworkComponent
                     {
                         GM.Team2Score += PlayerScore;
                         PlayerScoreTotal += PlayerScore;
+                        ui.ScoreUpdate(2, GM.Team2Score);
                         TotalPlayerCF += PlayerCF;
                         TotalPlayerPF += PlayerPF;
                         if (PlayerPF > 0)
