@@ -11,6 +11,7 @@ public class NPM : NetworkComponent
     public string NPTeam;
     public bool IsReady;
     public int ColorSelected = -1;
+    public int prevColorSelected = -1;
     public int CharSelected;
 
     public override void HandleMessage(string flag, string value)

@@ -190,6 +190,11 @@ public class GameMaster : NetworkComponent
                     {
                         allReady = false;
                     }
+                    TeamManager TM = FindObjectOfType<TeamManager>();
+                    if (!TM.Team1Assigned || !TM.Team2Assigned)
+                    {
+                        allReady = false;
+                    }
                 }
 
                 yield return new WaitForSeconds(1);
