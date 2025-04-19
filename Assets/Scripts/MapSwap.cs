@@ -98,27 +98,14 @@ public class MapSwap : NetworkComponent
                 Vector3.zero,
                 Quaternion.Euler(0, 90, 0)
                 );
-            /*
-            MapPrefabs[0].SetActive(false);
-            if(MapPrefabs[MapNum] != null)
-            {
-                MapPrefabs[MapNum].SetActive(true);
-                Debug.Log("enabling MapID: " + MapID);
-                SendUpdate("MAPSWAP", MapNum.ToString());
-            }
-            else
-            {
-                MapPrefabs[0].SetActive(true);
-                Debug.Log("forced MapID: " + MapID);
-                SendUpdate("MAPSWAP", "0");
-            }*/
+            
 
 
             //move power up spawn spots
             GameObject[] powerUpSpots = GameObject.FindGameObjectsWithTag("PowerUpSpot");
             //see which map we are using
 
-            if(MapID == 0)//make sure its spawn prefab value, default map
+            if(MapID == 18)//make sure its spawn prefab value, default map
             {
                 //place each power up spot
                 for (int i = 0; i < powerUpSpots.Length; i++)
@@ -155,7 +142,7 @@ public class MapSwap : NetworkComponent
                 }
 
             }//do for for each map kind
-            else if(MapID == 1)
+            else if(MapID == 19)
             {
                 for (int i = 0; i < powerUpSpots.Length; i++)
                 {
@@ -188,6 +175,32 @@ public class MapSwap : NetworkComponent
                     }
                     //move
                     powerUpSpots[i].transform.position = pos;
+                }
+                //move bulls
+                GameObject[] bulls = GameObject.FindGameObjectsWithTag("ENEMY");
+                int i2 = 0;
+                foreach (GameObject bull in bulls)
+                {
+
+                    Vector3 pos = Vector3.zero;
+
+                    switch (i2)
+                    {
+                        case 0:
+                            pos = new Vector3(0, .8f, 15);
+                            break;
+                        case 1:
+                            pos = new Vector3(0, .8f, 25);
+                            break;
+                        case 2:
+                            pos = new Vector3(0, .8f, -20);
+                            break;
+                        
+                        
+
+                    }
+                    bull.transform.position = pos;
+                    i2++;
                 }
             }
 

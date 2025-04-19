@@ -276,9 +276,11 @@ public class GameMaster : NetworkComponent
 
 
             //can remove if maps is problem
+            
             MapSwap MS = FindObjectOfType<MapSwap>();
             MS.RandMap();
             MS.SpawnMap();
+            
 
             yield return new WaitForSeconds(3);
             SendUpdate("GAMESTART", "1");
