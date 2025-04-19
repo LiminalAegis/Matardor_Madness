@@ -508,6 +508,18 @@ public class PlayerCharacter : NetworkComponent
             //just pick up the score?
             if (other.gameObject.GetComponent<FlagDrop>() != null)
             {
+                //check distance
+                Vector3 myCenter = transform.position;
+                Vector3 otherCenter = other.transform.position;
+
+                float distance = Vector3.Distance(myCenter, otherCenter);
+                //within 2m of the flag
+                if (distance >= 2f)
+                {
+                    return;
+                }
+
+
                 PlayerScore += other.gameObject.GetComponent<FlagDrop>().CF + other.gameObject.GetComponent<FlagDrop>().PF * 3;
                 PlayerCF += other.gameObject.GetComponent<FlagDrop>().CF;
                 PlayerPF += other.gameObject.GetComponent<FlagDrop>().PF;

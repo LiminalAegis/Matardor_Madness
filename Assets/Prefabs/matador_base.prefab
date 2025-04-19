@@ -508,6 +508,7 @@ MonoBehaviour:
   PowerUp: {fileID: 0}
   LaunchPoint: {fileID: 8303710320162121112}
   IsDead: 0
+  RecentlyHit: 0
   MyInput: {fileID: 0}
   MyMap: {fileID: 0}
   MyAnime: {fileID: 0}
@@ -516,6 +517,7 @@ MonoBehaviour:
   stun: {fileID: 0}
   steal: {fileID: 0}
   matchAudio: {fileID: 0}
+  ui: {fileID: 0}
 --- !u!114 &-8087631752439280273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1283,7 +1285,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
