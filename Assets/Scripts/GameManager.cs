@@ -284,6 +284,12 @@ public class GameMaster : NetworkComponent
 
             yield return new WaitForSeconds(3);
             SendUpdate("GAMESTART", "1");
+            Bull[] bulls = FindObjectsOfType<Bull>();
+            foreach (Bull bull in bulls)
+            {
+                bull.started = true;
+            }
+
             //testing
             //StartCoroutine(DisplayScoreboard());
 
