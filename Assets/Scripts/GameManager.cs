@@ -74,24 +74,28 @@ public class GameMaster : NetworkComponent
             //flags for populating scoreboard, pass in "value, playernum"
             if(flag == "SBNAME")
             {
+                //Debug.Log("SBNAME: " + value);
                 string[] nameInfo = value.Split(',');
                 int num = int.Parse(nameInfo[1]);
                 SBNames[num].GetComponent<TextMeshProUGUI>().text = nameInfo[0];
             }
             if(flag == "SBSCORE")
             {
+                //Debug.Log("SBSCORE: " + value);
                 string[] scoreInfo = value.Split(',');
                 int num = int.Parse(scoreInfo[1]);
                 SBScore[num].GetComponent<TextMeshProUGUI>().text = "Score: " + scoreInfo[0];
             }
             if(flag == "SBPF")
             {
+                //Debug.Log("SBPF: " + value);
                 string[] pfInfo = value.Split(',');
                 int num = int.Parse(pfInfo[1]);
                 SBPF[num].GetComponent<TextMeshProUGUI>().text = "PF: " + pfInfo[0];
             }
             if(flag == "SBCF")
             {
+                //Debug.Log("SBCF: " + value);
                 string[] cfInfo = value.Split(',');
                 int num = int.Parse(cfInfo[1]);
                 SBCF[num].GetComponent<TextMeshProUGUI>().text = "CF: " + cfInfo[0];
@@ -186,6 +190,11 @@ public class GameMaster : NetworkComponent
                     {
                         allReady = false;
                     }
+                    TeamManager TM = FindObjectOfType<TeamManager>();
+                    if (!TM.Team1Assigned || !TM.Team2Assigned)
+                    {
+                        allReady = false;
+                    }
                 }
 
                 yield return new WaitForSeconds(1);
@@ -268,7 +277,7 @@ public class GameMaster : NetworkComponent
             yield return new WaitForSeconds(3);
             SendUpdate("GAMESTART", "1");
             //testing
-            DisplayScoreboard();
+            StartCoroutine(DisplayScoreboard());
 
 
             MyCore.NotifyGameStart();
@@ -341,7 +350,7 @@ public class GameMaster : NetworkComponent
                 yield return new WaitForSeconds(0.1f);
             }
 
-            DisplayScoreboard();
+            StartCoroutine(DisplayScoreboard());
             yield return new WaitForSeconds(10);
             SendUpdate("GAMEOVER", "1");
             MyCore.UI_Quit();
@@ -351,36 +360,44 @@ public class GameMaster : NetworkComponent
         }
     }
 
-    public void DisplayScoreboard()
+    public IEnumerator DisplayScoreboard()
     {
         ScoreBoard.SetActive(true);
         SendUpdate("SB", "1");
+        yield return new WaitForSeconds(1);
 
         //set it up with GM as canvas owner
         PlayerCharacter[] PCs = FindObjectsOfType<PlayerCharacter>();
 
         foreach (PlayerCharacter PC in PCs)
         {
+            yield return new WaitForSeconds(1);
             //int num = PC.PlayerNum - 1;
             int num = PC.PlayerNum;
-            Debug.Log("PlayerNum: " + num.ToString());
+            //Debug.Log("PlayerNum: " + num.ToString() + " PlayerName: " + PC.PName);
             //Name
             SBNames[num].GetComponent<TextMeshProUGUI>().text = PC.PName;
+            //Debug.Log("Sending SBNAME " + PC.PName);
             SendUpdate("SBNAME", PC.PName + "," + num.ToString());
             //Score
             SBScore[num].GetComponent<TextMeshProUGUI>().text = PC.PlayerScoreTotal.ToString();
+            //Debug.Log("Sending SBSCORE " + PC.PlayerScoreTotal);
             SendUpdate("SBSCORE", PC.PlayerScoreTotal.ToString() + "," + num.ToString());
             //PF
             SBPF[num].GetComponent<TextMeshProUGUI>().text = PC.TotalPlayerPF.ToString();
+            //Debug.Log("Sending SBPF " + PC.TotalPlayerPF.ToString());
             SendUpdate("SBPF", PC.TotalPlayerPF.ToString() + "," + num.ToString());
             //CF
             SBCF[num].GetComponent<TextMeshProUGUI>().text = PC.TotalPlayerCF.ToString();
+            //Debug.Log("Sending SBCF " + PC.TotalPlayerCF.ToString());
             SendUpdate("SBCF", PC.TotalPlayerCF.ToString() + "," + num.ToString());
 
             //team scores
             //switch on teamwin
             switch(WinTeam)
             {
+                case 0:
+                    break;
                 case 1:
                     SBTeamScore[0].GetComponent<TextMeshProUGUI>().text = "Team 1 Won with " + Team1Score + " Points";
                     SendUpdate("TEAM1SCORE", Team1Score.ToString() + "," + "1");
